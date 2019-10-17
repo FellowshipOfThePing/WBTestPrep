@@ -1,0 +1,45 @@
+{% extends "users/user_base.html" %}
+<!-- {% load crispy_forms_tags %} -->
+{% block content %}
+<div class="container mt-0">
+    <div id="jumbo2" class="jumbotron border border-secondary pt-5 pb-5">
+        <article class="media content-section">
+            <div class="media-body ml-3">
+                <!-- <h2 class="article-title mb-4">{{ user.profile.id }}</h2> -->
+                <div class="text-center">
+                    <img class="article-image mx-auto mb-3" src='{{ object.image.url }}'>
+                </div>
+                <p class="lead article-content pb-2">{{ object.prompt }}</p>
+                <form method="post">
+                    {% for choice in question.choices.all %}
+                        {% if choice.correct == True %}
+                            <input class="correct" type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+                            <label class="mb-3 ml-2 mr-2" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+                        {% else %}
+                            <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+                            <label class="mb-3 ml-2 mr-2" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+                        {% endif %}
+                    {% endfor %}
+                    <div class="container pl-0 pt-3">
+                        <a id="hintButton" class="btn btn-outline-info mr-2" href="#" role="button">Hint</a>
+                        <a id="questionSubmit" class="btn btn-outline-success" href="#" role="button">Submit</a>
+                        <a id="nextPageButton" class="btn btn-primary" href="/question/{{ nextQuestion }}/" role="button">Next Question</a>
+                    </div>
+                </form>
+            </div>
+        </article>
+    </div>
+    <div id="resultBox" class="container pl-0 pr-0">
+        <div class="jumbotron border rounded border-secondary pt-1 pb-2">
+            <article class="media content-section mt-3 mb-3 ml-3 mr-3">
+                <h4 id="resultBoxTitle" class="article-title mb-0 text-info">Hint:</h4>
+                <div class="container">
+                    <p id="resultBoxText" class="lead article-content mb-0">{{ object.hint }}</p>
+                </div>
+            </article>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+

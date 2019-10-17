@@ -1,0 +1,12 @@
+{% extends "users/user_base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% for question in questions_answered %}
+<article class="media content-section">
+<div class="media-body ml-1">
+    <h5>{{ quiz.name }}</h5>
+</div>
+</article>
+{% endfor %}
+
+{% endblock content %}
