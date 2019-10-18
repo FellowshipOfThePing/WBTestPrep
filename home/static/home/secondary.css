@@ -8,6 +8,15 @@ body {
     background-color: white;
   }
 
+.correct {
+    background: rgba(88, 217, 88, 0.6);
+}
+
+.wrong {
+    background: rgba(238, 21, 21, 0.52);
+}
+
+
 #jumbo1 {
     margin-top: 10%;
     opacity: 0.95;
@@ -24,9 +33,13 @@ body {
     opacity: 0.0;
 } 
 
-#resultBox {
+#hintBox {
     width: 100%;
     opacity: 0;
+}
+
+#resultBox {
+    width: 100%;
 }
 
 #nextPageButton {

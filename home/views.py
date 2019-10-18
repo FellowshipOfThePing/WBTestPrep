@@ -15,6 +15,7 @@ from .models import Question
 from django.urls import reverse
 
 
+# Create your views here.
 def home(request):
     if request.user.is_authenticated:
         return redirect('profile')
@@ -75,7 +76,7 @@ def SubmitAnswer(request, pk):
         else:
             student.wrongAnswers += 1
             student.save()
-        return HttpResponseRedirect(reverse('question-result', kwargs={'pk': pk}))
+        return HttpResponseRedirect(reverse('question-result', kwargs={'pk': question.id}))
 
 
 @login_required

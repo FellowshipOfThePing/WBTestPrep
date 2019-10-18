@@ -70,7 +70,7 @@ $("#hintButton").on('click', function(event) {
         event.preventDefault();
         $("#resultBoxTitle").addClass("text-info");
         $("#resultBoxTitle").text("Hint:")
-        $("#resultBox").fadeTo(500, 1);
+        $("#hintBox").fadeTo(500, 1);
     }
 });
 

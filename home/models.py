@@ -13,6 +13,7 @@ class Question(models.Model):
     image = models.ImageField(default=None, upload_to='question_images')
     date_published = models.DateTimeField(default=timezone.now)
     hint = models.TextField(default="There is no hint for this Question")
+    # userAnswer = models.IntegerField(default=0)
 
     def __str__(self):
         return "Q" + str(self.pk - 7) + " - " + str(self.title)

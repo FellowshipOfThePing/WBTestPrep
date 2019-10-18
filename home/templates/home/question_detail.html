@@ -17,7 +17,7 @@
                             <input class="correct" type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
                             <label class="mb-3 ml-2 mr-2" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
                         {% else %}
-                            <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+                            <input class="wrong" type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
                             <label class="mb-3 ml-2 mr-2" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
                         {% endif %}
                     {% endfor %}
@@ -29,7 +29,7 @@
             </div>
         </article>
     </div>
-    <div id="resultBox" class="container pl-0 pr-0">
+    <div id="hintBox" class="container pl-0 pr-0">
         <div class="jumbotron border rounded border-secondary pt-1 pb-2">
             <article class="media content-section mt-3 mb-3 ml-3 mr-3">
                 <h4 id="resultBoxTitle" class="article-title mb-0 text-info">Hint:</h4>
