@@ -9,6 +9,7 @@
                     <h2 class="account-heading">{{ user.username }}</h2>
                     <p class="text-secondary mb-2">{{ user.email }}</p>
                     <a class="text-secondary mb-0" href="{% url 'profile-update' %}"><i class="fas fa-cog mr-1"></i>Settings</a>
+                    <p class="text-secondary mb-2">Wrong Answers: {{ user.profile.wrongAnswers }}</p>
                 </div>
             </div>
         </div>

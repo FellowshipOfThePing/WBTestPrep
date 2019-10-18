@@ -76,11 +76,11 @@ $("#hintButton").on('click', function(event) {
 
 
 // Submit Button Click Listener
-$("#questionSubmit").on('click', function() {
-    if(solved != true) {
-        checkAnswer();
-    }
-});
+// $("#questionSubmit").on('click', function() {
+//     if(solved != true) {
+//         checkAnswer();
+//     }
+// });
 
 
 // Next Page Button Click Listener. 
