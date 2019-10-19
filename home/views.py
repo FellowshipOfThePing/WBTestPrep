@@ -11,7 +11,6 @@ from django.http import HttpResponse, Http404
 from django.contrib import messages
 from users.models import Profile
 from .models import Question, QuestionCopy, Choice, ChoiceCopy
-# from .forms import QuestionForm
 from django.urls import reverse
 
 
@@ -22,22 +21,22 @@ def home(request):
 
 
 @login_required
-def QuestionView(request, orderId):
+def QuestionView(request, test_type, orderId):
     try:
-        question = Question.objects.get(orderId=orderId)
+        question = Question.objects.get(test_type=test_type, orderId=orderId)
     except Question.DoesNotExist:
         raise Http404("Question does not exist")
     context = {
-        'question': Question.objects.filter(orderId=orderId).first(),
-        'nextQuestion': Question.objects.filter(orderId=orderId).first().orderId + 1
+        'question': Question.objects.filter(test_type=test_type, orderId=orderId).first(),
+        'nextQuestion': Question.objects.filter(test_type=test_type, orderId=orderId).first().orderId + 1
     }
 
     return render(request, 'home/question_detail.html', context)
 
 
 @login_required
-def SubmitAnswer(request, orderId):
-    question = get_object_or_404(Question, orderId=orderId)
+def SubmitAnswer(request, test_type, orderId):
+    question = get_object_or_404(Question, test_type=test_type, orderId=orderId)
     try:
         selected_choice = question.choices.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):
@@ -57,7 +56,7 @@ def SubmitAnswer(request, orderId):
             student.save()
             correct = False
         newChoiceList = question.choices.all()
-        questionCopy = QuestionCopy.create(request.user.profile, question.subject, question.title, question.title, question.image, question.hint,
+        questionCopy = QuestionCopy.create(request.user.profile, question.test_type, question.subject, question.title, question.title, question.image, question.hint,
             question.orderId, correct)
         questionCopy.save()
         for i, choice in enumerate(newChoiceList):
@@ -68,12 +67,12 @@ def SubmitAnswer(request, orderId):
         questionCopy.userAnswer = answerIndex
         questionCopy.save()
         student.questions_answered.add(questionCopy)
-        return HttpResponseRedirect(reverse('question-result', kwargs={'orderId': questionCopy.originalOrderId}))
+        return HttpResponseRedirect(reverse('question-result', kwargs={'test_type': question.test_type, 'orderId': questionCopy.originalOrderId}))
 
 
 @login_required
-def QuestionResultView(request, orderId):
-    question = get_object_or_404(Question, orderId=orderId)
+def QuestionResultView(request, test_type, orderId):
+    question = get_object_or_404(Question, test_type=test_type, orderId=orderId)
     answer = request.user.profile.questions_answered.last().userAnswer
     solved = False
     for i, choice in enumerate(question.choices.all()):
@@ -82,7 +81,7 @@ def QuestionResultView(request, orderId):
     context = {
         'question': question,
         'nextQuestion': question.orderId + 1,
-        'lastQuestionId': Question.objects.last().orderId,
+        'lastQuestionId': Question.objects.filter(test_type=test_type).last().orderId,
         'answer': answer,
         'solved': solved
     }

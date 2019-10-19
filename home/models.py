@@ -8,6 +8,12 @@ from django.contrib import admin
 
 class Question(models.Model):   
     subject = models.CharField(max_length=100)
+    TEST_TYPES = [
+        ('ACT', 'ACT'),
+        ('SAT', 'SAT'),
+        ('GRE', 'GRE'),
+    ]
+    test_type = models.CharField(max_length=3, choices=TEST_TYPES, default='SAT')
     title = models.CharField(max_length=100)
     prompt = models.TextField()
     image = models.ImageField(default=None, upload_to='question_images')
@@ -19,13 +25,15 @@ class Question(models.Model):
         return "Q" + str(self.orderId) + " - " + str(self.title)
 
     def get_absolute_url(self):
-        return reverse('question-detail', kwargs={'orderId': (self.orderId)})
+        return reverse('question-detail', kwargs={'test_type': (self.test_type), 'orderId': (self.orderId)})
 
     def save(self, *args, **kwargs):
         if self._state.adding:
-            last_id = Question.objects.all().aggregate(largest=models.Max('orderId'))['largest']
+            last_id = Question.objects.filter(test_type=self.test_type).aggregate(largest=models.Max('orderId'))['largest']
             if last_id is not None:
                 self.orderId = last_id + 1
+            else:
+                self.orderId = 1
 
         super(Question, self).save(*args, **kwargs)
 
@@ -49,6 +57,12 @@ class Choice(models.Model):
 
 class QuestionCopy(models.Model):   
     profile = models.ForeignKey('users.Profile', related_name='questions_answered', on_delete=models.CASCADE, default="")
+    TEST_TYPES = [
+        ('ACT', 'ACT'),
+        ('SAT', 'SAT'),
+        ('GRE', 'GRE'),
+    ]
+    test_type = models.CharField(max_length=3, choices=TEST_TYPES, default='SAT')
     subject = models.CharField(max_length=100)
     title = models.CharField(max_length=100)
     prompt = models.TextField()
@@ -63,8 +77,8 @@ class QuestionCopy(models.Model):
     answeredCorrectly = models.BooleanField(default=False)
 
     @classmethod
-    def create(cls, profile, subject, title, prompt, image, hint, originalOrderId, answeredCorrectly):
-        questionCopy = cls(profile=profile, subject=subject, title=title, prompt=prompt, image=image, 
+    def create(cls, profile, test_type, subject, title, prompt, image, hint, originalOrderId, answeredCorrectly):
+        questionCopy = cls(profile=profile, test_type=test_type, subject=subject, title=title, prompt=prompt, image=image, 
             hint=hint, originalOrderId=originalOrderId, answeredCorrectly=answeredCorrectly)
         return questionCopy
         

@@ -9,12 +9,32 @@ class ChoiceInline(admin.TabularInline):
 class QuestionAdmin(admin.ModelAdmin):
     inlines = [ChoiceInline]
 
+class SATQuestion(Question):
+    class Meta:
+        proxy = True
+
+class SATQuestionAdmin(QuestionAdmin):
+    def get_queryset(self, request):
+        return self.model.objects.filter(test_type='SAT')
+
+class ACTQuestion(Question):
+    class Meta:
+        proxy = True
+
+class ACTQuestionAdmin(QuestionAdmin):
+    def get_queryset(self, request):
+        return self.model.objects.filter(test_type='ACT')
+
+class GREQuestion(Question):
+    class Meta:
+        proxy = True
+
+class GREQuestionAdmin(QuestionAdmin):
+    def get_queryset(self, request):
+        return self.model.objects.filter(test_type='GRE')
+
+
 admin.site.register(Question, QuestionAdmin)
-
-# class ChoiceCopyInline(admin.TabularInline):
-#     model = ChoiceCopy
-
-# class QuestionCopyAdmin(admin.ModelAdmin):
-#     inlines = [ChoiceCopyInline]
-
-# admin.site.register(QuestionCopy, QuestionCopyAdmin)
+admin.site.register(SATQuestion, SATQuestionAdmin)
+admin.site.register(ACTQuestion, ACTQuestionAdmin)
+admin.site.register(GREQuestion, GREQuestionAdmin)

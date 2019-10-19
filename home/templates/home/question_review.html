@@ -33,7 +33,7 @@
                             <a id="lastPageButton" class="btn btn-primary" href="{% url 'question-review' user.username lastQuestion %}" role="button"><</a>
                         {% endif %}
 
-                        <a id="retryButton" class="btn btn-primary mx-auto" href="{% url 'question-detail' question.originalOrderId %}" role="button">Retry Question</a>
+                        <a id="retryButton" class="btn btn-primary mx-auto" href="{% url 'question-detail' question.test_type question.originalOrderId %}" role="button">Retry Question</a>
                         
                         {% if question.copyId != user.profile.questions_answered.last.copyId %}
                             <a id="nextPageButton" class="btn btn-primary" href="{% url 'question-review' user.username nextQuestion %}" role="button">></a>

@@ -27,7 +27,8 @@
                 </article>
                 {% endfor %}
             {% else %}
-                <legend class="border-bottom mb-4"><a class="text-secondary mb-0" href="{% url 'question-detail' 1 %}">You haven't answered any questions yet.<a/></legend>
+                <hr class="mb-4">
+                <legend class="border-bottom mb-4">You haven't answered any questions yet. <a class="text-secondary mb-0" href="{% url 'question-detail' 'SAT' 1 %}">Get Started<a/></legend>
             {% endif %}
         </div>
     </div>

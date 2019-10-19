@@ -9,7 +9,7 @@
                     <img class="article-image mx-auto mb-3" src='{{ question.image.url }}'>
                 </div>
                 <p class="lead article-content pb-2">{{ question.prompt }}</p>
-                <form action="{% url 'question-submit' question.orderId %}" method="post">
+                <form action="{% url 'question-submit' question.test_type question.orderId %}" method="post">
                     {% csrf_token %}
                     {% for choice in question.choices.all %}
                         {% if choice.correct == True %}
