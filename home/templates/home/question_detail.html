@@ -9,9 +9,8 @@
                     <img class="article-image mx-auto mb-3" src='{{ question.image.url }}'>
                 </div>
                 <p class="lead article-content pb-2">{{ question.prompt }}</p>
-                <form action="{% url 'question-submit' question.id %}" method="post">
+                <form action="{% url 'question-submit' question.orderId %}" method="post">
                     {% csrf_token %}
-                    <!-- {{ form.as_p }} -->
                     {% for choice in question.choices.all %}
                         {% if choice.correct == True %}
                             <input class="correct" type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">

@@ -13,6 +13,7 @@
                 </div>
             </div>
         </div>
+
         <div id="postHistory">
             <!-- Post History -->
             {% if user.profile.questions_answered.last %}
@@ -20,14 +21,14 @@
                 {% for question in questions_answered %}
                 <article class="media content-section">
                 <div class="media-body ml-1">
-                    <h5><a class="article-title" href="{% url 'question-detail' question.id %}">{{ question.title }}</a></h2>
+                    <h5><a class="article-title" href="{% url 'question-review' user.username question.copyId %}">{{ question.title }}</a></h2>
                     <img class="article-content" src="{{ question.image.url }}" width="200" height="150">
                     <hr class="mb-5">
                 </div>
                 </article>
                 {% endfor %}
             {% else %}
-                <legend class="border-bottom mb-4"><a class="text-secondary mb-0" href="/question/8/">You haven't answered any questions yet.<a/></legend>
+                <legend class="border-bottom mb-4"><a class="text-secondary mb-0" href="{% url 'question-detail' 1 %}">You haven't answered any questions yet.<a/></legend>
             {% endif %}
         </div>
     </div>

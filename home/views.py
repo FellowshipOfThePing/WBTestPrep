@@ -10,56 +10,34 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse, Http404
 from django.contrib import messages
 from users.models import Profile
-from .models import Question
+from .models import Question, QuestionCopy, Choice, ChoiceCopy
 # from .forms import QuestionForm
 from django.urls import reverse
 
 
-# Create your views here.
 def home(request):
     if request.user.is_authenticated:
         return redirect('profile')
     return render(request, 'home/home.html')
 
-# https://docs.djangoproject.com/en/2.2/topics/class-based-views/mixins/#using-formmixin-with-detailview
-    
-# class QuestionDetailView(LoginRequiredMixin, DetailView):
-#     model = Question
-#     form = QuestionForm
-
-#     def add_current_question(self, request):
-#         self.request.user.profile.questions_answered.add(self.get_object())
-
-#     def get(self, request, *args, **kwargs):
-#         self.add_current_question(request)
-#         return super(QuestionDetailView, self).get(request, *args, **kwargs)
-
-#     def post(self, request, *args, **kwargs):
-        
-#         return super(QuestionDetailView, self).post(request, *args, **kwargs)
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['nextQuestion'] = self.get_object().id + 1
-#         return context
 
 @login_required
-def QuestionView(request, pk):
+def QuestionView(request, orderId):
     try:
-        question = Question.objects.get(pk=pk)
+        question = Question.objects.get(orderId=orderId)
     except Question.DoesNotExist:
         raise Http404("Question does not exist")
     context = {
-        'question': Question.objects.filter(pk=pk).first(),
-        'nextQuestion': Question.objects.filter(pk=pk).first().id + 1
+        'question': Question.objects.filter(orderId=orderId).first(),
+        'nextQuestion': Question.objects.filter(orderId=orderId).first().orderId + 1
     }
 
     return render(request, 'home/question_detail.html', context)
 
+
 @login_required
-def SubmitAnswer(request, pk):
-    question = get_object_or_404(Question, pk=pk)
-    request.user.profile.questions_answered.add(question)
+def SubmitAnswer(request, orderId):
+    question = get_object_or_404(Question, orderId=orderId)
     try:
         selected_choice = question.choices.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):
@@ -73,17 +51,43 @@ def SubmitAnswer(request, pk):
         if selected_choice.correct:
             student.correctAnswers += 1
             student.save()
+            correct = True
         else:
             student.wrongAnswers += 1
             student.save()
-        return HttpResponseRedirect(reverse('question-result', kwargs={'pk': question.id}))
+            correct = False
+        newChoiceList = question.choices.all()
+        questionCopy = QuestionCopy.create(request.user.profile, question.subject, question.title, question.title, question.image, question.hint,
+            question.orderId, correct)
+        questionCopy.save()
+        for i, choice in enumerate(newChoiceList):
+            if choice == selected_choice:
+                answerIndex = i + 1
+            newChoice = ChoiceCopy.create(choice.choice_text, questionCopy, choice.correct)
+            newChoice.save()
+        questionCopy.userAnswer = answerIndex
+        student.questions_answered.add(questionCopy)
+        return HttpResponseRedirect(reverse('question-result', kwargs={'orderId': questionCopy.originalOrderId}))
 
 
 @login_required
-def QuestionResultView(request, pk):
-    question = get_object_or_404(Question, pk=pk)
+def QuestionResultView(request, orderId):
+    question = get_object_or_404(Question, orderId=orderId)
     context = {
         'question': question,
-        'nextQuestion': question.id + 1
+        'nextQuestion': question.orderId + 1,
+        'lastQuestionId': Question.objects.last().orderId
     }
     return render(request, 'home/question_result.html', context)
+
+
+@login_required
+def QuestionReview(request, username, copyId):
+    userProfile = User.objects.filter(username=username).first().profile
+    questionCopy = get_object_or_404(QuestionCopy, profile=userProfile, copyId=copyId)
+    context = {
+        'question': questionCopy,
+        'nextQuestion': questionCopy.copyId + 1,
+        'lastQuestion': questionCopy.copyId - 1
+    }
+    return render(request, 'home/question_review.html', context)

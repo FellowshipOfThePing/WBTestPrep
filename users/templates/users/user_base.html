@@ -37,10 +37,12 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <div class="navbar-nav ml-auto">
                         {% if user.is_authenticated %}
-                            {% if user.profile.questions_answered.last %}
-                                <a class="nav-item nav-link text-light" href="/question/{{ user.profile.questions_answered.last.id|add:1 }}/">New Question</a>
-                            {% else %}
-                                <a class="nav-item nav-link text-light" href="/question/8/">New Question</a>
+                            {% if user.profile.questions_answered.last.originalId != question.objects.last.orderId %}
+                                {% if user.profile.questions_answered.last %}
+                                    <a class="nav-item nav-link text-light" href="/question/{{ user.profile.questions_answered.last.originalOrderId|add:1 }}/">New Question</a>
+                                {% else %}
+                                    <a class="nav-item nav-link text-light" href="/question/1/">New Question</a>
+                                {% endif %}
                             {% endif %}
                             <a class="nav-item nav-link text-light" href="{% url 'profile' %}">Profile</a>
                             <a class="nav-item nav-link text-light" href="{% url 'logout' %}">Logout</a>

@@ -1,0 +1,39 @@
+{% extends "users/user_base.html" %}
+{% block content %}
+<div class="container mt-0">
+    <div id="jumbo2" class="jumbotron border border-secondary pt-5 pb-5">
+        <article class="media content-section">
+            <div class="media-body ml-3">
+                <div class="text-center">
+                    <img class="article-image mx-auto mb-3" src='{{ question.image.url }}'>
+                </div>
+                <div>
+                <p class="lead article-content pb-2">{{ question.prompt }}</p>
+                    {% for choice in question.choices.all %}
+                        {% if choice.correct == True %}
+                            <input class="correct" type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" disabled='disabled'>
+                            <label class="mb-3 ml-2 mr-2" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+                        {% else %}
+                            <input class="wrong" type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" disabled='disabled'>
+                            <label class="mb-3 ml-2 mr-2" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+                        {% endif %}
+                    {% endfor %}
+                    <div class="container pl-0 pt-3">
+                        {% if question.copyId != user.profile.questions_answered.first.copyId %}
+                            <a id="lastPageButton" class="btn btn-primary" href="{% url 'question-review' user.username lastQuestion %}" role="button"><</a>
+                        {% endif %}
+
+                        <a id="retryButton" class="btn btn-primary mx-auto" href="{% url 'question-detail' question.originalOrderId %}" role="button">Retry Question</a>
+                        
+                        {% if question.copyId != user.profile.questions_answered.last.copyId %}
+                            <a id="nextPageButton" class="btn btn-primary" href="{% url 'question-review' user.username nextQuestion %}" role="button">></a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+</div>
+{% endblock content %}
+
+

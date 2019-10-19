@@ -9,20 +9,24 @@
                     <img class="article-image mx-auto mb-3" src='{{ question.image.url }}'>
                 </div>
                 <p class="lead article-content pb-2">{{ question.prompt }}</p>
-                <!-- <form action="{% url 'question-result' question.id %}" method="post"> -->
-                    {% for choice in question.choices.all %}
-                        {% if choice.correct == True %}
-                            <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" disabled='disabled'>
-                            <label class="correct mb-3 ml-2 mr-2" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
-                        {% else %}
-                            <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" disabled='disabled'>
-                            <label class="mb-3 ml-2 mr-2 wrong" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
-                        {% endif %}
-                    {% endfor %}
-                    <div class="container pl-0 pt-3">
-                        <a id="nextPageButton" class="btn btn-primary" href="/question/{{ nextQuestion }}/" role="button">Next Question</a>
-                    </div>
-                <!-- </form> -->
+                {% for choice in question.choices.all %}
+                    {% if choice.correct == True %}
+                        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" disabled='disabled'>
+                        <label class="correct mb-3 ml-2 mr-2" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+                    {% else %}
+                        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" disabled='disabled'>
+                        <label class="mb-3 ml-2 mr-2 wrong" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+                    {% endif %}
+                {% endfor %}
+                {% if question.orderId == lastQuestionId %}
+                <div class="container pl-0 pt-3">
+                    <a id="nextPageButton" class="btn btn-primary" href="{% url 'profile' %}" role="button">Back to Profile</a>
+                </div>
+                {% else %}
+                <div class="container pl-0 pt-3">
+                    <a id="nextPageButton" class="btn btn-primary" href="{% url 'question-detail' nextQuestion %}" role="button">Next Question</a>
+                </div>
+                {% endif %}
             </div>
         </article>
     </div>
