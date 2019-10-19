@@ -10,12 +10,22 @@
                 </div>
                 <p class="lead article-content pb-2">{{ question.prompt }}</p>
                 {% for choice in question.choices.all %}
-                    {% if choice.correct == True %}
+                    {% if choice.correct %}
+                        {% if forloop.counter == answer %}
+                        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" disabled='disabled'>
+                        <label class="correct mb-3 ml-2 mr-2" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><i class="fas fa-check ml-1"></i><br>
+                        {% else %}
                         <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" disabled='disabled'>
                         <label class="correct mb-3 ml-2 mr-2" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+                        {% endif %}
                     {% else %}
+                        {% if forloop.counter == answer %}
                         <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" disabled='disabled'>
-                        <label class="mb-3 ml-2 mr-2 wrong" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+                        <label class="mb-3 ml-2 mr-2 wrong" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><i class="fas fa-times ml-1"></i><br>
+                        {% else %}
+                        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" disabled='disabled'>
+                        <label class="mb-3 ml-2 mr-2" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+                        {% endif %}
                     {% endif %}
                 {% endfor %}
                 {% if question.orderId == lastQuestionId %}
@@ -33,10 +43,11 @@
     <div id="resultBox" class="container pl-0 pr-0">
         <div class="jumbotron border rounded border-secondary pt-1 pb-2">
             <article class="media content-section mt-3 mb-3 ml-3 mr-3">
-                <h4 id="resultBoxTitle" class="article-title mb-0 text-info">{{ resultText }}</h4>
-                <div class="container">
-                    <p id="resultBoxText" class="lead article-content mb-0">{{ question.hint }}</p>
-                </div>
+                {% if solved %}
+                <h4 id="resultCorrect" class="article-title mb-0">Correct!</h4>
+                {% else %}
+                <h4 id="resultIncorrect" class="article-title mb-0">Incorrect</h4>
+                {% endif %}
             </article>
         </div>
     </div>

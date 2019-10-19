@@ -42,6 +42,14 @@ body {
     width: 100%;
 }
 
+#resultCorrect {
+    color: green;
+}
+
+#resultIncorrect {
+    color: red;
+}
+
 #nextPageButton {
     float:right;
     /* opacity: 0; */

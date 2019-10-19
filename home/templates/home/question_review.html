@@ -4,18 +4,28 @@
     <div id="jumbo2" class="jumbotron border border-secondary pt-5 pb-5">
         <article class="media content-section">
             <div class="media-body ml-3">
-                <div class="text-center">
+                <div class="container text-center">
                     <img class="article-image mx-auto mb-3" src='{{ question.image.url }}'>
                 </div>
                 <div>
                 <p class="lead article-content pb-2">{{ question.prompt }}</p>
                     {% for choice in question.choices.all %}
                         {% if choice.correct == True %}
+                            {% if forloop.counter == question.userAnswer %}
+                            <input class="correct" type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" disabled='disabled' selected>
+                            <label class="correct mb-3 ml-2 mr-2" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><i class="fas fa-check ml-1"></i><br>
+                            {% else %}
                             <input class="correct" type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" disabled='disabled'>
-                            <label class="mb-3 ml-2 mr-2" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+                            <label class="correct mb-3 ml-2 mr-2" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+                            {% endif %}
                         {% else %}
+                            {% if forloop.counter == question.userAnswer %}
+                            <input class="wrong" type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" disabled='disabled'>
+                            <label class="mb-3 ml-2 mr-2 wrong" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><i class="fas fa-times ml-1"></i><br>
+                            {% else %}
                             <input class="wrong" type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" disabled='disabled'>
                             <label class="mb-3 ml-2 mr-2" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+                            {% endif %}
                         {% endif %}
                     {% endfor %}
                     <div class="container pl-0 pt-3">
@@ -35,5 +45,3 @@
     </div>
 </div>
 {% endblock content %}
-
-

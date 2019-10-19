@@ -66,6 +66,7 @@ def SubmitAnswer(request, orderId):
             newChoice = ChoiceCopy.create(choice.choice_text, questionCopy, choice.correct)
             newChoice.save()
         questionCopy.userAnswer = answerIndex
+        questionCopy.save()
         student.questions_answered.add(questionCopy)
         return HttpResponseRedirect(reverse('question-result', kwargs={'orderId': questionCopy.originalOrderId}))
 
@@ -73,10 +74,17 @@ def SubmitAnswer(request, orderId):
 @login_required
 def QuestionResultView(request, orderId):
     question = get_object_or_404(Question, orderId=orderId)
+    answer = request.user.profile.questions_answered.last().userAnswer
+    solved = False
+    for i, choice in enumerate(question.choices.all()):
+        if choice.correct and (i == answer - 1):
+            solved = True
     context = {
         'question': question,
         'nextQuestion': question.orderId + 1,
-        'lastQuestionId': Question.objects.last().orderId
+        'lastQuestionId': Question.objects.last().orderId,
+        'answer': answer,
+        'solved': solved
     }
     return render(request, 'home/question_result.html', context)
 
