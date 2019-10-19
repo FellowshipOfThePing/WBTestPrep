@@ -12,16 +12,16 @@
                 {% for choice in question.choices.all %}
                     {% if choice.correct %}
                         {% if forloop.counter == answer %}
-                        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" disabled='disabled'>
-                        <label class="correct mb-3 ml-2 mr-2" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><i class="fas fa-check ml-1"></i><br>
+                        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" checked="checked">
+                        <label class="mb-3 ml-2 mr-2" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><i class="fas fa-check ml-1 correct"></i><br>
                         {% else %}
                         <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" disabled='disabled'>
-                        <label class="correct mb-3 ml-2 mr-2" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+                        <label class="mb-3 ml-2 mr-2" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><i class="fas fa-check ml-1 correct"></i><br>
                         {% endif %}
                     {% else %}
                         {% if forloop.counter == answer %}
-                        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" disabled='disabled'>
-                        <label class="mb-3 ml-2 mr-2 wrong" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><i class="fas fa-times ml-1"></i><br>
+                        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" checked="checked">
+                        <label class="mb-3 ml-2 mr-2" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><i class="fas fa-times ml-1 wrong"></i><br>
                         {% else %}
                         <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" disabled='disabled'>
                         <label class="mb-3 ml-2 mr-2" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>

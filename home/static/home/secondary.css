@@ -8,12 +8,13 @@ body {
     background-color: white;
   }
 
+
 .correct {
-    background: rgba(88, 217, 88, 0.6);
+    color: green;
 }
 
 .wrong {
-    background: rgba(238, 21, 21, 0.52);
+    color: red;
 }
 
 
