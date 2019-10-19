@@ -28,6 +28,11 @@ body {
     padding-bottom: 100px;
 }
 
+#profileJumbotron {
+    margin-top: 65px;
+    opacity: 0.96;
+}
+
 #page2 {
     margin-top: 10%;
     opacity: 0.0;

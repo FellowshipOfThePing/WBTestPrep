@@ -1,15 +1,14 @@
 {% extends "users/user_base.html" %}
 {% block content %}
 <div class="container mt-0">
-    <div id="jumbo1" class="jumbotron border border-secondary pb-0">
+    <div id="profileJumbotron" class="jumbotron border border-secondary pb-0 pt-2">
         <div class="content-section">
-            <div class="media pb-3">
-                <img class="rounded-circle account-img pl-3 pr-3" src="{{ user.profile.image.url }}">
-                <div class="media-body ml-4">
-                    <h2 class="account-heading">{{ user.username }}</h2>
+            <div class="media pt-3 pb-2">
+                <img class="rounded-circle account-img pl-3 pr-3 pt-2 pb-1" src="{{ user.profile.image.url }}">
+                <div class="media-body ml-2">
+                    <h2 class="account-heading pt-1">{{ user.username }}</h2>
                     <p class="text-secondary mb-2">{{ user.email }}</p>
                     <a class="text-secondary mb-0" href="{% url 'profile-update' %}"><i class="fas fa-cog mr-1"></i>Settings</a>
-                    <p class="text-secondary mb-2">Wrong Answers: {{ user.profile.wrongAnswers }}</p>
                 </div>
             </div>
         </div>
@@ -17,13 +16,13 @@
         <div id="postHistory">
             <!-- Post History -->
             {% if user.profile.questions_answered.last %}
-                <legend class="border-bottom mb-4">Question History</legend>
+                <legend class="border-bottom mb-4 mt-2">Question History</legend>
                 {% for question in questions_answered %}
                 <article class="media content-section">
-                <div class="media-body ml-1">
+                <div class="media-body ml-1 mt-1">
                     <h5><a class="article-title" href="{% url 'question-review' user.username question.copyId %}">{{ question.title }}</a></h2>
                     <img class="article-content" src="{{ question.image.url }}" width="200" height="150">
-                    <hr class="mb-5">
+                    <hr class="mb-4">
                 </div>
                 </article>
                 {% endfor %}
