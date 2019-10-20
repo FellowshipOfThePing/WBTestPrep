@@ -30,12 +30,36 @@ def register(request):
 
 @login_required
 def profile(request):
-    all_questions = Profile.objects.filter(user=request.user).first().questions_answered.all().order_by("-id")
+    userProfile = Profile.objects.filter(user=request.user).first()
+    user_data = {
+        "correctAnswers": userProfile.correctAnswers,
+        "wrongAnswers": userProfile.wrongAnswers,
+    }
+    questions = userProfile.questions_answered.all().order_by("-id")
     context = {
-        'all_questions': all_questions[:3],
+        'questions': questions[:3],
+        'user_data': user_data,
     }
 
     return render(request, 'users/profile.html', context)
+
+
+@login_required
+def profileQuestionHistory(request, test_type):
+    userProfile = Profile.objects.filter(user=request.user).first()
+    user_data = {
+        "correctAnswers": len(userProfile.questions_answered.filter(test_type=test_type, answeredCorrectly=True)),
+        "wrongAnswers": len(userProfile.questions_answered.filter(test_type=test_type, answeredCorrectly=False)),
+    }
+    questions = userProfile.questions_answered.filter(test_type=test_type).order_by("copyId")
+    context = {
+        'questions': questions[:3],
+        'all_tests': ['ACT', 'SAT', 'GRE'],
+        'test_type': str(test_type),
+        'user_data': user_data
+    }
+
+    return render(request, 'users/profile_question_history.html', context)
 
 
 
@@ -56,23 +80,11 @@ def profileUpdate(request):
 
     context = {
         'u_form': u_form,
-        'p_form': p_form
+        'p_form': p_form,
+        'all_tests': ['ACT', 'SAT', 'GRE'],
     }
 
     return render(request, 'users/update_profile.html', context)
-
-
-
-@login_required
-def profileQuestionHistory(request, test_type):
-    questions = Profile.objects.filter(user=request.user).first().questions_answered.filter(test_type=test_type).order_by("copyId")
-    context = {
-        'questions': questions[:3],
-        'all_tests': ['ACT', 'SAT', 'GRE'],
-        'test_type': str(test_type),
-    }
-
-    return render(request, 'users/profile_question_history.html', context)
 
 
 

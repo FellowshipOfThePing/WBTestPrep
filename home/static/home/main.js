@@ -149,3 +149,30 @@ function wrong(label) {
 
 // ----------- Profile JS ------------- 
 
+// let myWidget = document.getElementById("my-widget");
+// console.log(myWidget.dataset.viewMode); // Prints tabular
+// somethingElse.addEventListener('click', evt => {
+//     myWidget.dataset.viewMode = "list";
+// });
+
+
+// https://mdbootstrap.com/docs/jquery/javascript/charts/
+
+var user_data = JSON.parse(document.getElementById('user_data').textContent);
+
+//pie
+var ctxP = document.getElementById("pieChart").getContext('2d');
+var myPieChart = new Chart(ctxP, {
+    type: 'pie',
+    data: {
+        labels: ["Correct", "Incorrect"],
+        datasets: [{
+            data: [user_data['correctAnswers'], user_data['wrongAnswers']],
+            backgroundColor: ["#18c45a", "#F7464A"],
+            hoverBackgroundColor: ["#15d14e", "#FF5A5E"]
+        }]
+    },
+    options: {
+        responsive: true
+    }
+});

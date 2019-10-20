@@ -5,7 +5,11 @@
         <div class="container" id="postHistory">
             <!-- Post History -->
             {% if questions %}
-                <legend class="border-bottom pb-2 mt-2 mb-0">Full {{ test_type }} History</legend>
+                {% if test_type == 'ALL' %}
+                    <legend class="border-bottom pb-2 mt-2 mb-0">Full Question History</legend>
+                {% else %}
+                    <legend class="border-bottom pb-2 mt-2 mb-0">Full {{ test_type }} History</legend>
+                {% endif %}
                 {% for question in questions %}
                 <article class="media content-section pt-2">
                 <div class="media-body ml-1 mt-1">
