@@ -1,0 +1,25 @@
+{% extends "users/user_base.html" %}
+{% block content %}
+<div class="container mt-0">
+    <div id="profileJumbotron" class="jumbotron border border-secondary pb-2 pt-2">
+        <div class="container" id="postHistory">
+            <!-- Post History -->
+            {% if questions %}
+                <legend class="border-bottom pb-2 mt-2 mb-0">Full {{ test_type }} History</legend>
+                {% for question in questions %}
+                <article class="media content-section pt-2">
+                <div class="media-body ml-1 mt-1">
+                    <h5><a class="article-title" href="{% url 'question-review' user.username question.copyId %}">{{ question.title }}</a></h2>
+                    <img class="article-content" src="{{ question.image.url }}" width="200" height="150">
+                    <hr class="mb-3">
+                </div>
+                </article>
+                {% endfor %}
+            {% else %}
+                <hr class="mb-3">
+                <legend class="border-bottom mb-4">You haven't answered any questions yet. <a class="text-secondary mb-0" href="{% url 'question-detail' 'SAT' 1 %}">Get Started<a/></legend>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

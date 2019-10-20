@@ -30,10 +30,9 @@ def register(request):
 
 @login_required
 def profile(request):
-    questions_answered = Profile.objects.filter(user=request.user).first().questions_answered.all().order_by("-id")
-
+    all_questions = Profile.objects.filter(user=request.user).first().questions_answered.all().order_by("-id")
     context = {
-        'questions_answered': questions_answered
+        'all_questions': all_questions[:3],
     }
 
     return render(request, 'users/profile.html', context)
@@ -61,3 +60,31 @@ def profileUpdate(request):
     }
 
     return render(request, 'users/update_profile.html', context)
+
+
+
+@login_required
+def profileQuestionHistory(request, test_type):
+    questions = Profile.objects.filter(user=request.user).first().questions_answered.filter(test_type=test_type).order_by("copyId")
+    context = {
+        'questions': questions[:3],
+        'all_tests': ['ACT', 'SAT', 'GRE'],
+        'test_type': str(test_type),
+    }
+
+    return render(request, 'users/profile_question_history.html', context)
+
+
+
+@login_required
+def fullQuestionHistory(request, test_type):
+    if test_type == 'ALL':
+        questions = Profile.objects.filter(user=request.user).first().questions_answered.all().order_by("copyId")
+    else:
+        questions = Profile.objects.filter(user=request.user).first().questions_answered.filter(test_type=test_type).order_by("copyId")
+    context = {
+        'questions': questions,
+        'test_type': test_type
+    }
+
+    return render(request, 'users/full_question_history.html', context)

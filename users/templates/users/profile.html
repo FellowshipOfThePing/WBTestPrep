@@ -1,7 +1,7 @@
 {% extends "users/user_base.html" %}
 {% block content %}
 <div class="container mt-0">
-    <div id="profileJumbotron" class="jumbotron border border-secondary pb-0 pt-2">
+    <div id="profileJumbotron" class="jumbotron border border-secondary pb-2 pt-2">
         <div class="content-section">
             <div class="media pt-3 pb-2">
                 <img class="rounded-circle account-img pl-3 pr-3 pt-2 pb-1" src="{{ user.profile.image.url }}">
@@ -13,19 +13,34 @@
             </div>
         </div>
 
-        <div id="postHistory">
+        <div class="container" id="postHistory">
             <!-- Post History -->
-            {% if user.profile.questions_answered.last %}
-                <legend class="border-bottom mb-4 mt-2">Question History</legend>
-                {% for question in questions_answered %}
+            {% if all_questions %}
+                <legend class="border-bottom pb-2 mt-2 mb-0">Recently Answered Questions</legend>
+                <!-- Text Type NAVBAR -->
+                <nav class="navbar navbar-expand-lg border-bottom mb-3 pt-0 pl-0 pb-0">
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <div class="navbar-nav mr-auto">
+                            <a class="nav-item nav-link testButtonActive pl-3 pr-3" href="{% url 'profile' %}">ALL</a>
+                            <a class="nav-item nav-link testButton pl-3 pr-3" href="{% url 'profile-question-history' 'ACT' %}">ACT</a>
+                            <a class="nav-item nav-link testButton pl-3 pr-3" href="{% url 'profile-question-history' 'SAT' %}">SAT</a>
+                            <a class="nav-item nav-link testButton pl-3 pr-3" href="{% url 'profile-question-history' 'GRE' %}">GRE</a>
+                        </div>
+                    </div>
+                </nav>
+                {% for question in all_questions %}
                 <article class="media content-section">
                 <div class="media-body ml-1 mt-1">
                     <h5><a class="article-title" href="{% url 'question-review' user.username question.copyId %}">{{ question.title }}</a></h2>
                     <img class="article-content" src="{{ question.image.url }}" width="200" height="150">
-                    <hr class="mb-4">
+                    <hr class="mb-3">
                 </div>
                 </article>
                 {% endfor %}
+                <div>
+                    <legend class="border-bottom pb-2 mt-0 mb-2"><a class="btn btn-outline-info btn-md" href="{% url 'full-question-history' 'ALL' %}">See Full Question History</a></legend>
+                </div>
+
             {% else %}
                 <hr class="mb-4">
                 <legend class="border-bottom mb-4">You haven't answered any questions yet. <a class="text-secondary mb-0" href="{% url 'question-detail' 'SAT' 1 %}">Get Started<a/></legend>

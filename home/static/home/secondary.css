@@ -8,16 +8,6 @@ body {
     background-color: white;
   }
 
-
-.correct {
-    color: green;
-}
-
-.wrong {
-    color: red;
-}
-
-
 #jumbo1 {
     margin-top: 10%;
     opacity: 0.95;
@@ -59,4 +49,34 @@ body {
 #nextPageButton {
     float:right;
     /* opacity: 0; */
+}
+
+.correct {
+    color: green;
+}
+
+.wrong {
+    color: red;
+}
+
+.testButtonActive {
+    background: #6c757d;
+    color: #e9ecef;
+}
+
+.testButtonActive:hover {
+    background: #6c757d;
+    color: #e9ecef;
+}
+
+.testButton {
+    background: #e9ecef;
+    color: #6c757d;
+    transition: 0.1s;
+}
+
+.testButton:hover {
+    background: #6c757d;
+    color: #e9ecef;
+    transition: 0.1s;
 }

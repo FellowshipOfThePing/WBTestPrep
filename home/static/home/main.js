@@ -61,6 +61,8 @@ function checkId(id) {
 
 
 // ----------- QUESTION JS ------------- 
+
+
 var solved = false;
 
 
@@ -140,3 +142,10 @@ function wrong(label) {
 //         url = "http://127.0.0.1:8000/question/" + String(newQuestion);
 //         window.location.replace(url);
 // }
+
+
+
+
+
+// ----------- Profile JS ------------- 
+
