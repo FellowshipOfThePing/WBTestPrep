@@ -1,0 +1,165 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    {% if title %}
+        <title>HTML Test Prep - {{ title }}</title>
+    {% else %}
+        <title>HTML Test Prep</title>
+    {% endif %}
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,800">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- MDN Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.10/css/mdb.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'home/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'home/secondary.css' %}">
+</head>
+
+
+<body>
+    <div class="container-fluid">
+        <header>
+            <!--NAVBAR -->
+            <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-secondary">
+
+                <!-- Brand -->
+                {% if user.is_authenticated %}
+                    <a class="navbar-brand" href="{% url 'profile' %}">HTML Test Prep<i class="fas fa-graduation-cap ml-2"></i></a>
+                {% else %}
+                    <a class="navbar-brand" href="{% url 'home-homepage' %}">HTML Test Prep</a>
+                {% endif %}
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                    <!-- Nav Links/Dropdown -->
+                    <div class="navbar-nav ml-auto">
+                        <ul class="navbar-nav mr-auto">
+                        {% if user.is_authenticated %} 
+                            <li class="nav-item dropdown">
+                                <!-- Dropdown Title -->
+                                {% if 'profile' in request.path %}
+                                    <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                                        Profile
+                                    </a>
+                                {% elif 'Test' in request.path %}
+                                    <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                                        Test
+                                    </a>
+                                {% else %}
+                                <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                                    Home
+                                </a>
+                                {% endif %}
+
+                                <!-- Dropdown Links -->
+                                <div id="dropdownMenu" class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <div class="dropdown-item d-flex customNav">
+                                        <span class="mr-auto"><i class="fas fa-home pt-3"></i></span><a href="#">Home</a>
+                                    </div>
+                                    <div class="dropdown-item d-flex customNav">
+                                        <span class="mr-auto"><i class="fas fa-user pt-3"></i></span><a href="{% url 'profile' %}"">Profile</a>
+                                    </div>
+                                    <div class="dropdown-item d-flex customNav">
+                                        <span class="mr-auto"><i class="fas fa-pencil-alt pt-3"></i></span><a href="#">Study</a>
+                                    </div>
+                                    <div class="dropdown-item d-flex customNav">
+                                        <span class="mr-auto"><i class="fas fa-sign-out-alt pt-3"></i></span><a href="{% url 'logout' %}">Logout</a>
+                                    </div>
+                                </div>
+                            </li>
+                        {% else %}
+                            <a class="nav-item nav-link text-light" href="{% url 'login' %}">Login</a>
+                            <a class="nav-item nav-link text-light" href="{% url 'register' %}">Register</a>
+                        {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </nav> 
+        </header>
+
+
+
+
+        <main>
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- SIDEBAR Column -->
+                    <div class="col-lg-4 col-lg-offset-1 sidebar-outer">
+                        <div class="fixed col-lg-4">
+                            <div id="navJumbo" class="jumbotron border border-secondary d-none d-lg-block pt-4">
+                                <!-- NAV Title and Description -->
+                                {% if 'profile' in request.path %}
+                                    <h1 class="display-4">Profile</h1>
+                                    <p class="lead">Profile description text blah blah blah.</p>
+                                {% elif 'question' in request.path %}
+                                    <h1 class="display-4">Rapid Fire</h1>
+                                    <p class="lead">Rapid Fire description text blah blah blah.</p>
+                                {% elif 'about' in request.path %}
+                                    <h1 class="display-4">About</h1>
+                                    <p class="lead">About Us description text blah blah blah.</p>
+                                {% elif 'questionCopy' in request.path %}
+                                    <h1 class="display-4">Question Review</h1>
+                                    <p class="lead">Question Review description text blah blah blah.</p>
+                                {% else %}
+                                    <h1 class="display-4">Else?</h1>
+                                    <p class="lead">About Us description text blah blah blah.</p>
+                                    {% endif %}
+                                <nav class="nav flex-column">
+                                    <a class="nav-link customNav" href="#">Home</a>
+                                    <a class="nav-link customNav" href="{% url 'profile' %}">Profile</a>
+                                    <a class="nav-link customNav" href="#">Practice Test</a>
+                                    <a class="nav-link customNav" href="{% url 'question-detail' 'SAT' 1 %}">Rapid Fire</a>
+                                    <a class="nav-link customNav" href="{% url 'about' %}">About Us</a>
+                                    <a class="nav-link customNav" href="#">Link</a>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- CONTENT Column -->
+                    <div class="col-lg-8 content">
+                        {% block content %}
+
+                        {% endblock %}
+                    </div> 
+                </div> 
+            </div>
+        </main>
+    </div>
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+    
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.10/js/mdb.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!-- Font Awesome JS -->
+    <script src="https://kit.fontawesome.com/b4461a4f54.js" crossorigin="anonymous"></script>
+    
+    <!-- Custom JS -->
+    <script src="{% static 'home/main.js' %}"></script>
+</body>
+</html>

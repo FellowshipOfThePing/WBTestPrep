@@ -5,6 +5,7 @@ from home import views as home_views
 
 urlpatterns = [
     path('', views.home, name='home-homepage'),
+    path('about/', home_views.about, name="about"),
     path('question/<test_type>/<int:orderId>/', QuestionView, name='question-detail'),
     path('question/<test_type>/<int:orderId>/submitAnswer/', SubmitAnswer, name='question-submit'),
     path('question/<test_type>/<int:orderId>/result/', QuestionResultView, name='question-result'),

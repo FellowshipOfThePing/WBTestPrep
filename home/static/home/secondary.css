@@ -1,3 +1,6 @@
+
+/* Full Site */
+
 body {
     background-image: url("https://source.unsplash.com/QJDzYT_K8Xg");
     min-height: 100%;
@@ -14,20 +17,29 @@ body {
 }
 
 #jumbo2 {
-    margin-top: 15%;
+    /* margin-top: 15%; */
     opacity: 0.95;
     padding-bottom: 100px;
-}
-
-#profileJumbotron {
-    margin-top: 65px;
-    opacity: 0.96;
 }
 
 #page2 {
     margin-top: 10%;
     opacity: 0.0;
 } 
+
+.customNav {
+    border-radius: 5px;
+}
+
+.customNav:hover {
+    background: #6c757d;
+    color: #e9ecef;
+}
+
+
+
+
+/* Qestion Detail/Result/Review */
 
 #hintBox {
     width: 100%;
@@ -59,6 +71,14 @@ body {
     color: red;
 }
 
+
+/* Profile */
+
+#profileJumbotron {
+    /* margin-top: 65px; */
+    opacity: 0.96;
+}
+
 .testButtonActive {
     background: #6c757d;
     color: #e9ecef;
@@ -79,4 +99,32 @@ body {
     background: #6c757d;
     color: #e9ecef;
     transition: 0.1s;
+}
+
+
+
+/* nav_base Template */
+
+.content {
+    margin-top: 5%;
+}
+
+.sidebar-outer {
+    margin-top: 5%;
+    position: relative;
+    height: 80%;
+}
+
+.fixed {
+    position: fixed;
+}
+
+
+
+
+/* About Page */
+
+.pic {
+    width: 150px;
+    height: 120px;
 }

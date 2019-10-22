@@ -19,6 +19,9 @@ def home(request):
         return redirect('profile')
     return render(request, 'home/home.html')
 
+def about(request):
+    return render(request, 'home/about.html')
+
 
 @login_required
 def QuestionView(request, test_type, orderId):

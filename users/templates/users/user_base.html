@@ -11,71 +11,104 @@
         <meta http-equiv="x-ua-compatible" content="ie=edge">
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+        <!-- Bootstrap CSS -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+        
+        <!-- Google Fonts -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,800">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
         <!-- Font Awesome -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-        <!-- Bootstrap core CSS -->
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-        <!-- Material Design Bootstrap -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <!-- MDN Bootstrap -->
         <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.10/css/mdb.min.css" rel="stylesheet"> -->
-        <link rel="stylesheet" href="{% static 'home/secondary.css' %}">
+    
         <link rel="stylesheet" href="{% static 'home/styles.css' %}">
+        <link rel="stylesheet" href="{% static 'home/secondary.css' %}">
     </head>
 
     <body>
         <div class="container-fluid">
 
+
             <!--NAVBAR -->
             <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-secondary">
+
+                <!-- Brand -->
                 {% if user.is_authenticated %}
                     <a class="navbar-brand" href="{% url 'profile' %}">HTML Test Prep</a>
                 {% else %}
                     <a class="navbar-brand" href="{% url 'home-homepage' %}">HTML Test Prep</a>
                 {% endif %}
-                
-                
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                    <!-- Nav Links/Dropdown -->
                     <div class="navbar-nav ml-auto">
-                        {% if user.is_authenticated %}
-                            <!-- {% if user.profile.questions_answered.last.originalId == question.objects.last.orderId %}
-                            {% else %}
-                                {% if user.profile.questions_answered.last %}
-                                    <a class="nav-item nav-link text-light" href="/question/{{ user.profile.questions_answered.last.originalOrderId|add:1 }}/">New Question</a>
+                        <ul class="navbar-nav mr-auto">
+                        {% if user.is_authenticated %} 
+                            <li class="nav-item dropdown">
+                                <!-- Dropdown Title -->
+                                {% if 'profile' in request.path %}
+                                    <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                                        Profile
+                                    </a>
+                                {% elif 'Test' in request.path %}
+                                    <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                                        Test
+                                    </a>
                                 {% else %}
-                                    <a class="nav-item nav-link text-light" href="/question/1/">New Question</a>
+                                <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                                    Home
+                                </a>
                                 {% endif %}
-                            {% endif %} -->
-                            <a class="nav-item nav-link text-light" href="{% url 'profile' %}">Profile</a>
-                            <a class="nav-item nav-link text-light" href="{% url 'logout' %}">Logout</a>
+
+                                <!-- Dropdown Links -->
+                                <div id="dropdownMenu" class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item d-flex justify-content-end" href="#">Home</a>
+                                    <a class="dropdown-item d-flex justify-content-end" href="{% url 'profile' %}">Profile</a>
+                                    <a class="dropdown-item d-flex justify-content-end" href="#">Study</a>
+                                    <a class="dropdown-item d-flex justify-content-end" href="{% url 'logout' %}">Logout</a>
+                                </div>
+                            </li>
                         {% else %}
                             <a class="nav-item nav-link text-light" href="{% url 'login' %}">Login</a>
                             <a class="nav-item nav-link text-light" href="{% url 'register' %}">Register</a>
                         {% endif %}
+                        </ul>
                     </div>
                 </div>
             </nav>  
-        </div>
 
         {% block content %}
 
         {% endblock %}
-        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-        <script src="https://kit.fontawesome.com/b4461a4f54.js" crossorigin="anonymous"></script>
-        <!-- JQuery -->
+
+        </div>
+              
+        
+
+
+        
+        <!-- jQuery -->
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <!-- Bootstrap tooltips -->
+
+        <!-- Popper JS -->
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
-        <!-- Bootstrap core JavaScript -->
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        
         <!-- MDB core JavaScript -->
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.10/js/mdb.min.js"></script>
+        <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.10/js/mdb.min.js"></script> -->
+
+        <!-- Bootstrap JS -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+        <!-- Font Awesome JS -->
+        <script src="https://kit.fontawesome.com/b4461a4f54.js" crossorigin="anonymous"></script>
+        
+        <!-- Custom JS -->
         <script src="{% static 'home/main.js' %}"></script>
     </body>
 </html>

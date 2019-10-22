@@ -90,13 +90,19 @@ def profileUpdate(request):
 
 @login_required
 def fullQuestionHistory(request, test_type):
+    userProfile = Profile.objects.filter(user=request.user).first()
     if test_type == 'ALL':
-        questions = Profile.objects.filter(user=request.user).first().questions_answered.all().order_by("copyId")
+        questions = userProfile.questions_answered.all().order_by("copyId")
     else:
-        questions = Profile.objects.filter(user=request.user).first().questions_answered.filter(test_type=test_type).order_by("copyId")
+        questions = userProfile.questions_answered.filter(test_type=test_type).order_by("copyId")
+    user_data = {
+        "correctAnswers": len(questions.filter(answeredCorrectly=True)),
+        "wrongAnswers": len(questions.filter(answeredCorrectly=False)),
+    }
     context = {
         'questions': questions,
-        'test_type': test_type
+        'test_type': test_type,
+        'user_data': user_data
     }
 
     return render(request, 'users/full_question_history.html', context)

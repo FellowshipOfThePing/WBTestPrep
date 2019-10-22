@@ -1,15 +1,29 @@
-{% extends "users/user_base.html" %}
+{% extends "users/nav_base.html" %}
 {% block content %}
 <div class="container mt-0">
     <div id="profileJumbotron" class="jumbotron border border-secondary pb-2 pt-2">
         <div class="container" id="postHistory">
-            <!-- Post History -->
+            
+
+            <!-- Question History -->
             {% if questions %}
                 {% if test_type == 'ALL' %}
                     <legend class="border-bottom pb-2 mt-2 mb-0">Full Question History</legend>
                 {% else %}
                     <legend class="border-bottom pb-2 mt-2 mb-0">Full {{ test_type }} History</legend>
                 {% endif %}
+
+                <!-- Section for Stat Graphics -->
+                <!-- https://docs.djangoproject.com/en/dev/ref/templates/builtins/#std:templatefilter-json_script -->
+                {{ user_data|json_script:"user_data" }}
+                <div class="content-section">
+                    <div class="media">
+                        <div id="my-widget" data-view-mode="tabular">
+                            <canvas id="pieChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
                 {% for question in questions %}
                 <article class="media content-section pt-2">
                 <div class="media-body ml-1 mt-1">

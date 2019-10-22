@@ -1,4 +1,4 @@
-{% extends "users/user_base.html" %}
+{% extends "users/nav_base.html" %}
 {% block content %}
 <div class="container mt-0">
     <div id="profileJumbotron" class="jumbotron border border-secondary pb-2 pt-2">
@@ -31,7 +31,7 @@
             {% if questions %}
                 <legend class="border-bottom pb-2 mt-2 mb-0">Recently Answered Questions</legend>
                 <!-- Text Type NAVBAR -->
-                <nav class="navbar navbar-expand-lg border-bottom mb-3 pt-0 pl-0 pb-0">
+                <nav class="navbar navbar-expand-lg border-bottom mb-3 pt-0 pl-0 pb-0 z-depth-0">
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <div class="navbar-nav mr-auto">
                             <a class="nav-item nav-link testButton pl-3 pr-3" href="{% url 'profile' %}">ALL</a>
@@ -59,7 +59,7 @@
 
                 <!-- Link to Full Question History -->
                 <div>
-                    <legend class="border-bottom pb-2 mt-0 mb-2"><a class="btn btn-outline-info btn-md" href="{% url 'full-question-history' test_type %}">See Full {{ test_type }} History</a></legend>
+                    <legend class="border-bottom pb-2 mt-0 mb-2"><a class="btn btn-outline-info btn-md z-depth-0" href="{% url 'full-question-history' test_type %}">See Full {{ test_type }} History</a></legend>
                 </div>
 
             {% else %}
