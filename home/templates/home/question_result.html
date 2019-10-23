@@ -30,11 +30,11 @@
                 {% endfor %}
                 {% if question.orderId == lastQuestionId %}
                 <div class="container pl-0 pt-3">
-                    <a id="nextPageButton" class="btn btn-primary" href="{% url 'profile' %}" role="button">Back to Profile</a>
+                    <a id="nextPageButton" class="btn btn-outline-primary" href="{% url 'profile' %}" role="button">Back to Profile</a>
                 </div>
                 {% else %}
                 <div class="container pl-0 pt-3">
-                    <a id="nextPageButton" class="btn btn-primary" href="{% url 'question-detail' question.test_type nextQuestion %}" role="button">Next Question</a>
+                    <a id="nextPageButton" class="btn btn-outline-primary" href="{% url 'question-detail' question.test_type nextQuestion %}" role="button">Next Question</a>
                 </div>
                 {% endif %}
             </div>

@@ -4,7 +4,7 @@ from .views import QuestionView, QuestionResultView, SubmitAnswer, QuestionRevie
 from home import views as home_views
 
 urlpatterns = [
-    path('', views.home, name='home-homepage'),
+    path('', views.startpage, name='home-startpage'),
     path('about/', home_views.about, name="about"),
     path('question/<test_type>/<int:orderId>/', QuestionView, name='question-detail'),
     path('question/<test_type>/<int:orderId>/submitAnswer/', SubmitAnswer, name='question-submit'),

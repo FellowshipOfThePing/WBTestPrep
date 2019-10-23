@@ -28,15 +28,15 @@
                             {% endif %}
                         {% endif %}
                     {% endfor %}
-                    <div class="container pl-0 pt-3">
+                    <div class="d-flex justify-content-between pl-0 pt-3">
                         {% if question.copyId != user.profile.questions_answered.first.copyId %}
-                            <a id="lastPageButton" class="btn btn-primary" href="{% url 'question-review' user.username lastQuestion %}" role="button"><</a>
+                            <a id="lastPageButton" class="btn btn-outline-primary" href="{% url 'question-review' user.username lastQuestion %}" role="button"><i class="fas fa-arrow-left"></i></a>
                         {% endif %}
 
-                        <a id="retryButton" class="btn btn-primary mx-auto" href="{% url 'question-detail' question.test_type question.originalOrderId %}" role="button">Retry Question</a>
+                        <a id="retryButton" class="btn btn-outline-primary mx-auto" href="{% url 'question-detail' question.test_type question.originalOrderId %}" role="button">Retry Question</a>
                         
                         {% if question.copyId != user.profile.questions_answered.last.copyId %}
-                            <a id="nextPageButton" class="btn btn-primary" href="{% url 'question-review' user.username nextQuestion %}" role="button">></a>
+                            <a id="nextPageButton" class="btn btn-outline-primary" href="{% url 'question-review' user.username nextQuestion %}" role="button"><i class="fas fa-arrow-right"></i></a>
                         {% endif %}
                     </div>
                 </div>

@@ -27,14 +27,6 @@ body {
     opacity: 0.0;
 } 
 
-.customNav {
-    border-radius: 5px;
-}
-
-.customNav:hover {
-    background: #6c757d;
-    color: #e9ecef;
-}
 
 
 
@@ -119,6 +111,16 @@ body {
     position: fixed;
 }
 
+.customNav {
+    border-radius: 5px;
+    transition: 0s;
+}
+
+.customNav:hover {
+    background: #6c757d;
+    color: #e9ecef;
+    transition: 0s;
+}
 
 
 

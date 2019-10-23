@@ -14,10 +14,10 @@ from .models import Question, QuestionCopy, Choice, ChoiceCopy
 from django.urls import reverse
 
 
-def home(request):
+def startpage(request):
     if request.user.is_authenticated:
         return redirect('profile')
-    return render(request, 'home/home.html')
+    return render(request, 'home/startpage.html')
 
 def about(request):
     return render(request, 'home/about.html')

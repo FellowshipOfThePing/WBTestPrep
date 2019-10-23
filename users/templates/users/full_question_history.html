@@ -15,14 +15,14 @@
 
                 <!-- Section for Stat Graphics -->
                 <!-- https://docs.djangoproject.com/en/dev/ref/templates/builtins/#std:templatefilter-json_script -->
-                {{ user_data|json_script:"user_data" }}
+                <!-- {{ accuracy|json_script:"accuracy" }}
                 <div class="content-section">
                     <div class="media">
                         <div id="my-widget" data-view-mode="tabular">
-                            <canvas id="pieChart"></canvas>
+                            <canvas id="accuracyPieChart"></canvas>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 {% for question in questions %}
                 <article class="media content-section pt-2">

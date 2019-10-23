@@ -31,35 +31,63 @@ def register(request):
 @login_required
 def profile(request):
     userProfile = Profile.objects.filter(user=request.user).first()
-    user_data = {
-        "correctAnswers": userProfile.correctAnswers,
-        "wrongAnswers": userProfile.wrongAnswers,
-    }
     questions = userProfile.questions_answered.all().order_by("-id")
+    accuracy = {
+        "correctAnswers": len(questions.filter(answeredCorrectly=True)),
+        "wrongAnswers": len(questions.filter(answeredCorrectly=False)),
+    }
+    test_distribution = {
+        "ACT_Distro": len(questions.filter(test_type='ACT')),
+        "SAT_Distro": len(questions.filter(test_type='SAT')),
+        "GRE_Distro": len(questions.filter(test_type='GRE')),
+    }
+    subject_distribution = {
+        "Math_Distro": len(questions.filter(subject="Math")),
+        "Reading_Distro": len(questions.filter(subject="Reading")),
+        "Science_Distro": len(questions.filter(subject="Science"))
+    }
+
     context = {
         'questions': questions[:3],
-        'user_data': user_data,
+        'accuracy': accuracy,
+        'test_distribution': test_distribution,
+        'subject_distribution': subject_distribution,
     }
 
     return render(request, 'users/profile.html', context)
 
 
+
 @login_required
 def profileQuestionHistory(request, test_type):
     userProfile = Profile.objects.filter(user=request.user).first()
-    user_data = {
-        "correctAnswers": len(userProfile.questions_answered.filter(test_type=test_type, answeredCorrectly=True)),
-        "wrongAnswers": len(userProfile.questions_answered.filter(test_type=test_type, answeredCorrectly=False)),
-    }
     questions = userProfile.questions_answered.filter(test_type=test_type).order_by("copyId")
+    accuracy = {
+        "correctAnswers": len(questions.filter(answeredCorrectly=True)),
+        "wrongAnswers": len(questions.filter(answeredCorrectly=False)),
+    }
+    test_distribution = {
+        "ACT_Distro": len(questions.filter(test_type='ACT')),
+        "SAT_Distro": len(questions.filter(test_type='SAT')),
+        "GRE_Distro": len(questions.filter(test_type='GRE')),
+    }
+    subject_distribution = {
+        "Math_Distro": len(questions.filter(subject="Math")),
+        "Reading_Distro": len(questions.filter(subject="Reading")),
+        "Science_Distro": len(questions.filter(subject="Science"))
+    }
+
     context = {
         'questions': questions[:3],
         'all_tests': ['ACT', 'SAT', 'GRE'],
         'test_type': str(test_type),
-        'user_data': user_data
+        'accuracy': accuracy,
+        'test_distribution': test_distribution,
+        'subject_distribution': subject_distribution,
     }
 
     return render(request, 'users/profile_question_history.html', context)
+
 
 
 
@@ -88,6 +116,7 @@ def profileUpdate(request):
 
 
 
+
 @login_required
 def fullQuestionHistory(request, test_type):
     userProfile = Profile.objects.filter(user=request.user).first()
@@ -95,14 +124,9 @@ def fullQuestionHistory(request, test_type):
         questions = userProfile.questions_answered.all().order_by("copyId")
     else:
         questions = userProfile.questions_answered.filter(test_type=test_type).order_by("copyId")
-    user_data = {
-        "correctAnswers": len(questions.filter(answeredCorrectly=True)),
-        "wrongAnswers": len(questions.filter(answeredCorrectly=False)),
-    }
     context = {
         'questions': questions,
         'test_type': test_type,
-        'user_data': user_data
     }
 
     return render(request, 'users/full_question_history.html', context)

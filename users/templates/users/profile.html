@@ -15,23 +15,40 @@
             </div>
         </div>
 
-        <!-- Section for Stat Graphics -->
-        {{ user_data|json_script:"user_data" }}
-        <div class="content-section">
-            <div class="media">
+        <!-- Stat Graphics -->
+        {{ accuracy|json_script:"accuracy" }}
+        {{ test_distribution|json_script:"test_distribution" }}
+        {{ subject_distribution|json_script:"subject_distribution" }}
+        <div class="content-section d-none d-lg-block pl-3 pr-3">
+            <hr class="mb-2">
+            <legend class="border-bottom pb-2 mt-0 mb-0">Question History Breakdown</legend>
+            <div class="media d-flex justify-content-between pt-2">
                 <div id="my-widget" data-view-mode="tabular">
-                    <canvas id="pieChart"></canvas>
+                    <h6>Answer Accuracy</h6>
+                    <canvas class="w-33" id="accuracyPieChart"></canvas>
+                </div>
+                <div class="d-none d-xl-block" id="my-widget" data-view-mode="tabular">
+                    <h6>Subject Distribution</h6>
+                    <canvas class="w-33" id="subjectDistroPieChart"></canvas>
+                </div>
+                <div id="my-widget" data-view-mode="tabular">
+                    <h6>Test Type Distribution</h6>
+                    <canvas class="w-33" id="testDistroPieChart"></canvas>
                 </div>
             </div>
+            <div align="right">
+                <legend class="border-bottom pb-2 pt-2 mt-2 mb-2"><a class="btn btn-outline-info btn-md z-depth-0" href="#">See In-Depth Breakdown</a></legend>
+            </div>
         </div>
+
 
         <!-- Question History -->
         <div class="container" id="postHistory">
                 {% if questions %}
                     <legend class="border-bottom pb-2 mt-2 mb-0">Recently Answered Questions</legend>
                     <!-- Text Type NAVBAR -->
-                    <nav class="navbar navbar-expand-lg border-bottom mb-3 pt-0 pl-0 pb-0 z-depth-0">
-                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <nav class="navbar navbar-expand-sm border-bottom mb-3 pt-0 pl-0 pb-0 z-depth-0">
+                            <div>
                                 <div class="navbar-nav mr-auto">
                                     <a class="nav-item nav-link testButtonActive pl-3 pr-3" href="{% url 'profile' %}">ALL</a>
                                     <a class="nav-item nav-link testButton pl-3 pr-3" href="{% url 'profile-question-history' 'ACT' %}">ACT</a>
@@ -53,8 +70,8 @@
                 {% endfor %}
 
                 <!-- Link to Full Question History -->
-                <div>
-                    <legend class="border-bottom pb-2 mt-0 mb-2"><a class="btn btn-outline-info btn-md z-depth-0" href="{% url 'full-question-history' 'ALL' %}">See Full Question History</a></legend>
+                <div align="right">
+                    <legend class="border-bottom d-flex justify-content-center pb-2 mt-0 mb-2"><a class="btn btn-outline-info btn-md z-depth-0" href="{% url 'full-question-history' 'ALL' %}">See Full Question History</a></legend>
                 </div>
 
             {% else %}
