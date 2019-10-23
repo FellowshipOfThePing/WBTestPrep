@@ -66,7 +66,7 @@
                                     </a>
                                 {% else %}
                                 <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
-                                    Home
+                                    Study
                                 </a>
                                 {% endif %}
 
@@ -79,7 +79,7 @@
                                         <span class="mr-auto"><i class="fas fa-user pt-3"></i></span><a href="{% url 'profile' %}"">Profile</a>
                                     </div>
                                     <div class="dropdown-item d-flex customNav">
-                                        <span class="mr-auto"><i class="fas fa-pencil-alt pt-3"></i></span><a href="#">Study</a>
+                                        <span class="mr-auto"><i class="fas fa-pencil-alt pt-3"></i></span><a href="{% url 'study' 'SAT' %}">Study</a>
                                     </div>
                                     <div class="dropdown-item d-flex customNav">
                                         <span class="mr-auto"><i class="fas fa-sign-out-alt pt-3"></i></span><a href="{% url 'logout' %}">Logout</a>
@@ -110,24 +110,22 @@
                                 {% if 'profile' in request.path %}
                                     <h1 class="display-4">Profile</h1>
                                     <p class="lead">Profile description text blah blah blah.</p>
-                                {% elif 'question' in request.path %}
-                                    <h1 class="display-4">Rapid Fire</h1>
-                                    <p class="lead">Rapid Fire description text blah blah blah.</p>
                                 {% elif 'about' in request.path %}
                                     <h1 class="display-4">About</h1>
                                     <p class="lead">About Us description text blah blah blah.</p>
                                 {% elif 'questionCopy' in request.path %}
                                     <h1 class="display-4">Question Review</h1>
                                     <p class="lead">Question Review description text blah blah blah.</p>
+                                {% elif 'question' in request.path %}
+                                    <h1 class="display-4">Quiz Questions</h1>
+                                    <p class="lead">Rapid Fire description text blah blah blah.</p>
                                 {% else %}
-                                    <h1 class="display-4">Else?</h1>
+                                    <h1 class="display-4">Study</h1>
                                     <p class="lead">About Us description text blah blah blah.</p>
-                                    {% endif %}
+                                {% endif %}
                                 <nav class="nav flex-column">
-                                    <a class="nav-link customNav" href="#">Home</a>
+                                    <a class="nav-link customNav" href="{% url 'study' 'SAT' %}">Study</a>
                                     <a class="nav-link customNav" href="{% url 'profile' %}">Profile</a>
-                                    <a class="nav-link customNav" href="#">Practice Test</a>
-                                    <a class="nav-link customNav" href="{% url 'question-detail' 'SAT' 1 %}">Rapid Fire</a>
                                     <a class="nav-link customNav" href="#">Stats</a>
                                     <a class="nav-link customNav" href="{% url 'about' %}">About Us</a>
                                 </nav>

@@ -22,6 +22,16 @@ def startpage(request):
 def about(request):
     return render(request, 'home/about.html')
 
+def study(request, test_type):
+    newQuiz = request.user.profile.questions_answered.last().originalOrderId + 1
+    if newQuiz is None:
+        newQuiz = 1
+    context = {
+        'test_type': test_type,
+        'newQuiz': newQuiz
+    }
+    return render(request, 'home/study.html', context)
+
 
 @login_required
 def QuestionView(request, test_type, orderId):

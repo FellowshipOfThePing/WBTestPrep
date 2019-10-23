@@ -6,6 +6,7 @@ from home import views as home_views
 urlpatterns = [
     path('', views.startpage, name='home-startpage'),
     path('about/', home_views.about, name="about"),
+    path('study/<test_type>/', home_views.study, name="study"),
     path('question/<test_type>/<int:orderId>/', QuestionView, name='question-detail'),
     path('question/<test_type>/<int:orderId>/submitAnswer/', SubmitAnswer, name='question-submit'),
     path('question/<test_type>/<int:orderId>/result/', QuestionResultView, name='question-result'),
