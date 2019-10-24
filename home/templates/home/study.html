@@ -1,9 +1,9 @@
 {% extends "home/nav_base.html" %}
 {% block content %}
 <div class="container-fluid">
-    <div class="jumbotron border border-secondary pt-4">
+    <div class="jumbotron border border-secondary pt-4 pb-1">
         <div class="content-section">
-            <div class="media pt-3 pb-2">
+            <div class="media pt-1 pb-2">
                 <div class="media-body ml-2">
                     <h2>Human Learning through Machine Learning</h2>
                     <p class="text-secondary mb-2">Every time you answer a
@@ -84,7 +84,7 @@
                 </div>
 
                 <!-- CARDS -->
-                <div class="row mt-2">
+                <div class="row mt-3">
                     <div class="col-md d-flex">
                         <div class="card mb-4 border border-secondary test"  style="transform: rotate(0);">
                             <a href="{% url 'question-detail' test_type newQuiz %}" class=stretched-link">
@@ -113,7 +113,7 @@
                     </div>
                     <div class="col-md d-flex">
                         <div class="card mb-4 border border-secondary test" style="transform: rotate(0);">
-                            <a href="#" class=stretched-link">
+                            <a href="{% url 'stats' test_type 'ALL' %}" class=stretched-link">
                                 <div class="card-body text-center" >
                                     <h5 class="card-title">Question History/Feedback</h5>
                                     <p class="card-text">Review questions you've answered in the past. View profile statistics and recommendations.</p>

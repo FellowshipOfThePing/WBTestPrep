@@ -22,22 +22,22 @@
         <div class="content-section d-none d-lg-block pl-3 pr-3">
             <hr class="mb-2">
             <legend class="border-bottom pb-2 mt-0 mb-0">Question History Breakdown</legend>
-            <div class="media d-flex justify-content-between pt-2">
-                <div id="my-widget" data-view-mode="tabular">
+            <div class="row pt-3">
+                <div class="col-md-6 col-lg-4" id="my-widget" data-view-mode="tabular">
                     <h6>Answer Accuracy</h6>
-                    <canvas class="w-33" id="accuracyPieChart"></canvas>
+                    <canvas id="accuracyPieChart"></canvas>
                 </div>
-                <div class="d-none d-xl-block" id="my-widget" data-view-mode="tabular">
+                <div class="col-md-6 col-lg-4" id="my-widget" data-view-mode="tabular">
                     <h6>Subject Distribution</h6>
-                    <canvas class="w-33" id="subjectDistroPieChart"></canvas>
+                    <canvas id="subjectDistroPieChart"></canvas>
                 </div>
-                <div id="my-widget" data-view-mode="tabular">
+                <div class="col-md-auto col-lg-4" id="my-widget" data-view-mode="tabular">
                     <h6>Test Type Distribution</h6>
-                    <canvas class="w-33" id="testDistroPieChart"></canvas>
+                    <canvas id="testDistroPieChart"></canvas>
                 </div>
             </div>
             <div align="right">
-                <legend class="border-bottom pb-2 pt-2 mt-2 mb-2"><a class="btn btn-outline-info btn-md z-depth-0" href="#">See In-Depth Breakdown</a></legend>
+                <legend class="border-bottom pb-2 pt-2 mt-2 mb-2"><a class="btn btn-outline-info btn-sm z-depth-0" href="{% url 'stats' 'ALL' 'ALL' %}">See In-Depth Breakdown</a></legend>
             </div>
         </div>
 
@@ -71,7 +71,7 @@
 
                 <!-- Link to Full Question History -->
                 <div align="right">
-                    <legend class="border-bottom d-flex justify-content-center pb-2 mt-0 mb-2"><a class="btn btn-outline-info btn-md z-depth-0" href="{% url 'full-question-history' 'ALL' %}">See Full Question History</a></legend>
+                    <legend class="border-bottom d-flex justify-content-center pb-2 mt-0 mb-0"><a class="btn btn-outline-info btn-sm z-depth-0" href="{% url 'full-question-history' 'ALL' %}">See Full Question History</a></legend>
                 </div>
 
             {% else %}

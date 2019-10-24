@@ -32,6 +32,13 @@ def study(request, test_type):
     }
     return render(request, 'home/study.html', context)
 
+def stats(request, test_type, subject):
+    context = {
+        "test_type": test_type,
+        "subject": subject
+    }
+    return render(request, 'home/stats.html', context)
+
 
 @login_required
 def QuestionView(request, test_type, orderId):

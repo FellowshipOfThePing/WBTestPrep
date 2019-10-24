@@ -24,8 +24,8 @@
     <!-- MDN Bootstrap -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.10/css/mdb.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="{% static 'home/styles.css' %}">
-    <link rel="stylesheet" href="{% static 'home/secondary.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'home/css/styles.css' %}"> -->
+    <link rel="stylesheet" href="{% static 'home/css/secondary.css' %}">
 </head>
 
 
@@ -51,6 +51,7 @@
                         <ul class="navbar-nav mr-auto">
                         {% if user.is_authenticated %} 
                             <li class="nav-item dropdown">
+                                
                                 <!-- Dropdown Title -->
                                 {% if 'profile' in request.path %}
                                     <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
@@ -64,6 +65,10 @@
                                     <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
                                         Study
                                     </a>
+                                {% elif 'stats' in request.path %}
+                                    <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                                        Stats
+                                    </a>
                                 {% else %}
                                 <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
                                     Study
@@ -73,16 +78,16 @@
                                 <!-- Dropdown Links -->
                                 <div id="dropdownMenu" class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <div class="dropdown-item d-flex customNav">
-                                        <span class="mr-auto"><i class="fas fa-home pt-3"></i></span><a href="#">Home</a>
+                                        <span class="mr-auto"><i class="fas fa-pencil-alt dropDownNavItem"></i></span><a class="pr-1" href="{% url 'study' 'SAT' %}">Study</a>
                                     </div>
                                     <div class="dropdown-item d-flex customNav">
-                                        <span class="mr-auto"><i class="fas fa-user pt-3"></i></span><a href="{% url 'profile' %}"">Profile</a>
+                                        <span class="mr-auto"><i class="fas fa-user dropDownNavItem"></i></span><a class="pr-1" href="{% url 'profile' %}"">Profile</a>
                                     </div>
                                     <div class="dropdown-item d-flex customNav">
-                                        <span class="mr-auto"><i class="fas fa-pencil-alt pt-3"></i></span><a href="{% url 'study' 'SAT' %}">Study</a>
+                                        <span class="mr-auto"><i class="far fa-chart-bar dropDownNavItem"></i></span><a class="pr-1" href="{% url 'stats' 'ALL' 'ALL' %}">Stats</a>
                                     </div>
                                     <div class="dropdown-item d-flex customNav">
-                                        <span class="mr-auto"><i class="fas fa-sign-out-alt pt-3"></i></span><a href="{% url 'logout' %}">Logout</a>
+                                        <span class="mr-auto"><i class="fas fa-sign-out-alt dropDownNavItem"></i></span><a class="pr-1" href="{% url 'logout' %}">Logout</a>
                                     </div>
                                 </div>
                             </li>
@@ -102,7 +107,7 @@
         <main>
             <div class="container-fluid">
                 <div class="row">
-                    <!-- SIDEBAR Column -->
+                    <!-- SIDEBAR NAV Column -->
                     <div class="col-lg-4 col-lg-offset-1 sidebar-outer">
                         <div class="fixed col-lg-4">
                             <div id="navJumbo" class="jumbotron border border-secondary d-none d-lg-block pt-4">
@@ -119,6 +124,9 @@
                                 {% elif 'question' in request.path %}
                                     <h1 class="display-4">Quiz Questions</h1>
                                     <p class="lead">Rapid Fire description text blah blah blah.</p>
+                                {% elif 'stats' in request.path %}
+                                    <h1 class="display-4">Stats</h1>
+                                    <p class="lead">Rapid Fire description text blah blah blah.</p>
                                 {% else %}
                                     <h1 class="display-4">Study</h1>
                                     <p class="lead">About Us description text blah blah blah.</p>
@@ -126,7 +134,7 @@
                                 <nav class="nav flex-column">
                                     <a class="nav-link customNav" href="{% url 'study' 'SAT' %}">Study</a>
                                     <a class="nav-link customNav" href="{% url 'profile' %}">Profile</a>
-                                    <a class="nav-link customNav" href="#">Stats</a>
+                                    <a class="nav-link customNav" href="{% url 'stats' 'ALL' 'ALL' %}">Stats</a>
                                     <a class="nav-link customNav" href="{% url 'about' %}">About Us</a>
                                 </nav>
                             </div>
@@ -162,6 +170,9 @@
     <script src="https://kit.fontawesome.com/b4461a4f54.js" crossorigin="anonymous"></script>
     
     <!-- Custom JS -->
-    <script src="{% static 'home/main.js' %}"></script>
+    <!-- <script src="{% static 'home/css/main.js' %}"></script> -->
+    <script src="{% static 'home/js/profile.js' %}"></script>
+    <script src="{% static 'home/js/question.js' %}"></script>
+    <script src="{% static 'home/js/stats.js' %}"></script>
 </body>
 </html>
