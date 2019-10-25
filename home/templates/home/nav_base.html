@@ -37,7 +37,7 @@
 
                 <!-- Brand -->
                 {% if user.is_authenticated %}
-                    <a class="navbar-brand" href="{% url 'profile' %}">HTML Test Prep<i class="fas fa-graduation-cap ml-2"></i></a>
+                    <a class="navbar-brand" href="{% url 'profile' 'ALL' %}">HTML Test Prep<i class="fas fa-graduation-cap ml-2"></i></a>
                 {% else %}
                     <a class="navbar-brand" href="{% url 'home-homepage' %}">HTML Test Prep</a>
                 {% endif %}
@@ -81,7 +81,7 @@
                                         <span class="mr-auto"><i class="fas fa-pencil-alt dropDownNavItem"></i></span><a class="pr-1" href="{% url 'study' 'SAT' %}">Study</a>
                                     </div>
                                     <div class="dropdown-item d-flex customNav">
-                                        <span class="mr-auto"><i class="fas fa-user dropDownNavItem"></i></span><a class="pr-1" href="{% url 'profile' %}"">Profile</a>
+                                        <span class="mr-auto"><i class="fas fa-user dropDownNavItem"></i></span><a class="pr-1" href="{% url 'profile' 'ALL' %}"">Profile</a>
                                     </div>
                                     <div class="dropdown-item d-flex customNav">
                                         <span class="mr-auto"><i class="far fa-chart-bar dropDownNavItem"></i></span><a class="pr-1" href="{% url 'stats' 'ALL' 'ALL' %}">Stats</a>
@@ -133,7 +133,7 @@
                                 {% endif %}
                                 <nav class="nav flex-column">
                                     <a class="nav-link customNav" href="{% url 'study' 'SAT' %}">Study</a>
-                                    <a class="nav-link customNav" href="{% url 'profile' %}">Profile</a>
+                                    <a class="nav-link customNav" href="{% url 'profile' 'ALL' %}">Profile</a>
                                     <a class="nav-link customNav" href="{% url 'stats' 'ALL' 'ALL' %}">Stats</a>
                                     <a class="nav-link customNav" href="{% url 'about' %}">About Us</a>
                                 </nav>

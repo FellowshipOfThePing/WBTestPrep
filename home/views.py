@@ -32,12 +32,85 @@ def study(request, test_type):
     }
     return render(request, 'home/study.html', context)
 
+
+
+
+
 def stats(request, test_type, subject):
+    # Default Iterables
+    TEST_TYPES = ['ALL', 'SAT', 'ACT', 'GRE']
+    SUBJECTS = ['Math', 'Reading', 'Science', 'English', 'Quantitative', 'Verbal']
+
+    # Setting Iterables
+    if test_type == 'ALL':
+        questions = request.user.profile.questions_answered.all()
+    elif test_type == 'SAT':
+        questions = request.user.profile.questions_answered.filter(test_type=test_type).all()
+        SUBJECTS = ['Math', 'Reading']
+    elif test_type == 'ACT':
+        questions = request.user.profile.questions_answered.filter(test_type=test_type).all()
+        SUBJECTS = ['Science', 'English']
+    else:
+        questions = request.user.profile.questions_answered.filter(test_type=test_type).all()
+        SUBJECTS = ['Quantitative', 'Verbal']
+
+
+    # ------- Filtering by Test ------- #
+    by_test = {
+        # Answer Accuracy (Pie)
+        'questionsCorrect': len(questions.filter(answeredCorrectly=True).all()),
+        'questionsWrong': len(questions.filter(answeredCorrectly=False).all()),
+
+        # Subject Distribution (Bar)
+        'subjectDistribution': [len(questions.filter(subject=s).all()) for s in SUBJECTS],
+
+        # Accuracy Over Time (Line)
+        'improvementDates': [question.date_answered for question in questions],
+        'improvementNodes': [question.currentUserAccuracy for question in questions]
+    }
+
+
+    # ------- Filtering by Subject ------- #
+    questionsBySubject = questions.filter(subject=subject).all()
+
+    by_subject = {
+        # Total Accuracy (Pie)
+        'questionsCorrect': len(questionsBySubject.filter(answeredCorrectly=True).all()),
+        'questionsWrong': len(questionsBySubject.filter(answeredCorrectly=False).all()),
+
+        # Accuracy Over Time (Line)
+        'improvementDates': [question.date_answered for question in questionsBySubject],
+        'improvementNodes': [question.currentUserAccuracy for question in questionsBySubject]
+
+        # Recommendations (Placeholder for Now) (Bar)
+    }
+
+    test_dict = {
+        'ALL': ['Math', 'Reading', 'Science', 'English', 'Quantitative', 'Verbal'],
+        'SAT': ['Math', 'Reading'],
+        'ACT': ['Science', 'English'],
+        'GRE': ['Quantitative', 'Verbal']
+    }
+
+    question_info = {
+        "all_subjects": SUBJECTS
+    }
+
     context = {
         "test_type": test_type,
-        "subject": subject
+        "subject": subject,
+        "by_test": by_test,
+        "by_subject": by_subject,
+        "all_subjects": SUBJECTS,
+        "test_dict": test_dict
     }
+
+
     return render(request, 'home/stats.html', context)
+
+
+
+
 
 
 @login_required
@@ -56,7 +129,10 @@ def QuestionView(request, test_type, orderId):
 
 @login_required
 def SubmitAnswer(request, test_type, orderId):
+    # Get Original Version of Question Answered
     question = get_object_or_404(Question, test_type=test_type, orderId=orderId)
+
+    # Retrieve answer submitted, if none, return 404
     try:
         selected_choice = question.choices.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):
@@ -65,28 +141,46 @@ def SubmitAnswer(request, test_type, orderId):
             'question': question,
             'error_message': 'You didn\'t selection an answer',
         })
+
+    
+    # If submission is successful
     else:
         student = request.user.profile
+
+        # copy origin Question to store in profile.questions_answered
+        newChoiceList = question.choices.all()
+        questionCopy = QuestionCopy.create(request.user.profile, question.test_type, question.subject, question.title, question.title, question.image, question.hint,
+            question.orderId)
+        questionCopy.save()
+
+        # Modify user profile fields to reflect new question submission
         if selected_choice.correct:
             student.correctAnswers += 1
             student.save()
-            correct = True
+            questionCopy.answeredCorrectly = True
+            questionCopy.numberCorrectOfType += 1
         else:
             student.wrongAnswers += 1
             student.save()
-            correct = False
-        newChoiceList = question.choices.all()
-        questionCopy = QuestionCopy.create(request.user.profile, question.test_type, question.subject, question.title, question.title, question.image, question.hint,
-            question.orderId, correct)
-        questionCopy.save()
+            questionCopy.answeredCorrectly = False
+            questionCopy.numberWrongOfType += 1
+
+        # Copy original question choices to store in questionCopy foreignkey
         for i, choice in enumerate(newChoiceList):
             if choice == selected_choice:
                 answerIndex = i + 1
             newChoice = ChoiceCopy.create(choice.choice_text, questionCopy, choice.correct)
             newChoice.save()
+
+        # Modify questionCopy userAccury fields
         questionCopy.userAnswer = answerIndex
+        numberRight = questionCopy.numberCorrectOfType
+        numberWrong = questionCopy.numberWrongOfType
+        questionCopy.currentUserAccuracy = 100 * (numberRight / (numberRight + numberWrong))
         questionCopy.save()
         student.questions_answered.add(questionCopy)
+
+        # return result view
         return HttpResponseRedirect(reverse('question-result', kwargs={'test_type': question.test_type, 'orderId': questionCopy.originalOrderId}))
 
 

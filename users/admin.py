@@ -15,7 +15,7 @@ ChoiceCopy = apps.get_model('home', 'ChoiceCopy')
 
 class QuestionCopyInline(admin.TabularInline):
     model = QuestionCopy
-    exclude = ['subject', 'prompt', 'image', 'hint', 'date_answered']
+    exclude = ['prompt', 'image', 'hint', 'date_answered']
     extra = 0
 
 class ProfileAdmin(admin.ModelAdmin):

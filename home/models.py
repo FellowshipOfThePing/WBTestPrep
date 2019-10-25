@@ -7,7 +7,12 @@ from django.contrib import admin
 
 
 class Question(models.Model):   
-    subject = models.CharField(max_length=100)
+    SUBJECTS = {
+        ('Math', 'Math'),
+        ('Reading', 'Reading'),
+        ('Science', 'Science'),
+    }
+    subject = models.CharField(max_length=7, choices=SUBJECTS, default='Math')
     TEST_TYPES = [
         ('ACT', 'ACT'),
         ('SAT', 'SAT'),
@@ -63,7 +68,12 @@ class QuestionCopy(models.Model):
         ('GRE', 'GRE'),
     ]
     test_type = models.CharField(max_length=3, choices=TEST_TYPES, default='SAT')
-    subject = models.CharField(max_length=100)
+    SUBJECTS = {
+        ('Math', 'Math'),
+        ('Reading', 'Reading'),
+        ('Science', 'Science'),
+    }
+    subject = models.CharField(max_length=7, choices=SUBJECTS, default='Math')
     title = models.CharField(max_length=100)
     prompt = models.TextField()
     image = models.ImageField(default=None, upload_to='question_images')
@@ -75,11 +85,14 @@ class QuestionCopy(models.Model):
     originalOrderId = models.IntegerField(default=0)
     userAnswer = models.IntegerField(default=0)
     answeredCorrectly = models.BooleanField(default=False)
+    numberCorrectOfType = models.IntegerField(default=0)
+    numberWrongOfType = models.IntegerField(default=0)
+    currentUserAccuracy = models.FloatField(default=0.0)
 
     @classmethod
-    def create(cls, profile, test_type, subject, title, prompt, image, hint, originalOrderId, answeredCorrectly):
+    def create(cls, profile, test_type, subject, title, prompt, image, hint, originalOrderId):
         questionCopy = cls(profile=profile, test_type=test_type, subject=subject, title=title, prompt=prompt, image=image, 
-            hint=hint, originalOrderId=originalOrderId, answeredCorrectly=answeredCorrectly)
+            hint=hint, originalOrderId=originalOrderId)
         return questionCopy
         
     def __str__(self):
@@ -94,6 +107,11 @@ class QuestionCopy(models.Model):
                 self.copyId = self.profile.questions_answered.last().copyId + 1
             else:
                 self.copyId = 1
+            lastQuestion = self.profile.questions_answered.filter(subject=self.subject, test_type=self.test_type).last()
+            if lastQuestion:
+                self.numberCorrectOfType = lastQuestion.numberCorrectOfType
+                self.numberWrongOfType = lastQuestion.numberWrongOfType
+
 
         super(QuestionCopy, self).save(*args, **kwargs)
 

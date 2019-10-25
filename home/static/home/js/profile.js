@@ -1,11 +1,11 @@
-// // ----------- Profile JS ------------- 
+// // // ----------- Profile JS ------------- 
 
 
-// // Statistics Charts
+// // // Statistics Charts
 
-// // https://mdbootstrap.com/docs/jquery/javascript/charts/
+// // // https://mdbootstrap.com/docs/jquery/javascript/charts/
 
-// // Right/Wrong Answers
+// // // Right/Wrong Answers
 // var accuracy = JSON.parse(document.getElementById('accuracy').textContent);
 
 // var ctxP = document.getElementById("accuracyPieChart").getContext('2d');

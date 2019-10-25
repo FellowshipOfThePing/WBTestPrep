@@ -29,29 +29,43 @@ def register(request):
 
 
 @login_required
-def profile(request):
+def profile(request, test_type):
+    TEST_TYPES = ['ALL', 'SAT', 'ACT', 'GRE']
     userProfile = Profile.objects.filter(user=request.user).first()
-    questions = userProfile.questions_answered.all().order_by("-id")
-    accuracy = {
-        "correctAnswers": len(questions.filter(answeredCorrectly=True)),
-        "wrongAnswers": len(questions.filter(answeredCorrectly=False)),
+    # Setting Iterables
+    if test_type == 'ALL':
+        questions = userProfile.questions_answered.all()
+    else:
+        questions = userProfile.questions_answered.filter(test_type=test_type).all()
+
+    test_dict = {
+        'ALL': ['Math', 'Reading', 'Science', 'English', 'Quantitative', 'Verbal'],
+        'SAT': ['Math', 'Reading'],
+        'ACT': ['Science', 'English'],
+        'GRE': ['Quantitative', 'Verbal']
     }
-    test_distribution = {
-        "ACT_Distro": len(questions.filter(test_type='ACT')),
-        "SAT_Distro": len(questions.filter(test_type='SAT')),
-        "GRE_Distro": len(questions.filter(test_type='GRE')),
-    }
-    subject_distribution = {
-        "Math_Distro": len(questions.filter(subject="Math")),
-        "Reading_Distro": len(questions.filter(subject="Reading")),
-        "Science_Distro": len(questions.filter(subject="Science"))
+
+    by_test = {
+        # Answer Accuracy (Pie)
+        'questionsCorrect': len(questions.filter(answeredCorrectly=True).all()),
+        'questionsWrong': len(questions.filter(answeredCorrectly=False).all()),
+
+        # Subject Distribution (Bar)
+        'subjectDistribution': [len(questions.filter(subject=s).all()) for s in test_dict[test_type]],
+
+        # Accuracy Over Time (Line)
+        'improvementDates': [question.date_answered for question in questions],
+        'improvementNodes': [question.currentUserAccuracy for question in questions]
     }
 
     context = {
         'questions': questions[:3],
-        'accuracy': accuracy,
-        'test_distribution': test_distribution,
-        'subject_distribution': subject_distribution,
+        'by_test': by_test,
+        'all_tests': TEST_TYPES,
+        'test_type': test_type
+        # 'accuracy': accuracy,
+        # 'test_distribution': test_distribution,
+        # 'subject_distribution': subject_distribution,
     }
 
     return render(request, 'users/profile.html', context)
@@ -100,7 +114,7 @@ def profileUpdate(request):
             u_form.save()
             p_form.save()
         messages.success(request, f'Your account has been updated')
-        return redirect('profile')
+        return redirect('profile', test_type='ALL')
 
     else:
         u_form = UserUpdateForm(instance=request.user)
@@ -109,7 +123,6 @@ def profileUpdate(request):
     context = {
         'u_form': u_form,
         'p_form': p_form,
-        'all_tests': ['ACT', 'SAT', 'GRE'],
     }
 
     return render(request, 'users/update_profile.html', context)

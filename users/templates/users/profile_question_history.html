@@ -40,7 +40,6 @@
 
         <!-- Question History -->
         <div class="container" id="postHistory">
-            {% if questions %}
                 <legend class="border-bottom pb-2 mt-2 mb-0">Recently Answered Questions</legend>
                 <!-- Text Type NAVBAR -->
                 <nav class="navbar navbar-expand-sm border-bottom mb-3 pt-0 pl-0 pb-0 z-depth-0">
@@ -57,12 +56,12 @@
                         </div>
                     </div>
                 </nav>
-
+            {% if questions %}
                 <!-- List of Questions -->
                 {% for question in questions %}
                     <article class="media content-section">
                     <div class="media-body ml-1 mt-1">
-                        <h5><a class="article-title" href="{% url 'question-review' user.username question.copyId %}">{{ question.title }}</a></h2>
+                        <h5><a class="article-title" href="{% url 'question-review' user.username question.copyId %}">{{ question.title }}</a><span>  {{ question.answeredCorrectly }}</span></h2>
                         <img class="article-content" src="{{ question.image.url }}" width="200" height="150">
                         <hr class="mb-3">
                     </div>
@@ -77,7 +76,7 @@
             {% else %}
                 <!-- Starting Place -->
                 <hr class="mb-4">
-                <legend class="border-bottom mb-4">You haven't answered any questions yet. <a class="text-secondary mb-0" href="{% url 'question-detail' 'SAT' 1 %}">Get Started<a/></legend>
+                <legend class="border-bottom mb-4">You haven't answered any questions yet. <a class="text-secondary mb-0" href="{% url 'question-detail' test_type 1 %}">Get Started<a/></legend>
             {% endif %}
         </div>
     </div>

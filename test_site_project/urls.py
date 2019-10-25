@@ -11,9 +11,9 @@ urlpatterns = [
     path('register/', user_views.register, name="register"),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name="login"),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name="logout"),
-    path('profile/', user_views.profile, name="profile"),
     path('profile/update/', user_views.profileUpdate, name="profile-update"),
-    path('profile/<test_type>/', user_views.profileQuestionHistory, name="profile-question-history"),
+    path('profile/<test_type>/', user_views.profile, name="profile"),
+    # path('profile/<test_type>/', user_views.profileQuestionHistory, name="profile-question-history"),
     path('profile/<test_type>/history/', user_views.fullQuestionHistory, name="full-question-history"),
 ]
 
