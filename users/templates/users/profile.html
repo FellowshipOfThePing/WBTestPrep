@@ -1,9 +1,11 @@
 {% extends "home/nav_base.html" %}
 {% block content %}
 <div class="container-fluid">
+
+    <!-- Profile Jumbotron -->
     <div id="profileJumbotron" class="jumbotron border border-secondary pb-2 pt-2">
 
-        <!-- Profile Header -->
+        <!-- Username, profile picture, email, and settings link -->
         <div class="content-section">
             <div class="media pt-3 pb-2">
                 <img class="rounded-circle account-img pl-3 pr-3 pt-2 pb-1" src="{{ user.profile.image.url }}">
@@ -15,13 +17,28 @@
             </div>
         </div>
 
-        <!-- Stat Graphics -->
+        <!-- Statistics Scripts -->
         {{ by_test|json_script:"by_test" }}
         {{ by_subject|json_script:"by_subject" }}
         {{ question_info|json_script:"question_info" }}
+
+        <!-- Statistics Graphics -->
         <div class="content-section d-none d-lg-block pt-2 pl-3 pr-3">
             <hr class="mb-2">
-            <legend class="border-bottom pb-2 mt-0 mb-0">Question History Breakdown</legend>
+            <h4 class="mt-2 ml-1 mb-2">Question History Breakdown</h4>
+            <ul class="nav nav-tabs">
+                {% for test in all_tests %}
+                    {% if test == test_type %}
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'profile' test %}">{{ test }}</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'profile' test %}">{{ test }}</a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
             <div class="row pt-2">
                 <div class="col-md-6 col-lg-4" id="my-widget" data-view-mode="tabular">
                     <h6>Answer Accuracy</h6>
@@ -36,6 +53,8 @@
                     <canvas id="recommendationsBar"></canvas>
                 </div>
             </div>
+
+            <!-- Link to Stats Page -->
             <div align="right">
                 <legend class="border-bottom pb-2 pt-2 mt-2 mb-2"><a class="btn btn-outline-info btn-sm z-depth-0" href="{% url 'stats' test_type 'ALL' %}">See In-Depth Breakdown</a></legend>
             </div>
@@ -44,22 +63,10 @@
 
         <!-- Question History -->
         <div class="container" id="postHistory">
-            <h4 class="mt-3 ml-1">Recently Answered Questions</h4>
+            <h4 class="mt-2 ml-1">Recently Answered Questions</h4>
             <div class="pt-2 pb-2">
-                <ul class="nav nav-tabs">
-                    {% for test in all_tests %}
-                        {% if test == test_type %}
-                        <li class="nav-item">
-                            <a class="nav-link active" href="{% url 'profile' test %}">{{ test }}</a>
-                        </li>
-                        {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'profile' test %}">{{ test }}</a>
-                        </li>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
             {% if questions %}
+
                 <!-- List of Questions -->
                 {% for question in questions %}
                     <article class="media content-section pt-2">
@@ -73,7 +80,7 @@
 
                 <!-- Link to Full Question History -->
                 <div align="right">
-                    <legend class="border-bottom d-flex justify-content-center pb-2 mt-0 mb-0"><a class="btn btn-outline-info btn-sm z-depth-0" href="{% url 'full-question-history' 'ALL' %}">See Full Question History</a></legend>
+                    <legend class="border-bottom d-flex justify-content-center pb-2 mt-0 mb-0"><a class="btn btn-outline-info btn-sm z-depth-0" href="{% url 'full-question-history' test_type %}">See Full Question History</a></legend>
                 </div>
 
             {% else %}
@@ -83,10 +90,14 @@
                 <legend class="border-bottom mb-4">You haven't answered any questions yet. <a class="text-secondary mb-0" href="{% url 'study' 'SAT' %}">Get Started<a/></legend>
                 {% else %}
                 <hr class="mb-4">
-                <legend class="border-bottom mb-4">You haven't answered any {{ test_type }} questions yet. <a class="text-secondary mb-0" href="{% url 'study' test_type %}">Get Started<a/></legend>
+                <legend class="border-bottom mb-4">You haven't answered any {{ test_type }} questions yet. <a class="text-secondary mb-0" href="{% url 'question-detail' test_type 1 %}">Get Started<a/></legend>
                 {% endif %}
             {% endif %}
         </div>
+        <!--/ Question History -->
+
     </div>
+    <!--/ Profile Jumbotron -->
+    
 </div>
 {% endblock content %}

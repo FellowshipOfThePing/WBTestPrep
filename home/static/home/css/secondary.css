@@ -118,6 +118,7 @@ body {
 .customNav {
     border-radius: 5px;
     transition: 0s;
+    transform: rotate(0);
 }
 
 .customNav:hover {

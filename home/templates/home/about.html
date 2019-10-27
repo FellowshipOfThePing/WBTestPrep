@@ -1,49 +1,66 @@
 {% extends "home/nav_base.html" %}
 {% block content %}
 <div class="container-fluid">
-        <div class="jumbotron border border-secondary pt-4">
-                <div class="content-section">
-                    <div class="media pt-3 pb-2">
-                        <div class="media-body ml-2">
-                            <h1>Welcome to HTML Test Prep</h1>
-                            <p class="lead text-secondary mb-2">We are a small group of passionate programmers and educators, dedicating our time and effort
-                                towards providing quality tools to help students world wide.                                
-                            </p>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="pt-3 pb-2">
-                        <h2 class="pb-4">Meet Our Team</h2> 
-                        <div class="media pt-2 pb-5">
-                            <img class="rounded-circle account-img pl-3 pr-3 pt-2 pb-1 pic" src="Headshots/Face1.jpg">
-                            <div class="media-body ml-2">
-                                <h2 class="account-heading pt-3 pb-1">Angela Martin, CEO</h2>
-                                <p class="text-secondary mb-2">“IT'S NOT MY FAULT I WAS EXPOSED TO HARRY POTTER.”</p>
-                            </div>
-                        </div>
-                        <div class="media pt-3 pb-5">
-                            <img class="rounded-circle account-img pl-3 pr-3 pt-2 pb-1 pic" src="Headshots/Face2.jpg">
-                            <div class="media-body ml-2">
-                                <h2 class="account-heading pt-3 pb-1">Pam Beasley, COO</h2>
-                                <p class="text-secondary mb-2">“I feel god in this Chili's tonight.”</p>
-                            </div>
-                        </div>
-                        <div class="media pt-3 pb-5">
-                            <img class="rounded-circle account-img pl-3 pr-3 pt-2 pb-1 pic" src="Headshots/Face3.jpg">
-                            <div class="media-body ml-2">
-                                <h2 class="account-heading pt-3 pb-1">Micheal Scott, CFO</h2>
-                                <p class="text-secondary mb-2">“Sometimes I’ll start a sentence, and I don’t even know where it’s going. I just hope I find it along the way.”</p>
-                            </div>
-                        </div>
-                        <div class="media pt-3 pb-5">
-                            <img class="rounded-circle account-img pl-3 pr-3 pt-2 pb-1 pic" src="Headshots/Face5.jpg">
-                            <div class="media-body ml-2">
-                                <h2 class="account-heading pt-3 pb-1">Stanley Hudson, Chief of Sales</h2>
-                                <p class="text-secondary mb-2">“Did I stutter?”</p>
-                            </div>
-                        </div>
-                    </div>
+
+    <!-- 'About' Jumbotron -->
+    <div class="jumbotron border border-secondary pt-4">
+        <div class="content-section">
+
+            <!-- Page Title and Description -->
+            <div class="media pt-3 pb-2">
+                <div class="media-body ml-2">
+                    <h1>Welcome to HTML Test Prep</h1>
+                    <p class="lead text-secondary mb-2">We are a small group of passionate programmers and educators, dedicating our time and effort
+                        towards providing quality tools to help students world wide.                                
+                    </p>
                 </div>
             </div>
+            <!--/ Page Title and Description -->
+
+            <hr>
+
+            <!-- Personnel List -->
+            <div class="pt-3 pb-2">
+
+                <!-- Heading -->
+                <h2 class="pb-4 ml-2">Meet Our Team</h2> 
+
+                <!-- Placeholder Employee Pictures & Descriptions -->
+                <div class="media pt-2 pb-5">
+                    <img class="rounded-circle account-img pl-3 pr-3 pt-2 pb-1 pic" src="Headshots/Face1.jpg">
+                    <div class="media-body ml-2">
+                        <h2 class="account-heading pt-3 pb-1">Angela Martin, CEO</h2>
+                        <p class="text-secondary mb-2">“IT'S NOT MY FAULT I WAS EXPOSED TO HARRY POTTER.”</p>
+                    </div>
+                </div>
+                <div class="media pt-3 pb-5">
+                    <img class="rounded-circle account-img pl-3 pr-3 pt-2 pb-1 pic" src="Headshots/Face2.jpg">
+                    <div class="media-body ml-2">
+                        <h2 class="account-heading pt-3 pb-1">Pam Beasley, COO</h2>
+                        <p class="text-secondary mb-2">“I feel god in this Chili's tonight.”</p>
+                    </div>
+                </div>
+                <div class="media pt-3 pb-5">
+                    <img class="rounded-circle account-img pl-3 pr-3 pt-2 pb-1 pic" src="Headshots/Face3.jpg">
+                    <div class="media-body ml-2">
+                        <h2 class="account-heading pt-3 pb-1">Micheal Scott, CFO</h2>
+                        <p class="text-secondary mb-2">“Sometimes I’ll start a sentence, and I don’t even know where it’s going. I just hope I find it along the way.”</p>
+                    </div>
+                </div>
+                <div class="media pt-3 pb-5">
+                    <img class="rounded-circle account-img pl-3 pr-3 pt-2 pb-1 pic" src="Headshots/Face5.jpg">
+                    <div class="media-body ml-2">
+                        <h2 class="account-heading pt-3 pb-1">Stanley Hudson, Chief of Sales</h2>
+                        <p class="text-secondary mb-2">“Did I stutter?”</p>
+                    </div>
+                </div>
+
+            </div>
+            <!--/ Personnel List -->
+
+        </div>
+    </div>
+    <!--/ 'About' Jumbotron -->
+
 </div>
 {% endblock content %}

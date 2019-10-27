@@ -1,11 +1,13 @@
 {% extends "home/nav_base.html" %}
 {% block content %}
 <div class="container mt-0">
+
+    <!-- Question History Jumbotron -->
     <div id="profileJumbotron" class="jumbotron border border-secondary pb-2 pt-2">
         <div class="container" id="postHistory">
             
 
-            <!-- Question History -->
+            <!-- Question List -->
             {% if questions %}
                 {% if test_type == 'ALL' %}
                     <legend class="border-bottom pb-2 mt-2 mb-0">Full Question History</legend>
@@ -39,5 +41,7 @@
             {% endif %}
         </div>
     </div>
+    <!--/ Question History Jumbotron -->
+
 </div>
 {% endblock content %}

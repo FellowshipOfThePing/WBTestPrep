@@ -16,19 +16,26 @@ from django.urls import reverse
 
 def startpage(request):
     if request.user.is_authenticated:
-        return redirect('profile')
+        return redirect('profile', test_type='ALL')
     return render(request, 'home/startpage.html')
+
 
 def about(request):
     return render(request, 'home/about.html')
 
+
 def study(request, test_type):
-    newQuiz = request.user.profile.questions_answered.last().originalOrderId + 1
-    if newQuiz is None:
-        newQuiz = 1
+    questionsAnswered = request.user.profile.questions_answered.filter(test_type=test_type).all()
+    lastQuestionId = questionsAnswered.last().originalOrderId
+    newQuestionId = questionsAnswered.last().originalOrderId + 1
+    lastPossibleQuestionId = Question.objects.filter(test_type=test_type).last().orderId
+    if newQuestionId is None:
+        newQuestionId = 1
     context = {
         'test_type': test_type,
-        'newQuiz': newQuiz
+        'newQuestionId': newQuestionId,
+        'lastQuestionId': lastQuestionId,
+        'lastPossibleQuestionId': lastPossibleQuestionId
     }
     return render(request, 'home/study.html', context)
 

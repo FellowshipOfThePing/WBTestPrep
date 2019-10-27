@@ -1,9 +1,11 @@
 {% extends "home/nav_base.html" %}
 {% block content %}
 <div class="container mt-0">
+
+    <!-- Profile Jumbotron -->
     <div id="profileJumbotron" class="jumbotron border border-secondary pb-2 pt-2">
 
-        <!-- Profile Header -->
+        <!-- Username, image, email, and settings link -->
         <div class="content-section">
             <div class="media pt-3 pb-2">
                 <img class="rounded-circle account-img pl-3 pr-3 pt-2 pb-1" src="{{ user.profile.image.url }}">
@@ -15,11 +17,11 @@
             </div>
         </div>
 
-        <!-- Section for Stat Graphics -->
-        <!-- https://docs.djangoproject.com/en/dev/ref/templates/builtins/#std:templatefilter-json_script -->
-        <!-- Stat Graphics -->
+        <!-- Statistics Scripts -->
         {{ accuracy|json_script:"accuracy" }}
         {{ subject_distribution|json_script:"subject_distribution" }}
+
+        <!-- Statistics Graphics -->
         <div class="content-section d-none d-lg-block pl-3 pr-3">
             <hr class="mb-2">
             <legend class="border-bottom pb-2 mt-0 mb-0">Question History Breakdown</legend>
@@ -40,22 +42,24 @@
 
         <!-- Question History -->
         <div class="container" id="postHistory">
-                <legend class="border-bottom pb-2 mt-2 mb-0">Recently Answered Questions</legend>
-                <!-- Text Type NAVBAR -->
-                <nav class="navbar navbar-expand-sm border-bottom mb-3 pt-0 pl-0 pb-0 z-depth-0">
-                    <div>
-                        <div class="navbar-nav mr-auto">
-                            <a class="nav-item nav-link testButton pl-3 pr-3" href="{% url 'profile' %}">ALL</a>
-                            {% for test in all_tests %}
-                                {% if test == test_type %}
-                                <a class="nav-item nav-link testButtonActive pl-3 pr-3" href="{% url 'profile-question-history' test %}">{{ test }}</a>
-                                {% else %}
-                                <a class="nav-item nav-link testButton pl-3 pr-3" href="{% url 'profile-question-history' test %}">{{ test }}</a>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
+            <legend class="border-bottom pb-2 mt-2 mb-0">Recently Answered Questions</legend>
+
+            <!-- Test Nav Tabs -->
+            <nav class="navbar navbar-expand-sm border-bottom mb-3 pt-0 pl-0 pb-0 z-depth-0">
+                <div>
+                    <div class="navbar-nav mr-auto">
+                        <a class="nav-item nav-link testButton pl-3 pr-3" href="{% url 'profile' %}">ALL</a>
+                        {% for test in all_tests %}
+                            {% if test == test_type %}
+                            <a class="nav-item nav-link testButtonActive pl-3 pr-3" href="{% url 'profile-question-history' test %}">{{ test }}</a>
+                            {% else %}
+                            <a class="nav-item nav-link testButton pl-3 pr-3" href="{% url 'profile-question-history' test %}">{{ test }}</a>
+                            {% endif %}
+                        {% endfor %}
                     </div>
-                </nav>
+                </div>
+            </nav>
+
             {% if questions %}
                 <!-- List of Questions -->
                 {% for question in questions %}
@@ -79,6 +83,10 @@
                 <legend class="border-bottom mb-4">You haven't answered any questions yet. <a class="text-secondary mb-0" href="{% url 'question-detail' test_type 1 %}">Get Started<a/></legend>
             {% endif %}
         </div>
+        <!--/ Question History -->
+
     </div>
+    <!--/ Profile Jumbotron -->
+    
 </div>
 {% endblock content %}

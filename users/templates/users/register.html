@@ -2,8 +2,12 @@
 {% load crispy_forms_tags %}
 {% block content %}
 <div class="container mt-0">
+
+    <!-- Registration Jumbotron -->
     <div id="jumbo1" class="jumbotron border border-secondary mt-2">
         <div class="content-section">
+
+            <!-- Registration Form -->
             <form method="POST">
                 {% csrf_token %}
                 <fieldset class="form-group">
@@ -14,12 +18,17 @@
                     <button class="btn btn-outline-info" type="submit">Sign Up</button>
                 </div>
             </form>
+
+            <!-- Link to Sign In -->
             <div class="border-top pt-3">
                 <small class="text-muted">
                     Already Have An Account?<a class="ml-2" href="{% url 'login' %}">Sign In</a>
                 </small>
             </div>
+            
         </div>
     </div>
+    <!--/ Registration Jumbotron -->
+
 </div>
 {% endblock content %}

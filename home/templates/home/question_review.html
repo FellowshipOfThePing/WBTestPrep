@@ -1,47 +1,61 @@
 {% extends "home/nav_base.html" %}
 {% block content %}
 <div class="container mt-0">
+
+    <!-- Question Review Jumbotron -->
     <div id="jumbo2" class="jumbotron border border-secondary pt-5 pb-5">
         <article class="media content-section">
             <div class="media-body ml-3">
+
+                <!-- Question Image and Prompt  -->
                 <div class="container text-center">
                     <img class="article-image mx-auto mb-3" src='{{ question.image.url }}'>
                 </div>
-                <div>
                 <p class="lead article-content pb-2">{{ question.prompt }}</p>
-                    {% for choice in question.choices.all %}
-                        {% if choice.correct == True %}
-                            {% if forloop.counter == question.userAnswer %}
-                            <input class="correct" type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" checked="checked">
-                            <label class="mb-3 ml-2 mr-2" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><i class="fas fa-check ml-1 correct"></i><br>
-                            {% else %}
-                            <input class="correct" type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" disabled='disabled'>
-                            <label class="mb-3 ml-2 mr-2" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><i class="fas fa-check ml-1 correct"></i><br>
-                            {% endif %}
-                        {% else %}
-                            {% if forloop.counter == question.userAnswer %}
-                            <input class="wrong" type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" checked="checked">
-                            <label class="mb-3 ml-2 mr-2" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><i class="fas fa-times ml-1 wrong"></i><br>
-                            {% else %}
-                            <input class="wrong" type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" disabled='disabled'>
-                            <label class="mb-3 ml-2 mr-2" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
-                            {% endif %}
-                        {% endif %}
-                    {% endfor %}
-                    <div class="d-flex justify-content-between pl-0 pt-3">
-                        {% if question.copyId != user.profile.questions_answered.first.copyId %}
-                            <a id="lastPageButton" class="btn btn-outline-primary" href="{% url 'question-review' user.username lastQuestion %}" role="button"><i class="fas fa-arrow-left"></i></a>
-                        {% endif %}
 
-                        <a id="retryButton" class="btn btn-outline-primary mx-auto" href="{% url 'question-detail' question.test_type question.originalOrderId %}" role="button">Retry Question</a>
-                        
-                        {% if question.copyId != user.profile.questions_answered.last.copyId %}
-                            <a id="nextPageButton" class="btn btn-outline-primary" href="{% url 'question-review' user.username nextQuestion %}" role="button"><i class="fas fa-arrow-right"></i></a>
+                <!-- Choices -->
+                {% for choice in question.choices.all %}
+                    {% if choice.correct == True %}
+                        {% if forloop.counter == question.userAnswer %}
+                        <input class="correct" type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" checked="checked">
+                        <label class="mb-3 ml-2 mr-2" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><i class="fas fa-check ml-1 correct"></i><br>
+                        {% else %}
+                        <input class="correct" type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" disabled='disabled'>
+                        <label class="mb-3 ml-2 mr-2" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><i class="fas fa-check ml-1 correct"></i><br>
                         {% endif %}
-                    </div>
+                    {% else %}
+                        {% if forloop.counter == question.userAnswer %}
+                        <input class="wrong" type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" checked="checked">
+                        <label class="mb-3 ml-2 mr-2" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><i class="fas fa-times ml-1 wrong"></i><br>
+                        {% else %}
+                        <input class="wrong" type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" disabled='disabled'>
+                        <label class="mb-3 ml-2 mr-2" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+
+                <!-- Navigation Buttons -->
+                <div class="d-flex justify-content-between pl-0 pt-3">
+
+                    <!-- Last Question Button -->
+                    {% if question.copyId != user.profile.questions_answered.first.copyId %}
+                        <a id="lastPageButton" class="btn btn-outline-primary" href="{% url 'question-review' user.username lastQuestion %}" role="button"><i class="fas fa-arrow-left"></i></a>
+                    {% endif %}
+
+                    <!-- Retry Question Button -->
+                    <a id="retryButton" class="btn btn-outline-primary mx-auto" href="{% url 'question-detail' question.test_type question.originalOrderId %}" role="button">Retry Question</a>
+                    
+                    <!-- Next Question Button -->
+                    {% if question.copyId != user.profile.questions_answered.last.copyId %}
+                        <a id="nextPageButton" class="btn btn-outline-primary" href="{% url 'question-review' user.username nextQuestion %}" role="button"><i class="fas fa-arrow-right"></i></a>
+                    {% endif %}
                 </div>
+                <!--/ Navigation Buttons -->
+
             </div>
         </article>
     </div>
+    <!--/ Question Review Jumbotron -->
+
 </div>
 {% endblock content %}

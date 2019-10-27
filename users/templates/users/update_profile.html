@@ -2,7 +2,11 @@
 {% load crispy_forms_tags %}
 {% block content %}
 <div class="container mt-0">
+
+    <!-- Update Profile Jumbotron -->
     <div id="profileJumbotron" class="jumbotron border border-secondary pb-0 pt-2">
+        
+        <!-- Profile Information -->
         <div class="content-section">
             <div class="media pt-3 pb-2">
                 <img class="rounded-circle account-img pl-3 pr-3 pt-2 pb-1" src="{{ user.profile.image.url }}">
@@ -25,6 +29,9 @@
                 <button class="btn btn-outline-info" type="submit">Update</button>
             </div>
         </form>
+
     </div>
+    <!--/ Update Profile Jumbotron -->
+
 </div>
 {% endblock content %}

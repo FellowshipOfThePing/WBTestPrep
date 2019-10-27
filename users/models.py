@@ -20,27 +20,3 @@ class Profile(models.Model):
         output_size = (100, 100)
         img = img.resize(output_size, Image.ANTIALIAS)
         img.save(self.image.path)
-
-
-# One for each possible test/subject combination. Created when profile is first saved.
-# class HistoryRecord(models.Model):
-#     profile = models.ForeignKey('Profile', related_name='history', on_delete=models.CASCADE, default="")
-#     TEST_TYPES = [
-#         ('ACT', 'ACT'),
-#         ('SAT', 'SAT'),
-#         ('GRE', 'GRE'),
-#     ]
-#     test_type = models.CharField(max_length=3, choices=TEST_TYPES, default='SAT')
-#     SUBJECTS = [
-#         ('Reading', 'Reading'),
-#         ('Math', 'Math'),
-#         ('Science', 'Science'),
-#     ]
-#     subject = models.CharField(max_length=3, choices=SUBJECTS, default='Reading')
-
-
-# # One for each question submitted. Keeps track of user progress, filtered by test type and subject
-# class HistoryItem(models.Model):
-#     historyRecord = models.ForeignKey('HistoryRecord', related_name='items', on_delete=models.CASCADE, default="")
-#     date = models.DateTimeField(default=timezone.now)
-#     currentAccuracy = models.FloatField(default=0.0)

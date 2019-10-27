@@ -1,8 +1,12 @@
 {% extends "home/nav_base.html" %}
 {% block content %}
 <div class="container-fluid">
+
+    <!-- Study Jumbotron -->
     <div class="jumbotron border border-secondary pt-4 pb-1">
         <div class="content-section">
+
+            <!-- Heading -->
             <div class="media pt-1 pb-2">
                 <div class="media-body ml-2">
                     <h2>Human Learning through Machine Learning</h2>
@@ -14,9 +18,10 @@
                 </div>
             </div>
 
-
+            <!-- Filter by Test Section -->
             <div class="pt-2 pb-2">
-                <!-- TABS -->
+
+                <!-- Tabs -->
                 <ul class="nav nav-tabs">
                     {% if test_type == 'SAT' %}
                     <li class="nav-item">
@@ -46,8 +51,9 @@
                     </li>
                     {% endif %}
                 </ul>
+                <!--/ Tabs -->
 
-                <!-- Description -->
+                <!-- Test Description -->
                 <div class="media pl-3 pt-4 pb-4">
                     <div class="media-body">
                         {% if test_type == 'SAT' %}
@@ -59,6 +65,7 @@
                         <p class="text-secondary mb-2">The test is scored on a scale of 200 - 800 points per section, totalling to a maximum score of 1600, 
                             and typically lasts for 3 hours without an essay section, or 3 hours and 50 minutes with an essay.
                         </p>
+                        <a class="text-secondary mb-2" href="https://collegereadiness.collegeboard.org/sat/inside-the-test"><u>More Information</u></a>
                         {% elif test_type == 'ACT' %}
                         <h3 class="pb-2">ACT</h3>
                         <p class="text-secondary mb-2">The ACT is a standardized test used for college admissions in the United States. 
@@ -68,6 +75,7 @@
                         <p class="text-secondary mb-2">The test is scored on a scale of 1 - 36 points, and typically lasts for 
                             2 hours and 55 minutes without a writing section, or 3 hours and 35 minutes with a writing section.
                         </p>
+                        <a class="text-secondary mb-2" href="http://www.act.org/content/act/en/products-and-services/the-act/test-day.html"><u>More Information</u></a>
                         {% else %}
                         <h3 class="pb-2">GRE</h3>
                         <p class="text-secondary mb-2">The Graduate Record Examinations is a standardized test that is an admissions requirement 
@@ -79,15 +87,23 @@
                         <p class="text-secondary mb-2">The test is split into three sections: Analytical Writing, Verbal Reasoning, and Quantitative Reasoning.
                             Writing is scored from 0 - 6 points, and both reasoning sections are scored from 130 - 170 points. The test lasts for about 3 hours and 45 minutes.
                         </p>
+                        <a class="text-secondary mb-2" href="https://www.ets.org/gre/revised_general/about"><u>More Information</u></a>
                         {% endif %}
                     </div>
                 </div>
+                <!--/ Test Description -->
 
-                <!-- CARDS -->
+                <!-- Study Cards -->
                 <div class="row mt-3">
+
+                    <!-- Quiz Card -->
                     <div class="col-md d-flex">
                         <div class="card mb-4 border border-secondary test"  style="transform: rotate(0);">
-                            <a href="{% url 'question-detail' test_type newQuiz %}" class=stretched-link">
+                            {% if lastQuestionId == lastPossibleQuestionId %}
+                            <a href="{% url 'profile' test_type %}" class="stretched-link">
+                            {% else %}
+                            <a href="{% url 'question-detail' test_type newQuestionId %}" class="stretched-link">
+                            {% endif %}
                                 <div class="card-body text-center">
                                     <h5 class="card-title">Quiz Questions</h5>
                                     <p class="card-text">Get instant feedback after answering multiple-choice questions. Filter by subject, or answer in random order.</p>
@@ -95,6 +111,8 @@
                             </a>
                         </div>
                     </div>
+
+                    <!-- Practice Test Card -->
                     <div class="col-md d-flex">
                         <div class="card mb-4 border border-secondary test" style="transform: rotate(0);">
                             <a href="" class=stretched-link">
@@ -111,6 +129,8 @@
                             </a>   
                         </div>
                     </div>
+
+                    <!-- Stat Card -->
                     <div class="col-md d-flex">
                         <div class="card mb-4 border border-secondary test" style="transform: rotate(0);">
                             <a href="{% url 'stats' test_type 'ALL' %}" class=stretched-link">
@@ -121,9 +141,16 @@
                             </a>
                         </div>
                     </div>
+
                 </div>
+                <!--/ Study Cards -->
+
             </div>
+            <!--/ Filter By Test Section -->
+
         </div>
     </div>
+    <!--/ Study Jumbotron -->
+    
 </div>
 {% endblock content %}

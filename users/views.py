@@ -34,9 +34,9 @@ def profile(request, test_type):
     userProfile = Profile.objects.filter(user=request.user).first()
     # Setting Iterables
     if test_type == 'ALL':
-        questions = userProfile.questions_answered.all()
+        questions = userProfile.questions_answered.all().order_by("-copyId")
     else:
-        questions = userProfile.questions_answered.filter(test_type=test_type).all()
+        questions = userProfile.questions_answered.filter(test_type=test_type).all().order_by("-copyId")
 
     test_dict = {
         'ALL': ['Math', 'Reading', 'Science', 'English', 'Quantitative', 'Verbal'],
@@ -72,35 +72,35 @@ def profile(request, test_type):
 
 
 
-@login_required
-def profileQuestionHistory(request, test_type):
-    userProfile = Profile.objects.filter(user=request.user).first()
-    questions = userProfile.questions_answered.filter(test_type=test_type).order_by("copyId")
-    accuracy = {
-        "correctAnswers": len(questions.filter(answeredCorrectly=True)),
-        "wrongAnswers": len(questions.filter(answeredCorrectly=False)),
-    }
-    test_distribution = {
-        "ACT_Distro": len(questions.filter(test_type='ACT')),
-        "SAT_Distro": len(questions.filter(test_type='SAT')),
-        "GRE_Distro": len(questions.filter(test_type='GRE')),
-    }
-    subject_distribution = {
-        "Math_Distro": len(questions.filter(subject="Math")),
-        "Reading_Distro": len(questions.filter(subject="Reading")),
-        "Science_Distro": len(questions.filter(subject="Science"))
-    }
+# @login_required
+# def profileQuestionHistory(request, test_type):
+#     userProfile = Profile.objects.filter(user=request.user).first()
+#     questions = userProfile.questions_answered.filter(test_type=test_type).order_by("copyId")
+#     accuracy = {
+#         "correctAnswers": len(questions.filter(answeredCorrectly=True)),
+#         "wrongAnswers": len(questions.filter(answeredCorrectly=False)),
+#     }
+#     test_distribution = {
+#         "ACT_Distro": len(questions.filter(test_type='ACT')),
+#         "SAT_Distro": len(questions.filter(test_type='SAT')),
+#         "GRE_Distro": len(questions.filter(test_type='GRE')),
+#     }
+#     subject_distribution = {
+#         "Math_Distro": len(questions.filter(subject="Math")),
+#         "Reading_Distro": len(questions.filter(subject="Reading")),
+#         "Science_Distro": len(questions.filter(subject="Science"))
+#     }
 
-    context = {
-        'questions': questions[:3],
-        'all_tests': ['ACT', 'SAT', 'GRE'],
-        'test_type': str(test_type),
-        'accuracy': accuracy,
-        'test_distribution': test_distribution,
-        'subject_distribution': subject_distribution,
-    }
+#     context = {
+#         'questions': questions[:3],
+#         'all_tests': ['ACT', 'SAT', 'GRE'],
+#         'test_type': str(test_type),
+#         'accuracy': accuracy,
+#         'test_distribution': test_distribution,
+#         'subject_distribution': subject_distribution,
+#     }
 
-    return render(request, 'users/profile_question_history.html', context)
+#     return render(request, 'users/profile_question_history.html', context)
 
 
 

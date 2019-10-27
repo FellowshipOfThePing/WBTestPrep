@@ -1,65 +1,83 @@
-// // // ----------- Profile JS ------------- 
+// ------------------------- STATS PAGE ------------------------- // 
 
 
-// // // Statistics Charts
-
-// // // https://mdbootstrap.com/docs/jquery/javascript/charts/
-
-// // // Right/Wrong Answers
-// var accuracy = JSON.parse(document.getElementById('accuracy').textContent);
-
-// var ctxP = document.getElementById("accuracyPieChart").getContext('2d');
-// var myPieChart = new Chart(ctxP, {
-//     type: 'pie',
-//     data: {
-//         labels: ["Correct", "Incorrect"],
-//         datasets: [{
-//             data: [accuracy['correctAnswers'], accuracy['wrongAnswers']],
-//             backgroundColor: ["#18c45a", "#F7464A"],
-//             hoverBackgroundColor: ["#15d14e", "#FF5A5E"]
-//         }]
-//     },
-//     options: {
-//         responsive: true
-//     }
-// });
+var by_test = JSON.parse(document.getElementById('by_test').textContent);
+var by_subject = JSON.parse(document.getElementById('by_subject').textContent);
+var question_info= JSON.parse(document.getElementById('question_info').textContent);
 
 
-// // How many Questions answered from each test
-// var subject_distro = JSON.parse(document.getElementById('subject_distribution').textContent);
-
-// var ctxP = document.getElementById("subjectDistroPieChart").getContext('2d');
-// var myPieChart = new Chart(ctxP, {
-//     type: 'pie',
-//     data: {
-//         labels: ["Math", "Reading", "Science"],
-//         datasets: [{
-//             data: [subject_distro["Math_Distro"], subject_distro["Reading_Distro"], subject_distro["Science_Distro"]],
-//             backgroundColor: ["#5860a6", "#b02a2a", "#4ec267"],
-//             hoverBackgroundColor: ["#7981c7", "#d16464", "#6bd682"]
-//         }]
-//     },
-//     options: {
-//         responsive: true
-//     }
-// });
+// --------------- FILTER BY TEST TYPE --------------- // 
 
 
-// // How many Questions answered from each test
-// var test_distro = JSON.parse(document.getElementById('test_distribution').textContent);
 
-// var ctxP = document.getElementById("testDistroPieChart").getContext('2d');
-// var myPieChart = new Chart(ctxP, {
-//     type: 'pie',
-//     data: {
-//         labels: ["ACT", "SAT", "GRE"],
-//         datasets: [{
-//             data: [test_distro["ACT_Distro"], test_distro["SAT_Distro"], test_distro["GRE_Distro"]],
-//             backgroundColor: ["#4542f5", "#f542cb", "#f5de33"],
-//             hoverBackgroundColor: ["#4272f5", "#f069f0", "#ffec61"]
-//         }]
-//     },
-//     options: {
-//         responsive: true
-//     }
-// });
+// Answer Accuracy Pie
+
+var ctxP = document.getElementById("accuracyPieChart").getContext('2d');
+var myPieChart = new Chart(ctxP, {
+    type: 'pie',
+    data: {
+        labels: ["Correct", "Incorrect"],
+        datasets: [{
+            data: [by_test["questionsCorrect"], by_test["questionsWrong"]],
+            backgroundColor: ['rgba(105, 0, 132, .2)', 'rgba(0, 137, 132, .2)'],
+            borderColor: ['rgba(200, 99, 132, .7)', 'rgba(0, 10, 130, .7)']
+        }]
+    },
+    options: {
+        responsive: true
+    }
+});
+
+
+
+// Accuracy Over Time Line
+
+var ctxL = document.getElementById("improvement").getContext('2d');
+var myLineChart = new Chart(ctxL, {
+    type: 'line',
+    data: {
+        labels: by_test["improvementDates"],
+        datasets: [{
+            label: "% Accuracy at Date",
+            data: by_test["improvementNodes"],
+            backgroundColor: ['rgba(105, 0, 132, .2)',
+            ],
+            borderColor: ['rgba(200, 99, 132, .7)',
+            ],
+            borderWidth: 2
+        }]
+    },
+    options: {
+        responsive: true
+    }
+});
+
+
+
+// Recommendation Bar Chart (Placeholder)
+
+var ctxP = document.getElementById("recommendationsBar").getContext('2d');
+var myPieChart = new Chart(ctxP, {
+    type: 'bar',
+    data: {
+        labels: ['Math', 'Science', 'Reading'],
+        datasets: [{
+            label: '% recommended study time',
+            data: [40, 10, 50],
+            backgroundColor: ['rgba(105, 0, 132, .2)', 'rgba(0, 137, 132, .2)', 'rgba(255, 99, 132, 0.2)'],
+            borderColor: ['rgba(200, 99, 132, .7)', 'rgba(0, 10, 130, .7)', 'rgba(255,99,132,1)'],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+

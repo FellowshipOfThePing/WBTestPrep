@@ -1,16 +1,23 @@
 {% extends "home/nav_base.html" %}
-<!-- {% load crispy_forms_tags %} -->
 {% block content %}
 <div class="container-fluid">
+
+    <!-- Question Detail Jumbotron -->
     <div id="jumbo2" class="jumbotron border border-secondary pt-5 pb-5">
         <article class="media content-section">
             <div class="media-body ml-3">
+
+                <!-- Question Image & Prompt-->
                 <div class="text-center">
                     <img class="article-image mx-auto mb-3" src='{{ question.image.url }}'>
                 </div>
                 <p class="lead article-content pb-2">{{ question.prompt }}</p>
+
+                <!-- Answer Submission Form -->
                 <form action="{% url 'question-submit' question.test_type question.orderId %}" method="post">
                     {% csrf_token %}
+
+                    <!-- Choices -->
                     {% for choice in question.choices.all %}
                         {% if choice.correct == True %}
                             <input class="correct" type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
@@ -20,24 +27,37 @@
                             <label class="mb-3 ml-2 mr-2" for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
                         {% endif %}
                     {% endfor %}
+
+                    <!-- Hint and Sumbit Buttons -->
                     <div class="container pl-0 pt-3">
                         <a id="hintButton" class="btn btn-outline-info mr-2" href="#" role="button">Hint</a>
                         <input id="questionSubmit" type="submit" value="Submit" class="btn btn-outline-success">
                     </div>
+                    
                 </form>
+                <!--/ Answer Submission Form -->
+
             </div>
         </article>
     </div>
+    <!--/ Question Detail Jumbotron -->
+
+    <!-- Hint Box Jumbotron -->
     <div id="hintBox" class="container pl-0 pr-0">
         <div class="jumbotron border rounded border-secondary pt-1 pb-2">
             <article class="media content-section mt-3 mb-3 ml-3 mr-3">
+
+                <!-- Hint Header and Text -->
                 <h4 id="resultBoxTitle" class="article-title mb-0 text-info">Hint:</h4>
                 <div class="container">
                     <p id="resultBoxText" class="lead article-content mb-0">{{ question.hint }}</p>
                 </div>
+                
             </article>
         </div>
     </div>
+    <!--/ Hint Box Jumbotron -->
+
 </div>
 {% endblock content %}
 

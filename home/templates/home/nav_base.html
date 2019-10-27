@@ -30,8 +30,11 @@
 
 
 <body>
-    <div class="container-fluid">
-        <header>
+
+    <!-- Main Navigation -->
+    <header>
+        <div class="container-fluid">
+        
             <!--NAVBAR -->
             <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-secondary">
 
@@ -41,12 +44,16 @@
                 {% else %}
                     <a class="navbar-brand" href="{% url 'home-homepage' %}">HTML Test Prep</a>
                 {% endif %}
+
+                <!-- Collapse Button -->
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
+                <!-- Collapsible Content -->
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-                    <!-- Nav Links/Dropdown -->
+                    <!-- Dropdown -->
                     <div class="navbar-nav ml-auto">
                         <ul class="navbar-nav mr-auto">
                         {% if user.is_authenticated %} 
@@ -90,6 +97,8 @@
                                         <span class="mr-auto"><i class="fas fa-sign-out-alt dropDownNavItem"></i></span><a class="pr-1" href="{% url 'logout' %}">Logout</a>
                                     </div>
                                 </div>
+                                <!--/ Dropdown Links -->
+
                             </li>
                         {% else %}
                             <a class="nav-item nav-link text-light" href="{% url 'login' %}">Login</a>
@@ -97,82 +106,102 @@
                         {% endif %}
                         </ul>
                     </div>
+                    <!--/ Dropdown -->
+
                 </div>
+                <!--/ Collapsible Content -->
+
             </nav> 
-        </header>
+            <!--/ NAVBAR -->
+
+        </div>
+    </header>
+    <!--/ Main Navigation -->
 
 
 
+    <!-- Main Layout -->
+    <main>
+        <div class="container-fluid">
+            <div class="row">
 
-        <main>
-            <div class="container-fluid">
-                <div class="row">
-                    <!-- SIDEBAR NAV Column -->
-                    <div class="col-lg-4 col-lg-offset-1 sidebar-outer">
-                        <div class="fixed col-lg-4">
-                            <div id="navJumbo" class="jumbotron border border-secondary d-none d-lg-block pt-4">
-                                <!-- NAV Title and Description -->
-                                {% if 'profile' in request.path %}
-                                    <h1 class="display-4">Profile</h1>
-                                    <p class="lead">Profile description text blah blah blah.</p>
-                                {% elif 'about' in request.path %}
-                                    <h1 class="display-4">About</h1>
-                                    <p class="lead">About Us description text blah blah blah.</p>
-                                {% elif 'questionCopy' in request.path %}
-                                    <h1 class="display-4">Question Review</h1>
-                                    <p class="lead">Question Review description text blah blah blah.</p>
-                                {% elif 'question' in request.path %}
-                                    <h1 class="display-4">Quiz Questions</h1>
-                                    <p class="lead">Rapid Fire description text blah blah blah.</p>
-                                {% elif 'stats' in request.path %}
-                                    <h1 class="display-4">Stats</h1>
-                                    <p class="lead">Rapid Fire description text blah blah blah.</p>
-                                {% else %}
-                                    <h1 class="display-4">Study</h1>
-                                    <p class="lead">About Us description text blah blah blah.</p>
-                                {% endif %}
-                                <nav class="nav flex-column">
-                                    <a class="nav-link customNav" href="{% url 'study' 'SAT' %}">Study</a>
-                                    <a class="nav-link customNav" href="{% url 'profile' 'ALL' %}">Profile</a>
-                                    <a class="nav-link customNav" href="{% url 'stats' 'ALL' 'ALL' %}">Stats</a>
-                                    <a class="nav-link customNav" href="{% url 'about' %}">About Us</a>
-                                </nav>
-                            </div>
+                <!-- Sidebar Nav -->
+                <div class="col-lg-4 col-lg-offset-1 sidebar-outer">
+                    <div class="fixed col-lg-4">
+                        <div id="navJumbo" class="jumbotron border border-secondary d-none d-lg-block pt-4">
+
+                            <!-- Sidebar Heading -->
+                            {% if 'profile' in request.path %}
+                                <h1 class="display-4">Profile</h1>
+                                <p class="lead">Profile description text blah blah blah.</p>
+                            {% elif 'about' in request.path %}
+                                <h1 class="display-4">About</h1>
+                                <p class="lead">About Us description text blah blah blah.</p>
+                            {% elif 'questionCopy' in request.path %}
+                                <h1 class="display-4">Question Review</h1>
+                                <p class="lead">Question Review description text blah blah blah.</p>
+                            {% elif 'question' in request.path %}
+                                <h1 class="display-4">Quiz Questions</h1>
+                                <p class="lead">Rapid Fire description text blah blah blah.</p>
+                            {% elif 'stats' in request.path %}
+                                <h1 class="display-4">Stats</h1>
+                                <p class="lead">Rapid Fire description text blah blah blah.</p>
+                            {% else %}
+                                <h1 class="display-4">Study</h1>
+                                <p class="lead">About Us description text blah blah blah.</p>
+                            {% endif %}
+
+                            <!-- Sidebar Links -->
+                            <nav class="nav flex-column">
+                                <a class="nav-link customNav" href="{% url 'study' 'SAT' %}">Study</a>
+                                <a class="nav-link customNav" href="{% url 'profile' 'ALL' %}">Profile</a>
+                                <a class="nav-link customNav" href="{% url 'stats' 'ALL' 'ALL' %}">Stats</a>
+                                <a class="nav-link customNav" href="{% url 'about' %}">About Us</a>
+                            </nav>
+                            
                         </div>
                     </div>
+                </div>
+                <!--/ Sidebar Nav -->
 
 
+                <!-- Content Column -->
+                <div class="col-lg-8 content">
+                    {% block content %}
 
-                    <!-- CONTENT Column -->
-                    <div class="col-lg-8 content">
-                        {% block content %}
-
-                        {% endblock %}
-                    </div> 
+                    {% endblock %}
                 </div> 
-            </div>
-        </main>
+                <!--/ Content Column -->
+
+            </div> 
+        </div>
+    </main>
+    <!--/ Main Layout -->
+
+    <!-- Scripts -->
+    <div id="scripts">
+        <!-- jQuery -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+        <!-- Popper JS -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+        
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.10/js/mdb.min.js"></script>
+
+        <!-- Bootstrap JS -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+        <!-- Font Awesome JS -->
+        <script src="https://kit.fontawesome.com/b4461a4f54.js" crossorigin="anonymous"></script>
+        
+        <!-- Custom JS -->
+        <!-- <script src="{% static 'home/css/main.js' %}"></script> -->
+        <script src="{% static 'home/js/profile.js' %}"></script>
+        <script src="{% static 'home/js/question.js' %}"></script>
+        <script src="{% static 'home/js/stats.js' %}"></script>
     </div>
+    <!--/ Scripts -->
 
-    <!-- jQuery -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-    <!-- Popper JS -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
-    
-    <!-- MDB core JavaScript -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.10/js/mdb.min.js"></script>
-
-    <!-- Bootstrap JS -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-    <!-- Font Awesome JS -->
-    <script src="https://kit.fontawesome.com/b4461a4f54.js" crossorigin="anonymous"></script>
-    
-    <!-- Custom JS -->
-    <!-- <script src="{% static 'home/css/main.js' %}"></script> -->
-    <script src="{% static 'home/js/profile.js' %}"></script>
-    <script src="{% static 'home/js/question.js' %}"></script>
-    <script src="{% static 'home/js/stats.js' %}"></script>
 </body>
 </html>
