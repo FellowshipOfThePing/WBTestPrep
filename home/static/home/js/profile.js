@@ -1,16 +1,15 @@
-// ------------------------- STATS PAGE ------------------------- // 
+// ------------------------- PROFILE PAGE ------------------------- // 
 
-
+// Retrieve rendered Profile Statistic Dictionaries from template
 var by_test = JSON.parse(document.getElementById('by_test').textContent);
 var by_subject = JSON.parse(document.getElementById('by_subject').textContent);
 var question_info= JSON.parse(document.getElementById('question_info').textContent);
 
 
-// --------------- FILTER BY TEST TYPE --------------- // 
+// --------- Filter By Test Type --------- // 
 
 
-
-// Answer Accuracy Pie
+// Total Answer Accuracy Pie Chart
 
 var ctxP = document.getElementById("accuracyPieChart").getContext('2d');
 var myPieChart = new Chart(ctxP, {
@@ -29,8 +28,7 @@ var myPieChart = new Chart(ctxP, {
 });
 
 
-
-// Accuracy Over Time Line
+// Accuracy Over Time Line Chart
 
 var ctxL = document.getElementById("improvement").getContext('2d');
 var myLineChart = new Chart(ctxL, {
@@ -51,7 +49,6 @@ var myLineChart = new Chart(ctxL, {
         responsive: true
     }
 });
-
 
 
 // Recommendation Bar Chart (Placeholder)
@@ -80,4 +77,3 @@ var myPieChart = new Chart(ctxP, {
         }
     }
 });
-

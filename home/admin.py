@@ -1,6 +1,7 @@
 from django.contrib import admin
-
 from .models import Question, Choice, QuestionCopy, ChoiceCopy
+
+# Inline Questions Admin View
 
 class ChoiceInline(admin.TabularInline):
     model = Choice

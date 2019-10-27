@@ -8,36 +8,48 @@ from .models import Profile
 
 
 def register(request):
-    # If request is a post request, create a user with the info in that post request
+    """Display Registration Page. Redirect to login after registration."""
+
+    # If request is a post request, create a user with given info
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
+
         # If the form is valid
         if form.is_valid():
-            # Save form info
+
+            # Save form infom get the username data, and return a User Created message,
             form.save()
-            # get the username data
             username = form.cleaned_data.get('username')
-            # return a User Created message,
             messages.success(request, f'Your account has been created! You are now able to log in')
+
             # redirect to the home page
             return redirect('login') 
+
     # If request is not a post request, fill in the form and redirect back to registration
     else:
         form = UserRegistrationForm()
+
     return render(request, 'users/register.html', {'form': form})
 
 
 
 @login_required
 def profile(request, test_type):
+    """Display Profile Page."""
+
+    # Iterable for Filter Tab Display
     TEST_TYPES = ['ALL', 'SAT', 'ACT', 'GRE']
-    userProfile = Profile.objects.filter(user=request.user).first()
-    # Setting Iterables
+
+    # Get Profile Instance
+    userProfile = request.user.profile
+
+    # Get question history and set order
     if test_type == 'ALL':
         questions = userProfile.questions_answered.all().order_by("-copyId")
     else:
         questions = userProfile.questions_answered.filter(test_type=test_type).all().order_by("-copyId")
 
+    # Iterable for creating by_test dict values
     test_dict = {
         'ALL': ['Math', 'Reading', 'Science', 'English', 'Quantitative', 'Verbal'],
         'SAT': ['Math', 'Reading'],
@@ -45,6 +57,7 @@ def profile(request, test_type):
         'GRE': ['Quantitative', 'Verbal']
     }
 
+    # Filter profile stats by test. 
     by_test = {
         # Answer Accuracy (Pie)
         'questionsCorrect': len(questions.filter(answeredCorrectly=True).all()),
@@ -58,55 +71,22 @@ def profile(request, test_type):
         'improvementNodes': [question.currentUserAccuracy for question in questions]
     }
 
+    # Store profile for rendering in template
     context = {
         'questions': questions[:3],
         'by_test': by_test,
         'all_tests': TEST_TYPES,
         'test_type': test_type
-        # 'accuracy': accuracy,
-        # 'test_distribution': test_distribution,
-        # 'subject_distribution': subject_distribution,
     }
 
     return render(request, 'users/profile.html', context)
 
 
-
-# @login_required
-# def profileQuestionHistory(request, test_type):
-#     userProfile = Profile.objects.filter(user=request.user).first()
-#     questions = userProfile.questions_answered.filter(test_type=test_type).order_by("copyId")
-#     accuracy = {
-#         "correctAnswers": len(questions.filter(answeredCorrectly=True)),
-#         "wrongAnswers": len(questions.filter(answeredCorrectly=False)),
-#     }
-#     test_distribution = {
-#         "ACT_Distro": len(questions.filter(test_type='ACT')),
-#         "SAT_Distro": len(questions.filter(test_type='SAT')),
-#         "GRE_Distro": len(questions.filter(test_type='GRE')),
-#     }
-#     subject_distribution = {
-#         "Math_Distro": len(questions.filter(subject="Math")),
-#         "Reading_Distro": len(questions.filter(subject="Reading")),
-#         "Science_Distro": len(questions.filter(subject="Science"))
-#     }
-
-#     context = {
-#         'questions': questions[:3],
-#         'all_tests': ['ACT', 'SAT', 'GRE'],
-#         'test_type': str(test_type),
-#         'accuracy': accuracy,
-#         'test_distribution': test_distribution,
-#         'subject_distribution': subject_distribution,
-#     }
-
-#     return render(request, 'users/profile_question_history.html', context)
-
-
-
-
 @login_required
 def profileUpdate(request):
+    """Display Profile Update Form"""
+
+    # If request is a post request, update user/profile with given info, and redirect to profile view
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=request.user)
         p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
@@ -129,14 +109,20 @@ def profileUpdate(request):
 
 
 
-
 @login_required
 def fullQuestionHistory(request, test_type):
-    userProfile = Profile.objects.filter(user=request.user).first()
+    """Display extended Question History, filtered by test type."""
+
+    # Get Profile Instance
+    userProfile = request.user.profile
+
+    # Get question history and set order
     if test_type == 'ALL':
         questions = userProfile.questions_answered.all().order_by("copyId")
     else:
         questions = userProfile.questions_answered.filter(test_type=test_type).order_by("copyId")
+
+    # Store Question History Information for rendering in template
     context = {
         'questions': questions,
         'test_type': test_type,

@@ -11,6 +11,10 @@ body {
     background-color: white;
   }
 
+.dropDownNavItem {
+    margin-top: 75%;
+}
+
 #jumbo1 {
     margin-top: 10%;
     opacity: 0.95;
@@ -22,20 +26,23 @@ body {
     padding-bottom: 100px;
 }
 
+
+
+
+/* Startpage */
+
 #page2 {
     margin-top: 10%;
     opacity: 0.0;
 } 
 
-.dropDownNavItem {
-    margin-top: 75%;
+.startpage {
+    background-image: url("https://source.unsplash.com/s9CC2SKySJM");
 }
 
 
 
-
-
-/* Qestion Detail/Result/Review */
+/* Question Detail/Result/Review */
 
 #hintBox {
     width: 100%;
@@ -66,6 +73,7 @@ body {
 .wrong {
     color: red;
 }
+
 
 
 /* Profile */

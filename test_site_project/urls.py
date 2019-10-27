@@ -1,9 +1,14 @@
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path, include
 from users import views as user_views
-from django.conf import settings
-from django.contrib.auth import views as auth_views
-from django.conf.urls.static import static
+
+# Url Patterns relating to:
+#           Admin View
+#           Auth Views (Login/Logout/Register)
+#           Profile Views (Update, History)      
 
 urlpatterns = [
     path('admin/', admin.site.urls),

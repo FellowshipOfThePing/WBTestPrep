@@ -1,17 +1,11 @@
 from django.contrib import admin
-from .models import Profile
 from django.apps import apps
+from .models import Profile
+
 
 QuestionCopy = apps.get_model('home', 'QuestionCopy')
 ChoiceCopy = apps.get_model('home', 'ChoiceCopy')
 
-# class ChoiceCopyInline(admin.TabularInline):
-#     model = ChoiceCopy
-
-# class QuestionCopyAdmin(admin.ModelAdmin):
-#     inlines = [ChoiceCopyInline]
-
-# admin.site.register(QuestionCopy, QuestionCopyAdmin)
 
 class QuestionCopyInline(admin.TabularInline):
     model = QuestionCopy

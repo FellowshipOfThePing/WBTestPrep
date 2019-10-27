@@ -4,8 +4,12 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Profile
 
 
+
 class UserRegistrationForm(UserCreationForm):
-    # Default email required=True
+    """Creates new User. 
+    
+    Requires Username and password. Email Optional
+    """
     email = forms.EmailField(required=False)
 
     class Meta:
@@ -13,8 +17,9 @@ class UserRegistrationForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
 
 
-# Lets user update username and email
+
 class UserUpdateForm(forms.ModelForm):
+    """Updates Username and Email"""
     email = forms.EmailField(required=False)
 
     class Meta:
@@ -22,8 +27,9 @@ class UserUpdateForm(forms.ModelForm):
         fields = ['username', 'email']
 
 
-# Lets user update profile picture in profile
+
 class ProfileUpdateForm(forms.ModelForm):
+    """Updates Profile Picture"""
     class Meta:
         model = Profile
         fields = ['image']
