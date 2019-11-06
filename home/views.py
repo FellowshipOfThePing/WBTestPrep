@@ -12,6 +12,7 @@ from django.urls import reverse
 from users.models import Profile
 from users.forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
 from .models import Question, QuestionCopy, Choice, ChoiceCopy
+from users.utils import *
 
 
 
@@ -37,11 +38,11 @@ def study(request, test_type):
     """
 
     # Stores queryset of all previously answered questions
-    questionsAnswered = request.user.profile.questions_answered.filter(test_type=test_type).all()
+    questions = request.user.profile.questions_answered.filter(test_type=test_type).all()
 
     # Stores orderIds of last question user answered, and next question user has not answered,
     # so study links will only send the user to new questions.
-    lastQuestionId = questionsAnswered.last()
+    lastQuestionId = questions.last()
     if lastQuestionId:
         lastQuestionId = lastQuestionId.originalOrderId
         newQuestionId = questionsAnswered.last().originalOrderId + 1
@@ -72,7 +73,7 @@ def stats(request, test_type, subject):
     Stats filtered by Test:
         Total Answer Accuracy (Number Answered Correct/Wrong)
         Question Subject Distribution (Number of Question Answered)
-        Accuracy Over Time (Percentage)
+        Accuracy Over Time / Improvement (Percentage)
         Study Recommendations (Percentage)
 
     Stats filtered by Subject:
@@ -80,86 +81,23 @@ def stats(request, test_type, subject):
         Accuracy Over Time (Percentage)
     """
 
-    # Default Iterables
-    TEST_TYPES = ['ALL', 'SAT', 'ACT', 'GRE']
-    SUBJECTS = ['Math', 'Reading', 'Science', 'English', 'Quantitative', 'Verbal']
+    # Get profile instance and questions_answered for reference
+    userProfile = request.user.profile
+    userQuestions = userProfile.questions_answered
 
 
-    # Modify iterables based on given test_type
+    # Modify iterables based on test_type
     if test_type == 'ALL':
-        questions = request.user.profile.questions_answered.all()
-    elif test_type == 'SAT':
-        questions = request.user.profile.questions_answered.filter(test_type=test_type).all()
-        SUBJECTS = ['Math', 'Reading']
-    elif test_type == 'ACT':
-        questions = request.user.profile.questions_answered.filter(test_type=test_type).all()
-        SUBJECTS = ['Science', 'English']
+        SUBJECTS = ['Math', 'Reading', 'Science', 'English', 'Quantitative', 'Verbal']
+        questions = userQuestions.all()
     else:
-        questions = request.user.profile.questions_answered.filter(test_type=test_type).all()
-        SUBJECTS = ['Quantitative', 'Verbal']
+        SUBJECTS = getSubjectList(test_type)
+        questions = userQuestions.filter(test_type=test_type).all()
+ 
 
-
-    # ------- Stats Filtered by Test ------- #
-
-
-    # Truncate Improvement Line Chart Dates
-    testImprovementDates = []
-    for i in range(len(questions)):
-        if i == 0 or i == len(questions) - 1:
-            testImprovementDates.append(str(questions[i].date_answered)[5:10])
-        else:
-            testImprovementDates.append("")
-
-
-    # Create Improvement Line Chart List
-    if test_type == 'ALL':
-        testAccuracyList = [question.currentGeneralAccuracy for question in questions]
-    else:
-        testAccuracyList = [question.currentTestAccuracy for question in questions]
-
-
-    # Dictionary for Context
-    by_test = {
-        # Total Answer Accuracy (Pie Chart)
-        'questionsCorrect': len(questions.filter(answeredCorrectly=True).all()),
-        'questionsWrong': len(questions.filter(answeredCorrectly=False).all()),
-
-        # Subject Distribution (Bar Chart)
-        'subjectDistribution': [len(questions.filter(subject=s).all()) for s in SUBJECTS],
-
-        # Accuracy Over Time (Line Chart)
-        'improvementDates': testImprovementDates,
-        'improvementNodes': testAccuracyList
-    }
-
-
-    # ------- Stats Filtered by Subject ------- #
-
-
-    # Questions Filtered By Subject
-    questionsBySubject = questions.filter(subject=subject).all()
-
-
-    # Build list of dates for question answers (Rethink so these values are stored in submit view)
-    subjectImprovementDates = []
-    for i in range(len(questionsBySubject)):
-        if i == 0 or i == len(questionsBySubject) - 1:
-            subjectImprovementDates.append(str(questionsBySubject[i].date_answered)[5:10])
-        else:
-            subjectImprovementDates.append("")
-
-
-    by_subject = {
-        # Total Accuracy (Pie Chart)
-        'questionsCorrect': len(questionsBySubject.filter(answeredCorrectly=True).all()),
-        'questionsWrong': len(questionsBySubject.filter(answeredCorrectly=False).all()),
-
-        # Accuracy Over Time (Line Chart)
-        'improvementDates': subjectImprovementDates,
-        'improvementNodes': [question.currentSubjectAccuracy for question in questionsBySubject],
-
-        # Recommendations (Placeholder for Now) (Bar Chart)
-    }
+    #Dict of Stats Filtered By Test and Subject
+    by_test = getTestStats(test_type, questions)
+    by_subject = getSubjectStats(questions, subject)
 
 
     # Iterables for displaying test/subject tabs
@@ -170,12 +108,6 @@ def stats(request, test_type, subject):
         'GRE': ['Quantitative', 'Verbal']
     }
 
-
-    question_info = {
-        "all_subjects": SUBJECTS
-    }
-
-
     # Store user/test_type/subject information to be rendered in template.
     context = {
         "test_type": test_type,
@@ -185,7 +117,6 @@ def stats(request, test_type, subject):
         "all_subjects": SUBJECTS,
         "test_dict": test_dict
     }
-
 
     return render(request, 'home/stats.html', context)
 

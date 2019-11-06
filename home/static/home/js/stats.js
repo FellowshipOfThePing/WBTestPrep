@@ -47,7 +47,17 @@ var myLineChart = new Chart(ctxL, {
         }]
     },
     options: {
-        responsive: true
+        responsive: true,
+        scales: {
+            yAxes: [{
+                display: true,
+                ticks: {
+                    beginAtZero: true,
+                    max: 100,
+                    min: 0,
+                }
+            }]
+        }
     }
 });
 
@@ -121,7 +131,17 @@ var myLineChart = new Chart(ctxL, {
         }]
     },
     options: {
-        responsive: true
+        responsive: true,
+        scales: {
+            yAxes: [{
+                display: true,
+                ticks: {
+                    beginAtZero: true,
+                    max: 100,
+                    min: 0,
+                }
+            }]
+        }
     }
 });
 

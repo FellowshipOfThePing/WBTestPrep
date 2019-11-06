@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
 from .models import Profile
+from .utils import getSubjectList, getTestStats
 
 
 
@@ -37,73 +38,37 @@ def register(request):
 def profile(request, test_type):
     """Display Profile Page."""
 
-    # Get profile instance for DB reference
+    # Get profile instance and questions_answered for reference
     userProfile = request.user.profile
     userQuestions = userProfile.questions_answered
 
 
-    # Default Iterables
-    TEST_TYPES = ['ALL', 'SAT', 'ACT', 'GRE']
-    SUBJECTS = ['Math', 'Reading', 'Science', 'English', 'Quantitative', 'Verbal']
-
-
     # Modify iterables based on test_type
     if test_type == 'ALL':
+        SUBJECTS = ['Math', 'Reading', 'Science', 'English', 'Quantitative', 'Verbal']
         questions = userQuestions.all()
-    elif test_type == 'SAT':
-        questions = userQuestions.filter(test_type=test_type).all()
-        SUBJECTS = ['Math', 'Reading']
-    elif test_type == 'ACT':
-        questions = userQuestions.filter(test_type=test_type).all()
-        SUBJECTS = ['Science', 'English']
     else:
+        SUBJECTS = getSubjectList(test_type)
         questions = userQuestions.filter(test_type=test_type).all()
-        SUBJECTS = ['Quantitative', 'Verbal']
+ 
 
 
-    # ------- Stats Filtered by Test ------- #
-
-
-    # Truncate improvement line chart dates
-    testImprovementDates = []
-    for i in range(len(questions)):
-        if i == 0 or i == len(questions) - 1:
-            testImprovementDates.append(str(questions[i].date_answered)[5:10])
-        else:
-            testImprovementDates.append("")
-
-
-    # Create improvement line chart list
-    if test_type == 'ALL':
-        testAccuracyList = [question.currentGeneralAccuracy for question in questions]
-    else:
-        testAccuracyList = [question.currentTestAccuracy for question in questions]
-
-
-    # Dictionary for context
-    by_test = {
-        # Total Answer Accuracy (Pie Chart)
-        'questionsCorrect': len(questions.filter(answeredCorrectly=True).all()),
-        'questionsWrong': len(questions.filter(answeredCorrectly=False).all()),
-
-        # Accuracy Over Time (Line Chart)
-        'improvementDates': testImprovementDates,
-        'improvementNodes': testAccuracyList
-    }
+    #Dict of Stats Filter By Test
+    by_test = getTestStats(test_type, questions)
 
 
     # Get question history and set order for list
     if test_type == 'ALL':
-        questions = userQuestions.all().order_by("-copyId")
+        questionHistory = userQuestions.all().order_by("-copyId")
     else:
-        questions = userQuestions.filter(test_type=test_type).all().order_by("-copyId")
+        questionHistory = userQuestions.filter(test_type=test_type).all().order_by("-copyId")
 
 
     # Store profile for rendering in template
     context = {
-        'questions': questions[:3],
+        'questions': questionHistory[:3],
         'by_test': by_test,
-        'all_tests': TEST_TYPES,
+        'all_tests': ['ALL', 'SAT', 'ACT', 'GRE'],
         'test_type': test_type
     }
 
