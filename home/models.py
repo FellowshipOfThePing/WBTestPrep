@@ -42,7 +42,7 @@ class Question(models.Model):
 
 
     def get_absolute_url(self):
-        """Validates URL"""
+        """Returns URL"""
         return reverse('question-detail', kwargs={'test_type': (self.test_type), 'orderId': (self.orderId)})
 
 
@@ -135,14 +135,23 @@ class QuestionCopy(models.Model):
 
     # Info to track user statistics both over time (up until this instance)
     date_answered = models.DateTimeField(default=timezone.now)
-    numberCorrectOfType = models.IntegerField(default=0)
-    numberWrongOfType = models.IntegerField(default=0)
-    currentUserAccuracy = models.FloatField(default=0.0)
+    
+    numberCorrectGeneral = models.IntegerField(default=0)
+    numberWrongGeneral = models.IntegerField(default=0)
+    currentGeneralAccuracy = models.FloatField(default=0.0)
+
+    numberCorrectOfTestType = models.IntegerField(default=0)
+    numberWrongOfTestType = models.IntegerField(default=0)
+    currentTestAccuracy = models.FloatField(default=0.0)
+
+    numberCorrectOfSubjectType = models.IntegerField(default=0)
+    numberWrongOfSubjectType = models.IntegerField(default=0)
+    currentSubjectAccuracy = models.FloatField(default=0.0)
 
 
     @classmethod
     def create(cls, profile, test_type, subject, title, prompt, image, hint, originalOrderId):
-        """Alternative to overriding __init__ method, as is advised against in Django documentation.
+        """Alternative to overriding __init__ method, as advised against in Django documentation.
         
         Arguments represent attributes to be copied from original Question instance.
 
@@ -159,31 +168,44 @@ class QuestionCopy(models.Model):
 
 
     def get_absolute_url(self):
-        """Validates URL"""
+        """Returns URL"""
         return reverse('question-review', kwargs={'username': (self.profile.user.username), 'copyId': (self.copyId)})
 
 
     def save(self, *args, **kwargs):
         """Overrides save function.
         
-        When QuestionCopy is first added, increment copyId based on copyId of most recently created instance.
-        Very similar to OrderId incrementation in Question Model, without filtering by test_type.
-
-        If its the first instance (first question answered by user), default copyId to 1.
-
-        Saves numberCorrectOfType and numberWrongOfType to reflect user answer accuracy up to the point of this question being answered.
-        This method of saving user information is a lighter-weight alternative to creating additional models to track accuracy and
-        to store individual date/scores, that would then have to be factored in every time the stats view function is called.
+        Adds Attributes through incrementation:
+            copyId
+            numberCorrectOfType
+            numberWrongOfType
         """
+        # When QuestionCopy is first added, increment copyId based on copyId of most recently created instance.
+        # Very similar to OrderId incrementation in Question Model, without filtering by test_type.
         if self._state.adding:
             if self.profile.questions_answered.last():
                 self.copyId = self.profile.questions_answered.last().copyId + 1
+
+            # If its the first instance (first question answered by user), default copyId to 1.
             else:
                 self.copyId = 1
-            lastQuestion = self.profile.questions_answered.filter(subject=self.subject, test_type=self.test_type).last()
+
+            # Saves numberCorrectOfType and numberWrongOfType to reflect user answer accuracy up to the point of this question being answered.
+            lastQuestion = self.profile.questions_answered.last()
+            lastQuestionOfTestType = self.profile.questions_answered.filter(test_type=self.test_type).last()
+            lastQuestionOfSubjectType = self.profile.questions_answered.filter(test_type=self.test_type, subject=self.subject).last()
+
             if lastQuestion:
-                self.numberCorrectOfType = lastQuestion.numberCorrectOfType
-                self.numberWrongOfType = lastQuestion.numberWrongOfType
+                self.numberCorrectGeneral = lastQuestion.numberCorrectGeneral
+                self.numberWrongGeneral = lastQuestion.numberWrongGeneral
+
+            if lastQuestionOfTestType:
+                self.numberCorrectOfTestType = lastQuestionOfTestType.numberCorrectOfTestType
+                self.numberWrongOfTestType = lastQuestionOfTestType.numberWrongOfTestType
+           
+            if lastQuestionOfSubjectType:
+                self.numberCorrectOfSubjectType = lastQuestionOfSubjectType.numberCorrectOfSubjectType
+                self.numberWrongOfSubjectType = lastQuestionOfSubjectType.numberWrongOfSubjectType
 
 
         super(QuestionCopy, self).save(*args, **kwargs)

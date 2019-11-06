@@ -41,8 +41,12 @@ def study(request, test_type):
 
     # Stores orderIds of last question user answered, and next question user has not answered,
     # so study links will only send the user to new questions.
-    lastQuestionId = questionsAnswered.last().originalOrderId
-    newQuestionId = questionsAnswered.last().originalOrderId + 1
+    lastQuestionId = questionsAnswered.last()
+    if lastQuestionId:
+        lastQuestionId = lastQuestionId.originalOrderId
+        newQuestionId = questionsAnswered.last().originalOrderId + 1
+    else:
+        newQuestionId = 1
 
     # If user has already answered all questions within the given category, study links will redirect to profile page.
     lastPossibleQuestionId = Question.objects.filter(test_type=test_type).last().orderId
@@ -80,7 +84,8 @@ def stats(request, test_type, subject):
     TEST_TYPES = ['ALL', 'SAT', 'ACT', 'GRE']
     SUBJECTS = ['Math', 'Reading', 'Science', 'English', 'Quantitative', 'Verbal']
 
-    # Reset iterables based on test_type
+
+    # Modify iterables based on given test_type
     if test_type == 'ALL':
         questions = request.user.profile.questions_answered.all()
     elif test_type == 'SAT':
@@ -96,6 +101,24 @@ def stats(request, test_type, subject):
 
     # ------- Stats Filtered by Test ------- #
 
+
+    # Truncate Improvement Line Chart Dates
+    testImprovementDates = []
+    for i in range(len(questions)):
+        if i == 0 or i == len(questions) - 1:
+            testImprovementDates.append(str(questions[i].date_answered)[5:10])
+        else:
+            testImprovementDates.append("")
+
+
+    # Create Improvement Line Chart List
+    if test_type == 'ALL':
+        testAccuracyList = [question.currentGeneralAccuracy for question in questions]
+    else:
+        testAccuracyList = [question.currentTestAccuracy for question in questions]
+
+
+    # Dictionary for Context
     by_test = {
         # Total Answer Accuracy (Pie Chart)
         'questionsCorrect': len(questions.filter(answeredCorrectly=True).all()),
@@ -105,14 +128,26 @@ def stats(request, test_type, subject):
         'subjectDistribution': [len(questions.filter(subject=s).all()) for s in SUBJECTS],
 
         # Accuracy Over Time (Line Chart)
-        'improvementDates': [question.date_answered for question in questions],
-        'improvementNodes': [question.currentUserAccuracy for question in questions]
+        'improvementDates': testImprovementDates,
+        'improvementNodes': testAccuracyList
     }
 
 
     # ------- Stats Filtered by Subject ------- #
 
+
+    # Questions Filtered By Subject
     questionsBySubject = questions.filter(subject=subject).all()
+
+
+    # Build list of dates for question answers (Rethink so these values are stored in submit view)
+    subjectImprovementDates = []
+    for i in range(len(questionsBySubject)):
+        if i == 0 or i == len(questionsBySubject) - 1:
+            subjectImprovementDates.append(str(questionsBySubject[i].date_answered)[5:10])
+        else:
+            subjectImprovementDates.append("")
+
 
     by_subject = {
         # Total Accuracy (Pie Chart)
@@ -120,11 +155,12 @@ def stats(request, test_type, subject):
         'questionsWrong': len(questionsBySubject.filter(answeredCorrectly=False).all()),
 
         # Accuracy Over Time (Line Chart)
-        'improvementDates': [question.date_answered for question in questionsBySubject],
-        'improvementNodes': [question.currentUserAccuracy for question in questionsBySubject]
+        'improvementDates': subjectImprovementDates,
+        'improvementNodes': [question.currentSubjectAccuracy for question in questionsBySubject],
 
         # Recommendations (Placeholder for Now) (Bar Chart)
     }
+
 
     # Iterables for displaying test/subject tabs
     test_dict = {
@@ -134,9 +170,11 @@ def stats(request, test_type, subject):
         'GRE': ['Quantitative', 'Verbal']
     }
 
+
     question_info = {
         "all_subjects": SUBJECTS
     }
+
 
     # Store user/test_type/subject information to be rendered in template.
     context = {
@@ -147,6 +185,7 @@ def stats(request, test_type, subject):
         "all_subjects": SUBJECTS,
         "test_dict": test_dict
     }
+
 
     return render(request, 'home/stats.html', context)
 
@@ -208,16 +247,20 @@ def SubmitAnswer(request, test_type, orderId):
             student.correctAnswers += 1
             student.save()
             questionCopy.answeredCorrectly = True
-            questionCopy.numberCorrectOfType += 1
+            questionCopy.numberCorrectGeneral += 1
+            questionCopy.numberCorrectOfTestType += 1
+            questionCopy.numberCorrectOfSubjectType += 1
 
         # If user answered incorrectly:
         else:
             student.wrongAnswers += 1
             student.save()
             questionCopy.answeredCorrectly = False
-            questionCopy.numberWrongOfType += 1
+            questionCopy.numberWrongGeneral += 1
+            questionCopy.numberWrongOfTestType += 1
+            questionCopy.numberWrongOfSubjectType += 1
 
-        # Copy Question choices to store in new QuestionCopy instance.
+        # Copy choices to store in new QuestionCopy instance.
         for i, choice in enumerate(newChoiceList):
             if choice == selected_choice:
                 answerIndex = i + 1
@@ -226,9 +269,20 @@ def SubmitAnswer(request, test_type, orderId):
 
         # Modify questionCopy userAccuracy fields to reflect question submission.
         questionCopy.userAnswer = answerIndex
-        numberRight = questionCopy.numberCorrectOfType
-        numberWrong = questionCopy.numberWrongOfType
-        questionCopy.currentUserAccuracy = 100 * (numberRight / (numberRight + numberWrong))
+
+        numberRight = questionCopy.numberCorrectGeneral
+        numberWrong = questionCopy.numberWrongGeneral
+
+        numberRightTest = questionCopy.numberCorrectOfTestType
+        numberWrongTest = questionCopy.numberWrongOfTestType
+
+        numberRightSubject = questionCopy.numberCorrectOfSubjectType
+        numberWrongSubject = questionCopy.numberWrongOfSubjectType
+
+        questionCopy.currentGeneralAccuracy = 100 * (numberRight / (numberRight + numberWrong))
+        questionCopy.currentTestAccuracy = 100 * (numberRightTest / (numberRightTest + numberWrongTest))
+        questionCopy.currentSubjectAccuracy = 100 * (numberRightSubject / (numberRightSubject + numberWrongSubject))
+
         questionCopy.save()
 
         # Add to profile history

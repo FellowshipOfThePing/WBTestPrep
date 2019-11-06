@@ -37,39 +37,67 @@ def register(request):
 def profile(request, test_type):
     """Display Profile Page."""
 
-    # Iterable for Filter Tab Display
-    TEST_TYPES = ['ALL', 'SAT', 'ACT', 'GRE']
-
-    # Get Profile Instance
+    # Get profile instance for DB reference
     userProfile = request.user.profile
+    userQuestions = userProfile.questions_answered
 
-    # Get question history and set order
+
+    # Default Iterables
+    TEST_TYPES = ['ALL', 'SAT', 'ACT', 'GRE']
+    SUBJECTS = ['Math', 'Reading', 'Science', 'English', 'Quantitative', 'Verbal']
+
+
+    # Modify iterables based on test_type
     if test_type == 'ALL':
-        questions = userProfile.questions_answered.all().order_by("-copyId")
+        questions = userQuestions.all()
+    elif test_type == 'SAT':
+        questions = userQuestions.filter(test_type=test_type).all()
+        SUBJECTS = ['Math', 'Reading']
+    elif test_type == 'ACT':
+        questions = userQuestions.filter(test_type=test_type).all()
+        SUBJECTS = ['Science', 'English']
     else:
-        questions = userProfile.questions_answered.filter(test_type=test_type).all().order_by("-copyId")
+        questions = userQuestions.filter(test_type=test_type).all()
+        SUBJECTS = ['Quantitative', 'Verbal']
 
-    # Iterable for creating by_test dict values
-    test_dict = {
-        'ALL': ['Math', 'Reading', 'Science', 'English', 'Quantitative', 'Verbal'],
-        'SAT': ['Math', 'Reading'],
-        'ACT': ['Science', 'English'],
-        'GRE': ['Quantitative', 'Verbal']
-    }
 
-    # Filter profile stats by test. 
+    # ------- Stats Filtered by Test ------- #
+
+
+    # Truncate improvement line chart dates
+    testImprovementDates = []
+    for i in range(len(questions)):
+        if i == 0 or i == len(questions) - 1:
+            testImprovementDates.append(str(questions[i].date_answered)[5:10])
+        else:
+            testImprovementDates.append("")
+
+
+    # Create improvement line chart list
+    if test_type == 'ALL':
+        testAccuracyList = [question.currentGeneralAccuracy for question in questions]
+    else:
+        testAccuracyList = [question.currentTestAccuracy for question in questions]
+
+
+    # Dictionary for context
     by_test = {
-        # Answer Accuracy (Pie)
+        # Total Answer Accuracy (Pie Chart)
         'questionsCorrect': len(questions.filter(answeredCorrectly=True).all()),
         'questionsWrong': len(questions.filter(answeredCorrectly=False).all()),
 
-        # Subject Distribution (Bar)
-        'subjectDistribution': [len(questions.filter(subject=s).all()) for s in test_dict[test_type]],
-
-        # Accuracy Over Time (Line)
-        'improvementDates': [question.date_answered for question in questions],
-        'improvementNodes': [question.currentUserAccuracy for question in questions]
+        # Accuracy Over Time (Line Chart)
+        'improvementDates': testImprovementDates,
+        'improvementNodes': testAccuracyList
     }
+
+
+    # Get question history and set order for list
+    if test_type == 'ALL':
+        questions = userQuestions.all().order_by("-copyId")
+    else:
+        questions = userQuestions.filter(test_type=test_type).all().order_by("-copyId")
+
 
     # Store profile for rendering in template
     context = {
@@ -80,6 +108,7 @@ def profile(request, test_type):
     }
 
     return render(request, 'users/profile.html', context)
+
 
 
 @login_required

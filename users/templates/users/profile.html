@@ -17,15 +17,12 @@
             </div>
         </div>
 
-        <!-- Statistics Scripts -->
-        {{ by_test|json_script:"by_test" }}
-        {{ by_subject|json_script:"by_subject" }}
-        {{ question_info|json_script:"question_info" }}
-
-        <!-- Statistics Graphics -->
+        <!-- Stats Section -->
         <div class="content-section d-none d-lg-block pt-2 pl-3 pr-3">
             <hr class="mb-2">
             <h4 class="mt-2 ml-1 mb-2">Question History Breakdown</h4>
+
+            <!-- Filter tabs -->
             <ul class="nav nav-tabs">
                 {% for test in all_tests %}
                     {% if test == test_type %}
@@ -39,20 +36,30 @@
                     {% endif %}
                 {% endfor %}
             </ul>
-            <div class="row pt-2">
-                <div class="col-md-6 col-lg-4" id="my-widget" data-view-mode="tabular">
-                    <h6>Answer Accuracy</h6>
-                    <canvas id="accuracyPieChart"></canvas>
-                </div>
-                <div class="col-md-6 col-lg-4" id="my-widget" data-view-mode="tabular">
-                    <h6>Improvement</h6>
-                    <canvas id="improvement"></canvas>
-                </div>
-                <div class="col-md-6 col-lg-4" id="my-widget" data-view-mode="tabular">
-                    <h6>Study Recommendations</h6>
-                    <canvas id="recommendationsBar"></canvas>
+
+            <!-- Stat JSON Scripts -->
+            {{ by_test|json_script:"by_test" }}
+            {{ by_subject|json_script:"by_subject" }}
+            {{ question_info|json_script:"question_info" }}
+
+            <!-- Stat Graphics -->
+            <div class="content-section d-none d-lg-block pt-2 pl-3 pr-3">
+                <div class="row pt-1">
+                    <div class="col-md-6 col-lg-4" id="my-widget" data-view-mode="tabular">
+                        <h6>Answer Accuracy</h6>
+                        <canvas id="accuracyPieChart"></canvas>
+                    </div>
+                    <div class="col-md-6 col-lg-4" id="my-widget" data-view-mode="tabular">
+                        <h6>Accuracy Over Time (Improvement)</h6>
+                        <canvas id="improvement"></canvas>
+                    </div>
+                    <div class="col-md-auto col-lg-4" id="my-widget" data-view-mode="tabular">
+                        <h6>Recommended Study Habits</h6>
+                        <canvas id="recommendationsBar"></canvas>
+                    </div>
                 </div>
             </div>
+            <!--/ Stat Graphics -->
 
             <!-- Link to Stats Page -->
             <div align="right">
