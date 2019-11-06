@@ -9,7 +9,7 @@
             <!-- Heading -->
             <div class="media pt-1 pb-2">
                 <div class="media-body ml-2">
-                    <h2>Human Learning through Machine Learning</h2>
+                    <h2 class="mb-3">Human Learning through Machine Learning</h2>
                     <p class="text-secondary mb-2">Every time you answer a
                         question on our site, you are feeding in to a personal history of answers that we funnel into our statistical learning models, 
                         to provide you feedback on your test taking. We use this history to show you which categories you excel in, and which you can
@@ -23,72 +23,27 @@
 
                 <!-- Tabs -->
                 <ul class="nav nav-tabs">
-                    {% if test_type == 'SAT' %}
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'study' 'SAT' %}">SAT</a>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'study' 'SAT' %}">SAT</a>
-                    </li>
-                    {% endif %}
-                    {% if test_type == 'ACT' %}
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'study' 'ACT' %}">ACT</a>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'study' 'ACT' %}">ACT</a>
-                    </li>
-                    {% endif %}
-                    {% if test_type == 'GRE' %}
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'study' 'GRE' %}">GRE</a>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'study' 'GRE' %}">GRE</a>
-                    </li>
-                    {% endif %}
+                    {% for test in All_Tests %}
+                        {% if test_type == test %}
+                            <li class="nav-item">
+                                <a class="nav-link active" href="{% url 'study' test %}">{{ test }}</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'study' test %}">{{ test }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
                 </ul>
                 <!--/ Tabs -->
 
                 <!-- Test Description -->
                 <div class="media pl-3 pt-4 pb-4">
                     <div class="media-body">
-                        {% if test_type == 'SAT' %}
-                        <h3 class="pb-2">SAT</h3>
-                        <p class="text-secondary mb-2">The SAT is a paper-based standardized test developed by the american not-for-profit 
-                            organization <em>College Board</em>, that tests skills like critical reading, writing, and mathematics, primarily
-                            for the purpose of undergraduate admission. 
-                        </p>    
-                        <p class="text-secondary mb-2">The test is scored on a scale of 200 - 800 points per section, totalling to a maximum score of 1600, 
-                            and typically lasts for 3 hours without an essay section, or 3 hours and 50 minutes with an essay.
-                        </p>
-                        <a class="text-secondary mb-2" href="https://collegereadiness.collegeboard.org/sat/inside-the-test" target="_blank"><u>More Information</u></a>
-                        {% elif test_type == 'ACT' %}
-                        <h3 class="pb-2">ACT</h3>
-                        <p class="text-secondary mb-2">The ACT is a standardized test used for college admissions in the United States. 
-                            It is currently administered by <em>ACT,</em> a nonprofit organization of the same name. The ACT test covers four academic 
-                            skill areas: English, mathematics, reading, and science reasoning. It also offers an optional direct writing test.
-                        </p>    
-                        <p class="text-secondary mb-2">The test is scored on a scale of 1 - 36 points, and typically lasts for 
-                            2 hours and 55 minutes without a writing section, or 3 hours and 35 minutes with a writing section.
-                        </p>
-                        <a class="text-secondary mb-2" href="http://www.act.org/content/act/en/products-and-services/the-act/test-day.html" target="_blank"><u>More Information</u></a>
-                        {% else %}
-                        <h3 class="pb-2">GRE</h3>
-                        <p class="text-secondary mb-2">The Graduate Record Examinations is a standardized test that is an admissions requirement 
-                            for many graduate schools in the United States and Canada. The GRE is owned and administered by 
-                            <em>Educational Testing Service.</em> The GRE aims to measure verbal reasoning, quantitative reasoning, analytical writing, 
-                            and critical thinking skills. The content of the GRE consists of certain specific algebra, geometry, arithmetic, 
-                            and vocabulary sections.
-                        </p>    
-                        <p class="text-secondary mb-2">The test is split into three sections: Analytical Writing, Verbal Reasoning, and Quantitative Reasoning.
-                            Writing is scored from 0 - 6 points, and both reasoning sections are scored from 130 - 170 points. The test lasts for about 3 hours and 45 minutes.
-                        </p>
-                        <a class="text-secondary mb-2" href="https://www.ets.org/gre/revised_general/about" target="_blank"><u>More Information</u></a>
-                        {% endif %}
+                        <h3 class="pb-2">{{ test.test_type }}</h3>
+                        <p class="text-secondary mb-2">{{ test.blurb_1 }}</p>    
+                        <p class="text-secondary mb-2">{{ test.blurb_2 }}</p>
+                        <a class="text-secondary mb-2" href="{{ test.link }}" target="_blank"><u>More Information</u></a>
                     </div>
                 </div>
                 <!--/ Test Description -->

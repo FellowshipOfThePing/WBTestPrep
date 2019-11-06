@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.apps import apps
-from .models import Profile
+from .models import Profile, TeamMember, TestDescription
 
 
 QuestionCopy = apps.get_model('home', 'QuestionCopy')
@@ -16,3 +16,5 @@ class ProfileAdmin(admin.ModelAdmin):
     inlines = [QuestionCopyInline]
 
 admin.site.register(Profile, ProfileAdmin)
+admin.site.register(TeamMember)
+admin.site.register(TestDescription)

@@ -60,7 +60,11 @@
                             <li class="nav-item dropdown">
                                 
                                 <!-- Dropdown Title -->
-                                {% if 'profile' in request.path %}
+                                {% if 'history' in request.path %}
+                                    <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                                        History
+                                    </a>
+                                {% elif 'profile' in request.path %}
                                     <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
                                         Profile
                                     </a>
@@ -92,6 +96,9 @@
                                     </div>
                                     <div class="dropdown-item d-flex customNav">
                                         <span class="mr-auto"><i class="far fa-chart-bar dropDownNavItem"></i></span><a class="pr-1" href="{% url 'stats' 'ALL' 'ALL' %}">Stats</a>
+                                    </div>
+                                    <div class="dropdown-item d-flex customNav">
+                                        <span class="mr-auto"><i class="far fa-history dropDownNavItem"></i></span><a class="pr-1" href="{% url 'full-question-history' 'ALL' %}">History</a>
                                     </div>
                                     <div class="dropdown-item d-flex customNav">
                                         <span class="mr-auto"><i class="fas fa-sign-out-alt dropDownNavItem"></i></span><a class="pr-1" href="{% url 'logout' %}">Logout</a>
@@ -131,7 +138,10 @@
                         <div id="navJumbo" class="jumbotron border border-secondary d-none d-lg-block pt-4">
 
                             <!-- Sidebar Heading -->
-                            {% if 'profile' in request.path %}
+                            {% if 'history' in request.path %}
+                                <h1 class="display-4">History</h1>
+                                <p class="lead">History description text blah blah blah.</p>
+                            {% elif 'profile' in request.path %}
                                 <h1 class="display-4">Profile</h1>
                                 <p class="lead">Profile description text blah blah blah.</p>
                             {% elif 'about' in request.path %}
@@ -156,6 +166,7 @@
                                 <a class="nav-link customNav" href="{% url 'study' 'SAT' %}">Study</a>
                                 <a class="nav-link customNav" href="{% url 'profile' 'ALL' %}">Profile</a>
                                 <a class="nav-link customNav" href="{% url 'stats' 'ALL' 'ALL' %}">Stats</a>
+                                <a class="nav-link customNav" href="{% url 'full-question-history' 'ALL' %}">History</a>
                                 <a class="nav-link customNav" href="{% url 'about' %}">About Us</a>
                             </nav>
                             

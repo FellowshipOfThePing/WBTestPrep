@@ -241,3 +241,4 @@ class ChoiceCopy(models.Model):
     def __str__(self):
         """Returns object as string for admin view and database queries"""
         return self.choice_text
+        

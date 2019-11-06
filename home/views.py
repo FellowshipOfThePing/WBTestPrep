@@ -13,6 +13,7 @@ from users.models import Profile
 from users.forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
 from .models import Question, QuestionCopy, Choice, ChoiceCopy
 from users.utils import *
+from users.models import TeamMember, TestDescription
 
 
 
@@ -28,7 +29,16 @@ def startpage(request):
 
 def about(request):
     """Display the About page"""
-    return render(request, 'home/about.html')
+
+    # Fetch default TeamMember objects to populate page
+    Team = TeamMember.objects.all()
+
+    # Context for rendering
+    context = {
+        'Team': Team,
+    }
+
+    return render(request, 'home/about.html', context)
 
 
 def study(request, test_type):
@@ -45,7 +55,7 @@ def study(request, test_type):
     lastQuestionId = questions.last()
     if lastQuestionId:
         lastQuestionId = lastQuestionId.originalOrderId
-        newQuestionId = questionsAnswered.last().originalOrderId + 1
+        newQuestionId = questions.last().originalOrderId + 1
     else:
         newQuestionId = 1
 
@@ -54,12 +64,19 @@ def study(request, test_type):
     if newQuestionId is None:
         newQuestionId = 1
 
+    All_Tests = ['SAT', 'ACT', 'GRE']
+
+    Test_Description = TestDescription.objects.filter(test_type=test_type).first()
+    
+
     # Stores user/test_type information to be rendered in template.
     context = {
         'test_type': test_type,
         'newQuestionId': newQuestionId,
         'lastQuestionId': lastQuestionId,
-        'lastPossibleQuestionId': lastPossibleQuestionId
+        'lastPossibleQuestionId': lastPossibleQuestionId,
+        'All_Tests': All_Tests,
+        'test': Test_Description
     }
     return render(request, 'home/study.html', context)
 

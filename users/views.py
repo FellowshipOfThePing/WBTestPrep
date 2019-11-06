@@ -120,6 +120,7 @@ def fullQuestionHistory(request, test_type):
     context = {
         'questions': questions,
         'test_type': test_type,
+        'all_tests': ['ALL', 'SAT', 'ACT', 'GRE'],
     }
 
     return render(request, 'users/full_question_history.html', context)

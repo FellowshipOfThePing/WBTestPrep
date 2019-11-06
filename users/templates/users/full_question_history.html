@@ -9,22 +9,37 @@
 
             <!-- Question List -->
             {% if questions %}
-                {% if test_type == 'ALL' %}
-                    <legend class="border-bottom pb-2 mt-2 mb-0">Full Question History</legend>
-                {% else %}
-                    <legend class="border-bottom pb-2 mt-2 mb-0">Full {{ test_type }} History</legend>
-                {% endif %}
-
-                <!-- Section for Stat Graphics -->
-                <!-- https://docs.djangoproject.com/en/dev/ref/templates/builtins/#std:templatefilter-json_script -->
-                <!-- {{ accuracy|json_script:"accuracy" }}
-                <div class="content-section">
-                    <div class="media">
-                        <div id="my-widget" data-view-mode="tabular">
-                            <canvas id="accuracyPieChart"></canvas>
+                <div class="row mt-3 mb-2">
+                    <div class="col-lg-8">
+                    {% if test_type == 'ALL' %}
+                        <h3 class="mb-0">Full Question History</h3>
+                    {% else %}
+                        <h3 class="mb-0">Full {{ test_type }} History</h3>
+                    {% endif %}     
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="d-flex flex-row flex-row-reverse">
+                            <a class="btn btn-outline-info btn-sm z-depth-0 mb-2 mt-0" href="{% url 'stats' test_type 'ALL' %}">Statistical Breakdown</a>   
                         </div>
                     </div>
-                </div> -->
+                </div>
+
+
+                <!-- Filter tabs -->
+                <ul class="nav nav-tabs mb-2">
+                    {% for test in all_tests %}
+                        {% if test == test_type %}
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'full-question-history' test %}">{{ test }}</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'full-question-history' test %}">{{ test }}</a>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+
 
                 {% for question in questions %}
                 <article class="media content-section pt-2">
