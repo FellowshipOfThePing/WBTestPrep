@@ -1,0 +1,166 @@
+/* Full Site */
+
+body {
+    background-image: url("https://source.unsplash.com/QJDzYT_K8Xg");
+    min-height: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    background-color: white;
+  }
+
+.dropDownNavItem {
+    margin-top: 75%;
+}
+
+#jumbo1 {
+    margin-top: 10%;
+    opacity: 0.95;
+}
+
+#jumbo2 {
+    opacity: 0.95;
+    padding-bottom: 100px;
+}
+
+
+
+/* nav_base Template */
+
+.content {
+    margin-top: 5%;
+}
+
+.sidebar-outer {
+    margin-top: 5%;
+    position: relative;
+    height: 80%;
+}
+
+.fixed {
+    position: fixed;
+}
+
+.customNav {
+    border-radius: 5px;
+    transition: 0s;
+    transform: rotate(0);
+}
+
+.customNav:hover {
+    background: #aa66cc;
+    color: #e9ecef;
+    transition: 0s;
+}
+
+
+
+/* Startpage */
+
+.startpage {
+    background-image: url("https://source.unsplash.com/s9CC2SKySJM");
+}
+
+.customPill {
+    border-radius: 5px;
+    transition: 0s;
+    transform: rotate(0);
+    color: #33b5e5;
+    width: 100%;
+}
+
+.current {
+    background-color: #33b5e5;
+    color: #e9ecef;
+    transition: 0s;
+}
+
+.current:hover {
+    color: #e9ecef;
+}
+
+#page2 {
+    margin-top: 10%;
+    opacity: 0.0;
+} 
+
+#aboutBox {
+    opacity: 1.0;
+    background-color: #e9ecef;
+}
+
+
+
+
+
+/* About Page */
+
+.pic {
+    width: 150px;
+    height: 120px;
+}
+
+
+
+/* Profile Page*/
+
+.testButtonActive {
+    background: #6c757d;
+    color: #e9ecef;
+}
+
+.testButtonActive:hover {
+    background: #6c757d;
+    color: #e9ecef;
+}
+
+.testButton {
+    background: #e9ecef;
+    color: #6c757d;
+    transition: 0.1s;
+}
+
+.testButton:hover {
+    background: #6c757d;
+    color: #e9ecef;
+    transition: 0.1s;
+}
+
+#profileJumbotron {
+    opacity: 0.96;
+}
+
+
+
+/* Question Detail/Result/Review */
+
+.correct {
+    color: green;
+}
+
+.wrong {
+    color: red;
+}
+
+#hintBox {
+    width: 100%;
+    opacity: 0;
+}
+
+#resultBox {
+    width: 100%;
+}
+
+#resultCorrect {
+    color: green;
+}
+
+#resultIncorrect {
+    color: red;
+}
+
+#nextPageButton {
+    float:right;
+    /* opacity: 0; */
+}

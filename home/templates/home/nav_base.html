@@ -25,7 +25,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.10/css/mdb.min.css" rel="stylesheet">
 
     <!-- <link rel="stylesheet" href="{% static 'home/css/styles.css' %}"> -->
-    <link rel="stylesheet" href="{% static 'home/css/secondary.css' %}">
+    <link rel="stylesheet" href="{% static 'home/css/main.css' %}">
 </head>
 
 
@@ -42,7 +42,7 @@
                 {% if user.is_authenticated %}
                     <a class="navbar-brand" href="{% url 'profile' 'ALL' %}">HTML Test Prep<i class="fas fa-graduation-cap ml-2"></i></a>
                 {% else %}
-                    <a class="navbar-brand" href="{% url 'home-homepage' %}">HTML Test Prep</a>
+                    <a class="navbar-brand" href="{% url 'home-startpage' %}">HTML Test Prep</a>
                 {% endif %}
 
                 <!-- Collapse Button -->

@@ -4,7 +4,7 @@
 <div class="container mt-0">
 
     <!-- Intro Jumbotron -->
-    <div id="jumbo1" class="jumbotron border border-secondary">
+    <div id="jumbo1" class="jumbotron border border-info">
 
         <!-- Site Title and Tagline -->
         <h1 class="display-4 text-center">HTML Test Prep</h1>
@@ -22,10 +22,10 @@
 
             <!-- Heading Jumbotron -->
             <div class="row mt-sm-4 mt-md-mb-5">
-                <div class="jumbotron border border-secondary w-100 mb-0">
+                <div class="jumbotron border border-info w-100 mb-0">
                     <h1 class="display-4">Study for Free.</h1>
                     <hr>
-                    <p class="lead mt-4">We are dedicated to providing quality test-prep practice materials at zero cost to you.</p>
+                    <p class="lead mt-2">We are dedicated to providing quality test-prep practice materials at zero cost to you.</p>
                     <p class="lead">Sign up now to start learning.</p>
                     <a class="btn btn-outline-info btn-lg" href="{% url 'register' %}" role="button">Sign Up</a>
                 </div>
@@ -35,7 +35,7 @@
             <!-- Test Info Cardss -->
             <div class="row mt-5">
                 <div class="col-md d-flex">
-                    <div class="card mb-4 border border-secondary test">
+                    <div class="card mb-4 border border-info test">
                         <div class="card-body text-center">
                             <h5 class="card-title">SAT</h5>
                             <p class="card-text">Refine your skills with over 100 multiple choice practice questions, or take a mock test. Topics include Reading and Math.</p>
@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="col-md d-flex">
-                    <div class="card mb-4 border border-secondary test">
+                    <div class="card mb-4 border border-info test">
                         <div class="card-body text-center">
                             <h5 class="card-title">ACT</h5>
                             <p class="card-text">Get immediate feedback on practice questions, or take a mock exam. Topics include Math, Reading, Science, and English.</p>                                   
@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <div class="col-md d-flex">
-                    <div class="card mb-4 border border-secondary test">
+                    <div class="card mb-4 border border-info test">
                         <div class="card-body text-center">
                             <h5 class="card-title">GRE</h5>
                             <p class="card-text">Brush up for test day with a practice test, or individual questions. Topics include Verbal and Quantitative reasoning.</p>
@@ -63,7 +63,7 @@
 
 
             <!-- Bottom Row -->
-            <div class="row mt-sm-4 mt-md-mb-5 bg-light pt-4 border border-secondary rounded">
+            <div id="aboutBox" class="row mt-sm-4 mt-md-mb-5 pt-4 pl-2 border border-info rounded">
                 <div class="col-sm-12 col-md-8 text-sm-center text-md-left">
                     <h3 id="title">About Us</h3>
                     <p id="text" class="lead">I just wanna help out</p>
@@ -74,18 +74,18 @@
                     <h3 class="mb-3">Information</h3>
             
                     <!-- Info Pills -->
-                    <ul class="nav flex-column nav-pills">
+                    <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a id="about" class="nav-link pill active" href="#">About Us</a>
+                            <a id="about" class="nav-link customPill current waves-effect waves-light" href="#">About Us</a>
                         </li>
                         <li class="nav-item">
-                            <a id="links" class="nav-link pill" href="#">Links</a>
+                            <a id="links" class="nav-link customPill waves-effect waves-light" href="#">Links</a>
                         </li>
                         <li class="nav-item">
-                            <a id="contact" class="nav-link pill" href="#">Contact</a>
+                            <a id="contact" class="nav-link customPill waves-effect waves-light" href="#">Contact</a>
                         </li>
                         <li class="nav-item">
-                            <a id="legal" class="nav-link pill" href="#">Legal</a>
+                            <a id="legal" class="nav-link customPill waves-effect waves-light" href="#">Legal</a>
                         </li>
                     </ul>
                     <!--/ Info Pills -->
