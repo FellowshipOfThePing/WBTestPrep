@@ -11,9 +11,9 @@ from django.http import HttpResponse, Http404
 from django.urls import reverse
 from users.models import Profile
 from users.forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
-from .models import Question, QuestionCopy, Choice, ChoiceCopy
-from users.utils import *
+from users.utils import getSubjectList, getTestStats, getSubjectStats, copyQuestion, assignAccuracy
 from users.models import TeamMember, TestDescription
+from .models import Question, QuestionCopy, Choice, ChoiceCopy
 
 
 
@@ -84,8 +84,6 @@ def study(request, test_type):
 
 def stats(request, test_type, subject):
     """Displays the Stats page.
-    
-    Filters user history by given test_type and subject values.
 
     Stats filtered by Test:
         Total Answer Accuracy (Number Answered Correct/Wrong)
@@ -102,20 +100,17 @@ def stats(request, test_type, subject):
     userProfile = request.user.profile
     userQuestions = userProfile.questions_answered
 
-
-    # Modify iterables based on test_type
+    # Modify test based on test_type
     if test_type == 'ALL':
         SUBJECTS = ['Math', 'Reading', 'Science', 'English', 'Quantitative', 'Verbal']
         questions = userQuestions.all()
     else:
         SUBJECTS = getSubjectList(test_type)
         questions = userQuestions.filter(test_type=test_type).all()
- 
 
-    #Dict of Stats Filtered By Test and Subject
+    #Dicts of Stats Filtered By Test and Subject
     by_test = getTestStats(test_type, questions)
     by_subject = getSubjectStats(questions, subject)
-
 
     # Iterables for displaying test/subject tabs
     test_dict = {
@@ -181,59 +176,13 @@ def SubmitAnswer(request, test_type, orderId):
     else:
         student = request.user.profile
 
-        # Store original Question & Question-Choices to reference later in function
-        newChoiceList = question.choices.all()
+        # Copy Question instance
+        questionCopy = copyQuestion(student, question, selected_choice)
 
-        # Create new QuestionCopy instance based on attributes of current Question instance
-        questionCopy = QuestionCopy.create(request.user.profile, question.test_type, question.subject, question.title, question.title, question.image, question.hint,
-            question.orderId)
-        questionCopy.save()
+        # Assign user history attributes to copy
+        assignAccuracy(questionCopy)
 
-        # Modify Profile and new QuestionCopy fields to reflect question submission.
-        # If user answered correctly:
-        if selected_choice.correct:
-            student.correctAnswers += 1
-            student.save()
-            questionCopy.answeredCorrectly = True
-            questionCopy.numberCorrectGeneral += 1
-            questionCopy.numberCorrectOfTestType += 1
-            questionCopy.numberCorrectOfSubjectType += 1
-
-        # If user answered incorrectly:
-        else:
-            student.wrongAnswers += 1
-            student.save()
-            questionCopy.answeredCorrectly = False
-            questionCopy.numberWrongGeneral += 1
-            questionCopy.numberWrongOfTestType += 1
-            questionCopy.numberWrongOfSubjectType += 1
-
-        # Copy choices to store in new QuestionCopy instance.
-        for i, choice in enumerate(newChoiceList):
-            if choice == selected_choice:
-                answerIndex = i + 1
-            newChoice = ChoiceCopy.create(choice.choice_text, questionCopy, choice.correct)
-            newChoice.save()
-
-        # Modify questionCopy userAccuracy fields to reflect question submission.
-        questionCopy.userAnswer = answerIndex
-
-        numberRight = questionCopy.numberCorrectGeneral
-        numberWrong = questionCopy.numberWrongGeneral
-
-        numberRightTest = questionCopy.numberCorrectOfTestType
-        numberWrongTest = questionCopy.numberWrongOfTestType
-
-        numberRightSubject = questionCopy.numberCorrectOfSubjectType
-        numberWrongSubject = questionCopy.numberWrongOfSubjectType
-
-        questionCopy.currentGeneralAccuracy = 100 * (numberRight / (numberRight + numberWrong))
-        questionCopy.currentTestAccuracy = 100 * (numberRightTest / (numberRightTest + numberWrongTest))
-        questionCopy.currentSubjectAccuracy = 100 * (numberRightSubject / (numberRightSubject + numberWrongSubject))
-
-        questionCopy.save()
-
-        # Add to profile history
+        # Add copy to profile history
         student.questions_answered.add(questionCopy)
 
         # Redirect to Question Result view

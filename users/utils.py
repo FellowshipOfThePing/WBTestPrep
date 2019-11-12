@@ -1,3 +1,5 @@
+from home.models import Question, QuestionCopy, Choice, ChoiceCopy
+
 # Utility functions for stats and profile pages
 
 def getSubjectList(test_type):
@@ -74,3 +76,65 @@ def getSubjectStats(questions, subject):
     }
 
     return by_subject
+
+
+
+def copyQuestion(student, question, selected_choice):
+    """Copy Question attributes and store in QuestionCopy object for user history"""
+    # Store original Question & Question-Choices to reference later in function
+    newChoiceList = question.choices.all()
+
+    # Create new QuestionCopy instance based on attributes of current Question instance
+    questionCopy = QuestionCopy.create(student, question.test_type, question.subject, question.title, question.title, question.image, question.hint,
+        question.orderId)
+    questionCopy.save()
+
+    # Modify Profile and new QuestionCopy fields to reflect question submission.
+    # If user answered correctly:
+    if selected_choice.correct:
+        student.correctAnswers += 1
+        student.save()
+        questionCopy.answeredCorrectly = True
+        questionCopy.numberCorrectGeneral += 1
+        questionCopy.numberCorrectOfTestType += 1
+        questionCopy.numberCorrectOfSubjectType += 1
+
+    # If user answered incorrectly:
+    else:
+        student.wrongAnswers += 1
+        student.save()
+        questionCopy.answeredCorrectly = False
+        questionCopy.numberWrongGeneral += 1
+        questionCopy.numberWrongOfTestType += 1
+        questionCopy.numberWrongOfSubjectType += 1
+
+    # Copy choices to store in new QuestionCopy instance.
+    for i, choice in enumerate(newChoiceList):
+        if choice == selected_choice:
+            answerIndex = i + 1
+        newChoice = ChoiceCopy.create(choice.choice_text, questionCopy, choice.correct)
+        newChoice.save()
+
+    questionCopy.userAnswer = answerIndex
+
+    return questionCopy
+
+
+
+def assignAccuracy(questionCopy):
+    """Modify questionCopy userAccuracy fields to reflect question submission."""
+
+    numberRight = questionCopy.numberCorrectGeneral
+    numberWrong = questionCopy.numberWrongGeneral
+
+    numberRightTest = questionCopy.numberCorrectOfTestType
+    numberWrongTest = questionCopy.numberWrongOfTestType
+
+    numberRightSubject = questionCopy.numberCorrectOfSubjectType
+    numberWrongSubject = questionCopy.numberWrongOfSubjectType
+
+    questionCopy.currentGeneralAccuracy = 100 * (numberRight / (numberRight + numberWrong))
+    questionCopy.currentTestAccuracy = 100 * (numberRightTest / (numberRightTest + numberWrongTest))
+    questionCopy.currentSubjectAccuracy = 100 * (numberRightSubject / (numberRightSubject + numberWrongSubject))
+
+    questionCopy.save()

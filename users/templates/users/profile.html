@@ -7,7 +7,7 @@
 
         <!-- Username, profile picture, email, and settings link -->
         <div class="content-section">
-            <div class="media pt-3 pb-2">
+            <div class="media pt-3">
                 <img class="rounded-circle account-img pl-3 pr-3 pt-2 pb-1" src="{{ user.profile.image.url }}">
                 <div class="media-body ml-2">
                     <h2 class="account-heading pt-1">{{ user.username }}</h2>
@@ -18,9 +18,9 @@
         </div>
 
         <!-- Stats Section -->
-        <div class="content-section d-none d-lg-block pt-2 pl-3 pr-3">
+        <div class="content-section d-none d-lg-block pt-0 pl-3 pr-3">
             <hr class="mb-2">
-            <h4 class="mt-2 ml-1 mb-3">Question History Breakdown</h4>
+            <h4 class="mt-2 ml-1 mb-2">Question History Breakdown</h4>
 
             <!-- Filter tabs -->
             <ul class="nav nav-tabs">
@@ -50,7 +50,7 @@
                         <canvas id="accuracyPieChart"></canvas>
                     </div>
                     <div class="col-md-6 col-lg-4" id="my-widget" data-view-mode="tabular">
-                        <h6>Accuracy Over Time (Improvement)</h6>
+                        <h6>Accuracy Over Time</h6>
                         <canvas id="improvement"></canvas>
                     </div>
                     <div class="col-md-auto col-lg-4" id="my-widget" data-view-mode="tabular">
