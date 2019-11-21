@@ -11,6 +11,7 @@ The site is centered around the idea that recording a user's study history, and 
 As it stands right now, the code could easily be changed to serve a completely different realm of study content. For example, if someone wanted to, they could easily modify the database models to instead represent questions about general categories of study (Math, English, Science), and make those questions filterable by sub-categories (Algebra, Geometry, Reading, Writing, Bio, Chem, etc.). The only involved portion of this change would be to create the necessary content to populate the database.
 
 
+
 How it Works
 ------------
 
@@ -19,6 +20,7 @@ How it Works
 The bulk of the site (and code) is based around the Quiz Question view. The user can choose to answer multiple-choice questions of any test type and any area of study within those tests (e.g. Reading, Math for the SAT). After submitting an answer, the user is immediately provided feedback on if they answered correctly or inccorectly. If answered incorrectly, they are given the correct answer, and advice on how to approach similar problems in the future.
 
 (Insert Question Detail and Question Result View here)
+
 
 
 ### Profile Page ###
@@ -30,6 +32,7 @@ Near the top of the page, just below the personal info section, there is the sta
 The next section down is the recent question/answer history. This section allows users to go back through questions they've already answered one-by-one, get feedback and recommendations for learning strategies, and re-answer the questions if they choose to do so. This section also links to an extended version with the "See Full Question History" button on the bottom left corner of the page.
 
 (Insert Profile and Question Review Views here)
+
 
 
 ### Stats Page ###
@@ -44,15 +47,15 @@ Resources used for this project
 ------------------------------
 
 ### Tools/Frameworks ###
-• [Django](https://github.com/django/django)
-• [Bootstrap](https://github.com/twbs/bootstrap)
-• [jQuery](https://github.com/jquery/jquery)
-• [Pillow](https://github.com/python-pillow/Pillow)
+ * [Django](https://github.com/django/django)
+ * [Bootstrap](https://github.com/twbs/bootstrap)
+ * [jQuery](https://github.com/jquery/jquery)
+ * [Pillow](https://github.com/python-pillow/Pillow)
 
 ### Languages ###
-• Python
-• Javascript
-• HTML/CSS
+• Python  
+• Javascript  
+• HTML/CSS  
 
 
 
