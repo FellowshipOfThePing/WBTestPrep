@@ -53,9 +53,9 @@ Resources used for this project
  * [Pillow](https://github.com/python-pillow/Pillow)
 
 ### Languages ###
-• Python  
-• Javascript  
-• HTML/CSS  
+ * Python  
+ * Javascript  
+ * HTML/CSS  
 
 
 
