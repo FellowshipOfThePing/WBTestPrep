@@ -4,9 +4,9 @@
 <html class="no-js" lang="en">
     <head>
         {% if title %}
-            <title>HTML Test Prep - {{ title }}</title>
+            <title>Whiteboard Test Prep - {{ title }}</title>
         {% else %}
-            <title>HTML Test Prep</title>
+            <title>Whiteboard Test Prep</title>
         {% endif %}
 
         <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -40,9 +40,9 @@
 
                     <!-- Brand -->
                     {% if user.is_authenticated %}
-                        <a class="navbar-brand" href="{% url 'profile' 'ALL' %}">HTML Test Prep<i class="fas fa-graduation-cap ml-2"></i></a>
+                        <a class="navbar-brand" href="{% url 'profile' 'ALL' %}">Whiteboard Test Prep<i class="fas fa-graduation-cap ml-2"></i></a>
                     {% else %}
-                        <a class="navbar-brand" href="{% url 'home-startpage' %}">HTML Test Prep</a>
+                        <a class="navbar-brand" href="{% url 'home-startpage' %}">Whiteboard Test Prep</a>
                     {% endif %}
 
                     <!-- Collapse Button -->

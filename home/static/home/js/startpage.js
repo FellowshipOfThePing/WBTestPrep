@@ -1,10 +1,13 @@
 // ----------- HOMEPAGE JS ------------- //
 
+// TODO: Refactor checkId method to access text dictionary instead of iterating through strings
+
+
 // HTML Content for blurbs
-var aboutText = "I just wanna help out!";
-var linksText = "Add something here later about links";
-var contactText = "Contact stuff";
-var legalText = "The information contained on HTMLPrep.com and any publications or study materials created by the author of HTMLPrep.com is for informational purposes only. They are to be used to study and review for the ACT, SAT, or GRE. Exam content review, methods of study, tips and sample questions are only recommendations from the author, and reading any information on HTMLPrep.com and any publications or other study materials created by the author does not guarantee passing any of the aforementioned exams. The author has made reasonable efforts to provide current and accurate information. The author will not be held liable for any unintentional errors or omissions that may be found.";
+var aboutText = "We are a small group of passionate educators and programmers, dedicating our time and effort towards providing quality tools to help students all over the country.";
+var linksText = "Here are some links to supplemental study material";
+var contactText = "To report a problem with the site or inquire about other matters please contact us using the following information:";
+var legalText = "The information contained on WBTestPrep.com and any publications or study materials created by the author of WBTestPrep.com is for informational purposes only. They are to be used to study and review for the ACT, SAT, or GRE. Exam content review, methods of study, tips and sample questions are only recommendations from the author, and reading any information on WBTestPrep.com and any publications or other study materials created by the author does not guarantee passing any of the aforementioned exams. The author has made reasonable efforts to provide current and accurate information. The author will not be held liable for any unintentional errors or omissions that may be found.";
 
 
 

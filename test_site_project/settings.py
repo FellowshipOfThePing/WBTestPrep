@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'Practice_Test.apps.PracticeTestConfig',
     'users.apps.UsersConfig',
     'home.apps.HomeConfig',
     'django.contrib.admin',
