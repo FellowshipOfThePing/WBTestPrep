@@ -78,7 +78,13 @@
                 {% for question in questions %}
                     <article class="media content-section pt-2">
                     <div class="media-body ml-1 mt-1">
-                        <h5><a class="article-title" href="{% url 'question-review' user.username question.copyId %}">{{ question.title }}</a><span>  {{ question.answeredCorrectly }}</span></h2>
+                        <h5><a class="article-title" href="{% url 'question-review' user.username question.copyId %}">{{ question.title }}</a>
+                        {% if question.answeredCorrectly %}
+                            <span><i class="fas fa-check ml-1 correct"></i></span>
+                        {% else %}
+                            <span><i class="fas fa-times ml-1 wrong"></i></span>
+                        {% endif %}
+                        </h2>
                         <img class="article-content" src="{{ question.image.url }}" width="200" height="150">
                         <hr class="mb-3">
                     </div>

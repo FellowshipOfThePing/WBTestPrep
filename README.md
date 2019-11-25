@@ -21,6 +21,7 @@ The bulk of the site (and code) is based around the Quiz Question view. The user
 
 (Insert Question Detail and Question Result View here)
 
+![Question Detail View](https://github.com/FellowshipOfThePing/WBTestPrep/blob/master/media/readme_images/Question_Detail_View.png)
 
 
 ### Profile Page ###

@@ -125,7 +125,9 @@ dmypy.json
 .pyre/.DS_Store
 
 # Media Folder
-media/
+profile_pics/
+question_images/
+team_pics/
 
 # Other
 .DS_Store

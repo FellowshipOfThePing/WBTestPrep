@@ -70,8 +70,8 @@ var myPieChart = new Chart(ctxP, {
     data: {
         labels: ['Math', 'Science', 'Reading'],
         datasets: [{
-            label: '% recommended study time',
-            data: [40, 10, 50],
+            label: '% study time',
+            data: [35, 45, 20],
             backgroundColor: ['rgba(105, 0, 132, .2)', 'rgba(0, 137, 132, .2)', 'rgba(255, 99, 132, 0.2)'],
             borderColor: ['rgba(200, 99, 132, .7)', 'rgba(0, 10, 130, .7)', 'rgba(255,99,132,1)'],
             borderWidth: 1
