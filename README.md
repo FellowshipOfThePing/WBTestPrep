@@ -19,9 +19,13 @@ How it Works
 
 The bulk of the site (and code) is based around the Quiz Question view. The user can choose to answer multiple-choice questions of any test type and any area of study within those tests (e.g. Reading, Math for the SAT). After submitting an answer, the user is immediately provided feedback on if they answered correctly or inccorectly. If answered incorrectly, they are given the correct answer, and advice on how to approach similar problems in the future.
 
-(Insert Question Detail and Question Result View here)
+#### Question Detail View ####
 
 ![Question Detail View](https://github.com/FellowshipOfThePing/WBTestPrep/blob/master/media/readme_images/Question_Detail_View.png)
+
+#### Question Result View ####
+
+![Question Result View](https://github.com/FellowshipOfThePing/WBTestPrep/blob/master/media/readme_images/Question_Result_View.png)
 
 
 ### Profile Page ###
@@ -32,15 +36,16 @@ Near the top of the page, just below the personal info section, there is the sta
 
 The next section down is the recent question/answer history. This section allows users to go back through questions they've already answered one-by-one, get feedback and recommendations for learning strategies, and re-answer the questions if they choose to do so. This section also links to an extended version with the "See Full Question History" button on the bottom left corner of the page.
 
-(Insert Profile and Question Review Views here)
 
+![Profile View](https://github.com/FellowshipOfThePing/WBTestPrep/blob/master/media/readme_images/Profile_View.png)
 
 
 ### Stats Page ###
 
 The main intent of this application is to provide in-depth feedback to the user. The Stats provides exactly that, in the form of graphical representations of their question history, filterable by test type and subject. This feedback not only includes graphs of the user's history, but also provides recommendations on how to dedicate study time in the future, based on that history.
 
-(Insert Stats View here)
+![Stats View](https://github.com/FellowshipOfThePing/WBTestPrep/blob/master/media/readme_images/Stats_View.png)
+
 
 
 
