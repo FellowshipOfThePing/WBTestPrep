@@ -8,7 +8,7 @@ WBTestPrep is a Django based web application, built in the interest of providing
 
 The site is centered around the idea that recording a user's study history, and giving them in-depth statistical feedback based on that history, is the best way to stimulate growth.
 
-As it stands right now, the codebase could easily be changed to serve a completely different realm of study content. For example, if someone wanted to, they could easily modify the database models to instead represent questions about general categories of study (Math, English, Science), and make those questions filterable by sub-categories (Algebra, Geometry, Reading, Writing, Bio, Chem, etc.). The only involved portion of this change would be to create the necessary content to populate the database.
+As it stands, the codebase could easily be changed to serve a completely different realm of study. The database models could be easily modified to instead represent questions about general categories of study (Math, English, Science), and make those questions filterable by sub-categories (Algebra, Geometry, Reading, Writing, Bio, Chem, etc.). The only involved portion of this change would be to create the necessary content to populate the database.
 
 
 
@@ -30,7 +30,7 @@ The bulk of the site (and code) is based around the Quiz Question view. The user
 
 ### Profile Page ###
 
-In the profile view, the user is provided several types of feedback, all filterable by test type, and intended to help them improve their study habits and results.
+In the profile view, the user is provided several types of feedback - all filterable by test type - intended to help them improve their study habits and results.
 
 Near the top of the page, just below the personal info section, there is the statistical feedback section. This is a condensed version of the 'Stats' view that is linked to in the left-hand Navbar.
 
